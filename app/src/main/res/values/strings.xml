@@ -1,0 +1,279 @@
+<resources>
+
+    <!--app-->
+    <string name="app_name">I need I have Stuff</string>
+    <string name="splash_motive1">Find best clients!</string>
+    <string name="splash_motive2">Find real bargains!</string>
+
+
+    <!--
+    Buttons' Texts
+-->
+
+    <string name="start_phone_auth">Send me code</string>
+    <string name="verify_phone_auth">Verify</string>
+    <string name="resend_phone_auth">Resend</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="Delete">Delete</string>
+    <string name="OK">OK</string>
+    <string name="Download_VPN_OK">Download a VPN</string>
+    <string name="Download_VPN_NO">No,thanks.</string>
+
+    <string name="phone_auth_save_and_proceed">Save and proceed</string>
+    <string name="phone_auth_ignore">Ignore and proceed</string>
+
+    <string name="ignore">Ignore</string>
+    <string name="save">Save</string>
+    <string name="add_alert">Add Alert</string>
+
+
+    <!--labels-->
+
+    <string name="label_add_item_ineed">new "Ineed" item</string>
+    <string name="label_add_item_ihave">new "Ihave" item</string>
+    <string name="label_phone_auth">Phone Number Authentication</string>
+    <string name="label_anonymous_auth">Anonymous Authentication</string>
+    <string name="label_custom_auth">Custom Authentication</string>
+    <string name="label_firebase_ui">UI Auth</string>
+    <string name="label_sign_in_methods">Choose your favorite sign in method</string>
+    <string name="label_sign_in_method_phone">Sign in with your phone number:</string>
+    <string name="label_sign_in_method_google">Sign in with your Google account:</string>
+    <string name="label_sign_in_method_email">Sign in with your already created account  e-mail and password :</string>
+    <string name="label_sign_up">click her to sign up</string>
+    <string name="label_sign_in_eml_pss">Please enter your already-created account information:</string>
+    <string name="label_sign_up_eml_pss">Please complete the following form  to create a new account:</string>
+    <string name="label_ask_for_resend_code">If you have not received any code you can ask for sending a code again:</string>
+    <string name="label_set_up_contact_info">Please use the following form to add or modify your \" Contact Information \"  that other users use to contact with you:</string>
+
+    <string name="label_add_dispaly_image">Click above to add an avatar</string>
+    <string name="label_phone_auth_details">details</string>
+    <string name="label_phone_details">Details:</string>
+    <string name="label_current_status">Current status:</string>
+    <string name="label_search_criteria">Choose city/category then press "Refersh":</string>
+    <string name="label_sign_in_phone_number">Please enter your phone number to send the verification code to(with international code):</string>
+    <string name="label_sign_in_google_explaining">If you already have a google account you can use it to sign in by clicking on the following button. \n Otherwise, you will be involved in creating a new one.</string>
+    <string name="label_item_single_desc_for_sale">The following item is for sale. In case you are interested in it, you can contact with the one who added it via email or phone.</string>
+    <string name="label_item_single_desc_wanted">The following item is wanted. In case you are interested in it, you can contact with the one who added it with phone or email.</string>
+    <string name="label_extra_info">Details:</string>
+    <string name="label_category_choose">Choose suitble category</string>
+    <string name="label_city_choose">Choose city</string>
+    <string name="label_email_to_item_user">Send email using...</string>
+
+
+    <!--actions-->
+    <string name="action_refresh">Refresh</string>
+    <string name="action_edit_item">Edit item</string>
+    <string name="action_remove">Remove item</string>
+    <string name="action_sort_by">Sort by</string>
+    <string name="action_add_alert">Add alert</string>
+    <string name="action_save">Save Item</string>
+    <string name="action_sort_by_price">sort by price</string>
+    <string name="action_sort_by_title">sort by title</string>
+    <string name="action_sort_by_date">sort by date</string>
+    <string name="sign_in_phone_number">Sign in with Phone Number</string>
+
+    <!--titles-->
+    <string name="title_set_up_contact_info">Set Up Your \" Contact Information \"</string>
+    <string name="title_tap_0">I NEED</string>
+    <string name="title_tap_1">I HAVE</string>
+    <string name="title_ineed">I need</string>
+    <string name="title_ihave">I have</string>
+    <string name="title_activity_main">Ihave Ineed Items</string>
+    <string name="title_fragment_confirm_delete">This item will permanently deleted.</string>
+    <string name="title_fragment_VPN_alert">VPN app might be needed! </string>
+    <string name="title_fragment_add_alert"> Choose category and city which you are interested in then press "Add Alert":</string>
+    <string name="title_subscribe">Subscribe to a "Category" in a "City"</string>
+
+
+    <string name="title_activity_my_items">My Items</string>
+    <string name="title_item_details">Item Details</string>
+    <string name="title_extra_info">Details:</string>
+    <string name="title_network_con_not_found">No Network Connection Found!</string>
+    <string name="title_my_items">My Items</string>
+    <string name="title_sign_in_eml_pss">Sign in with Your E-mail and Password</string>
+    <string name="title_sign_in_google">Sign in with Google</string>
+    <string name="title_main">Syria</string>
+    <string name="title_sign_in_or_sign_up">Sign in or Sign up</string>
+    <string name="title_sign_in_phone">Sign In with Your Phone Number</string>
+    <string name="title_add_item">Add New Item</string>
+    <string name="title_add_ihave_item">Add \"I have\" item</string>
+    <string name="title_add_ineed_item">Add \"I need\" item</string>
+    <string name="title_sort_ineed_item">Sort \"I need\" items</string>
+    <string name="title_sort_ihave_item">Sort \"I have\" items</string>
+    <string name="title_SIGN_IN">Sign in</string>
+    <string name="title_SIGN_UP">Sign up</string>
+    <string name="title_email_to_item_user">From Ineed Ihave App: as to the item %s</string>
+    <string name="title_nav_manage_items">Manage My items</string>
+    <string name="title_nav_add_items">Add items</string>
+    <string name="title_nav_sort_items">Sort items</string>
+
+
+    <!--messages-->
+    <string name="message_info_PLEASE_WAIT">Please wait, it might take some time depending on your network connection speed…</string>
+    <string name="message_info_network_con_check">Please check your network connection, and/or the VPN app</string>
+    <string name="message_info_error_auth_failed">Authentication failed</string>
+    <string name="message_info_error_no_email">Sorry!This user has no email address added!\n Please you can contact with him by phone number.</string>
+    <string name="message_info_error_no_image">Sorry!This item has no image to display!</string>
+    <string name="message_info_error_no_phone_number">Sorry!This user has no phone number added!\n Please you can contact with him by email.</string>
+    <string name="message_info_ok_status_code_sent">Code Sent</string>
+    <string name="message_info_error_status_verification">Verification failed</string>
+    <string name="message_info_ok_status_verification">Verification succeeded</string>
+    <string name="message_info_error_status_sign_in">Sign-in failed</string>
+    <string name="instant_validation">(instant validation)</string>
+    <string name="message_info_Authenticating">Authenticating</string>
+    <string name="message_info_UPDATING_CONTACT_INFO">Updating contact information...</string>
+    <string name="message_error_required_fields">Fields with * are required.</string>
+    <string name="message_error_no_cat_selected">No category selected</string>
+    <string name="message_info_uploaded_ok">Ok uploaded</string>
+    <string name="message_info_added_error"> Error: Adding Item failed!</string>
+    <string name="message_info_added_ok">Item has been added successfully</string>
+    <string name="message_info_refreshed_ok">Refreshed!</string>
+    <string name="message_info_item_saved_ok">Item saved to gallery as image its name is:\n title and price of item</string>
+    <string name="message_info_upload_error"> Error: Uploading Item Image failed!</string>
+    <string name="message_error_empty_field">Field(s) cannot be empty!</string>
+    <string name="message_error_phone_number">Invalid phone number.</string>
+    <string name="message_info_item_remove">Item has been removed successfully</string>
+    <string name="message_error_sign_in">Signing in problems!</string>
+    <string name="message_error_sign_in_google">Signing with Google faild!</string>
+    <string name="message_error_invalid_code">Invalid code.</string>
+    <string name="message_error_quota_exceeded">Quota exceeded.</string>
+    <string name="message_error_invalid_number">Invalid phone number.</string>
+    <string name="message_error_empty_items">You have never added any item!</string>
+    <string name="message_info_item_saved_already">Item has already been saved to gallery</string>
+    <string name="message_info_modified_ok">Item has been modified successfully</string>
+    <string name="message_info_modifing_error">Error:Failed to modify item</string>
+    <string name="message_info_SIGNING_UP">Signing up...</string>
+    <string name="message_info_DELETING">Deleting...</string>
+    <string name="message_info_MODIFYING">Modifying item...</string>
+    <string name="message_info_ADDING_ITEM">Adding item...</string>
+    <string name="message_info_loading">Loading…</string>
+    <string name="message_info_LOADING_DATA">Loading data...</string>
+    <string name="message_info_signed_in">Signed In</string>
+    <string name="message_info_signed_out">Signed Out</string>
+    <string name="message_alert_delete_item">The current item will be  permanently deleted.</string>
+    <string name="message_error_network_connection">Error:Please check your network connection!</string>
+    <string name="message_info_fragment_VPN_alert">You might need to have one of VPN apps installed on your device to have this app working well.Download one? </string>
+    <string name="msg_token_fmt">The token is %s </string>
+    <string name="msg_info_subscribed_ok">Subscribed to the topic: %s</string>
+    <string name="msg_info_subscribed_failed">Failed to subscribe to the topic</string>
+
+
+
+
+    <!--hints-->
+    <string name="hint_user_name_contact_info">A display name...</string>
+    <string name="hint_user_email_contact_info">An Email to contact with you...</string>
+    <string name="hint_phone_number_contact_info">A phone number to contact with you...</string>
+    <string name="hint_search_item">Search for items here....</string>
+    <string name="hint_desc">Item description and details</string>
+    <string name="hint_item_title">Item title*</string>
+    <string name="search_hint">Search...</string>
+    <string name="hint_phone_number">Phone Number</string>
+    <string name="hint_verification_code">Verification Code</string>
+    <string name="hint_user_email">Email...</string>
+    <string name="hint_user_password">Password...</string>
+    <string name="hint_user_id">User ID</string>
+    <string name="hint_item_price">Item price*</string>
+    <string name="hint_item_category"> Item Category*</string>
+    <string name="hint_item_city"> Item City</string>
+    <string name="hint_user_name">Your display name...</string>
+
+
+    <!--Description-->
+
+    <string name="desc_img_location">Syria</string>
+    <string name="desc_img_close">Close</string>
+
+    <string name="desc_myapp_logo">App logo and name</string>
+
+    <string name="desc_google_sign_in">Use a Google Sign In credential to authenticate with Firebase.</string>
+
+    <string name="desc_facebook_login">Use a Facebook Login credential to authenticate with Firebase.</string>
+    <string name="desc_firebase_ui">Use the FirebaseUI-Android library to authenticate with Firebase.</string>
+    <string name="desc_custom_auth">Use a custom token signed by your own server to authenticate with Firebase.</string>
+    <string name="desc_phone_auth">Use a phone number to authenticate with Firebase.</string>
+
+    <string name="desc_twitter_login">Use a Twitter Login credential to authenticate with Firebase.</string>
+    <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
+    <string name="desc_anonymous_auth">Sign in anonymously and then later upgrade to a full Firebase Auth user.</string>
+    <string name="desc_firebase_lockup">logo and name</string>
+    <string name="desc_itemImage">Item Image</string>
+    <string name="desc_click_to_add_image">click to add userImage</string>
+    <string name="desc_userImage">User image</string>
+
+
+    <!--diversified-->
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="menu_item_set_up_my_account">Set up my account</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="collapsing_toolbar">\. %s</string>
+
+    <string name="add_new_item">Add new </string>
+
+    <string name="symbol_dollar">$</string>
+
+
+    <!--default_val-->
+
+    <string name="default_val_user_name">Unknown user name</string>
+    <string name="default_val_user_email">Unknown user email</string>
+    <string name="default_val_user_phone_number">00000000000</string>
+    <string name="default_val_extra_info">No details available.</string>
+    <string name="default_val_content_email_to_item_user">Thanks for adding item %s.How can we meet in order to discuss more.</string>
+    <string name="default_val_vpn_android_link">https://play.google.com/store/apps/details?id=com.protonvpn.android</string>
+    <string name="default_notification_channel_id">default_notification_channel_id</string>
+
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_out">Sign out</string>
+    <string name="SIGN_UP">Sign up</string>
+    <string name="firebase_status_fmt">User: %s</string>
+
+
+    <!--currently never used-->
+    <!--
+    <string name="get_custom_token">Get Token</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_account">Create Account</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="custom_token">Custom Token</string>
+
+    <string name="token_null">Token: null</string>
+
+    <string name="firebase_status_fmt">User: %s</string>
+    <string name="firebase_user_management">User Management</string>
+
+    <string name="google_status_fmt">Google User: %s</string>
+    <string name="google_title_text">Google Sign In</string>
+
+    <string name="facebook_status_fmt">Facebook User: %s</string>
+    <string name="facebook_title_text">Facebook Login</string>
+
+    <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
+    <string name="emailpassword_title_text">Email and Password</string>
+
+    <string name="phone_title_text">Phone Number</string>
+
+    <string name="twitter_status_fmt">Twitter User: %s</string>
+    <string name="twitter_title_text">Twitter Login</string>
+
+    <string name="firebaseui_status_fmt">Hello, %s</string>
+    <string name="firebaseui_title_text">UI Auth</string>
+
+    <string name="id_fmt">User ID: %s</string>
+    <string name="email_fmt">Email: %s</string>
+        <item name="visible" type="id" />
+      <item name="masked" type="id" />
+
+    -->
+
+
+</resources>

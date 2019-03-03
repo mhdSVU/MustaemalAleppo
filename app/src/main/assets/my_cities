@@ -1,0 +1,14 @@
+[
+  { "name": "All Cities", "code": 0 },
+  { "name": "Damascus", "code": 1 },
+  { "name": "Aleppo", "code": 2 },
+  { "name": "Homs", "code": 3 },
+  { "name": "Hama", "code": 4 },
+  { "name": "Lattakia", "code": 5 },
+  { "name": "Idleb", "code": 6 },
+  { "name": "Dair Zor", "code": 7 },
+  { "name": "Hasaka", "code": 8 },
+  { "name": "Daraa", "code": 9 },
+  { "name": "Reef Dimashque", "code": 10 },
+  { "name": "Tartus", "code": 11 }
+]

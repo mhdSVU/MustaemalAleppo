@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_cities">
+        <item>Damascus</item>
+        <item>Aleppo</item>
+        <item>Homs</item>
+        <item>Hama</item>
+        <item>Lattakia</item>
+        <item>Idleb</item>
+        <item>Dair_Al-Zor</item>
+        <item>Daraa</item>
+        <item>Al_Hasaka</item>
+        <item>Reef_Dimashque</item>
+        <item>Tartuss</item>
+        <item>Al-Suwaydaa</item>
+
+    </string-array>
+    <string-array name="array_categories">
+        <item>Mobile_Devices</item>
+        <item>Cars</item>
+        <item>Clothes</item>
+        <item>Books</item>
+        <item>Foods</item>
+        <item>Furniture</item>
+        <item>Pets</item>
+        <item>Electronic_Devices</item>
+        <item>Miscellaneous</item>
+    
+    </string-array>
+</resources>

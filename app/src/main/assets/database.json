@@ -1,0 +1,26 @@
+{
+  "groups": {
+    "retailer ": {
+      "mohammed": true,
+      "sally": true
+    },
+    "customer ": {
+      "mohammed": true,
+      "ali": true
+    }
+  },
+  "data": {
+    "good_items": {
+      "group": "retailer "
+      /* data accessible only by the "retailer " group */
+    },
+    "old_items": {
+      "group": "customer "
+      /* data accessible only by the "customer " group */
+    },
+    "bad_items": {
+      "group": "retailer "
+      /* more data accessible by the "retailer " group */
+    }
+  }
+}

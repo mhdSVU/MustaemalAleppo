@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#e7a011</color>
+    <color name="colorPrimaryDark">#FFa011</color>
+    <color name="colorAccent">#ff6f00</color>
+
+    <color name="normal">#f7f9f8</color>
+    <color name="selcted_tab">#ed0f22</color>
+    <color name="sign_in">#FEFFFF</color>
+
+    <color name="grey_100">@android:color/darker_gray</color>
+    <color name="grey_300">#e0e0e0</color>
+    <color name="grey_500">#b4b3b3</color>
+    <color name="authui_colorPrimaryDark">#FF4081</color>
+    <color name="authui_colorAccent">#FF4081</color>
+    <color name="InputBg1">#e7a011</color>
+
+
+    <color name="card_display_color">#13bdd7</color>
+    <color name="card_add_color">#e9edeb</color>
+    <color name="key_color">#ffffff</color>
+    <color name="white">#f9f6f6</color>
+    <color name="add_background_color">#f2f2ed</color>
+    <color name="add_key_color">#31e658</color>
+    <color name="item_title">#FFa011</color>
+    <color name="item_price">#c9421d</color>
+
+    <color name="nice_red">#fbc2561c</color>
+
+</resources>

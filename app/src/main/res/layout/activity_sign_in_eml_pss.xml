@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/title_sign_in_eml_pss"
+        android:layout_marginBottom="0dp"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="15dp"
+
+
+        >
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cardView_contact_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:elevation="7dp"
+            android:padding="7dp"
+            android:visibility="visible"
+            card_view:cardBackgroundColor="@color/fui_buttonShadow"
+            card_view:cardCornerRadius="20dp"
+
+
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="490dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="4.0">
+
+                <TextView
+                    android:id="@+id/textView_label_sign_in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="left"
+                    android:layout_weight="1.0"
+                    android:lines="2"
+                    android:padding="5dp"
+                    android:text="@string/label_sign_in_eml_pss"
+                    android:textColor="@android:color/white"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1.0"
+                    android:gravity="bottom"
+                    android:hint="@string/hint_user_email"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="50"
+                    app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
+                    app:hintTextAppearance="@style/hintStyle">
+
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/editText_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="0.7"
+                        android:background="@drawable/background_input"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:visibility="visible"
+
+
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.0"
+                    android:gravity="bottom"
+                    android:hint="@string/hint_user_password"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="25"
+                    app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
+                    app:hintTextAppearance="@style/hintStyle"
+
+                    >
+
+
+                    <android.support.design.widget.TextInputEditText
+
+
+                        android:id="@+id/editText_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="0.7"
+                        android:background="@drawable/background_input"
+                        android:ems="10"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:padding="10dp"
+
+
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <Button
+                    android:id="@+id/button_signIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/background_signin"
+                    android:text="@string/sign_in"
+                    android:textColor="@color/sign_in" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+    </ScrollView>
+</LinearLayout>

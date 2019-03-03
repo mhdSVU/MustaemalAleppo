@@ -1,0 +1,39 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="400dp"
+    android:layout_height="match_parent"
+    android:id="@+id/fl"
+    tools:context="mohammedyouser.com.mustaemalaleppo.UI.Ineed_Fragment">
+
+    <LinearLayout
+        android:id="@+id/ll_search_criteria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+        <Spinner
+            android:id="@+id/spinner_cities2"
+            style="@style/spinnerItemStyle"
+            android:layout_width="160dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/mybg"
+            android:gravity="center_vertical|center_horizontal"
+            android:popupBackground="#ffffff" />
+
+
+        <Spinner
+            android:id="@+id/spinner_categories2"
+            style="@style/spinnerItemStyle"
+            android:layout_width="160dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/mybg"
+            android:gravity="center_vertical|center_horizontal"
+            android:popupBackground="#ffffff" />
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "970940998859",
+    "firebase_url": "https://mustaemalaleppo.firebaseio.com",
+    "project_id": "mustaemalaleppo",
+    "storage_bucket": "mustaemalaleppo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970940998859:android:ef82935fbe968c5c",
+        "android_client_info": {
+          "package_name": "mohammedyouser.com.mustaemalaleppo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970940998859-3205kabrhfnjhrqn7ajqbl69vm0tiv99.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mohammedyouser.com.mustaemalaleppo",
+            "certificate_hash": "29466a25c798f61432b8e7812959d0d02dabbe0a"
+          }
+        },
+        {
+          "client_id": "970940998859-jro8b29lmk9fd1ljp7kn57e2c4esen4p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDadoLCHTeM_2b3nkrw5fRsI7uCzFtxtQ4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970940998859-jro8b29lmk9fd1ljp7kn57e2c4esen4p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

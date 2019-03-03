@@ -1,0 +1,269 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolBar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:layout_marginBottom="0dp"
+    android:background="@color/colorPrimary"
+    app:title="@string/title_set_up_contact_info"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+
+        >
+
+        <LinearLayout
+            android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            android:weightSum="4"
+            android:gravity="center_horizontal"
+
+            >
+
+            <TextView
+                android:id="@+id/textView_label_sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:lines="3"
+                android:padding="15dp"
+                android:text="@string/label_set_up_contact_info"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/size_label_form"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginBottom="170dp"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        >
+
+                        <ImageButton
+                            android:id="@+id/img_btn_user_image"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:layout_marginTop="12dp"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="@string/desc_userImage"
+                            android:elevation="5dp"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@mipmap/ic_account_circle_white_24dp"
+
+
+                            />
+
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginBottom="3dp"
+                            android:background="@color/colorPrimary"
+                            app:srcCompat="@drawable/icons_plus_24"
+
+                            />
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/textView_label_add_dispaly_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/label_add_dispaly_image"
+                        android:textColor="@android:color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardView_contact_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:elevation="7dp"
+                    android:padding="10dp"
+                    android:visibility="visible"
+                    app:cardBackgroundColor="@color/fui_buttonShadow"
+                    app:cardCornerRadius="20dp"
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="100dp"
+                        android:orientation="vertical"
+
+                        >
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:orientation="vertical"
+                            android:padding="10dp"
+                            android:weightSum="3.0"
+                            android:layout_marginTop="15dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+
+                            >
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1.0"
+                                android:gravity="bottom"
+                                android:hint="@string/hint_user_name_contact_info"
+                                app:counterEnabled="true"
+                                app:counterMaxLength="25"
+                                app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
+                                app:hintTextAppearance="@style/hintStyle"
+
+                                >
+
+
+                                <android.support.design.widget.TextInputEditText
+                                    android:id="@+id/editText_displayName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:background="@drawable/background_input"
+                                    android:inputType="textPersonName"
+                                    android:maxLength="25"
+                                    android:maxLines="1"
+                                    android:padding="10dp"
+                                    android:layout_marginTop="10dp"
+
+
+                                    />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1.0"
+                                android:gravity="bottom"
+                                android:hint="@string/hint_user_email_contact_info"
+                                app:counterEnabled="true"
+                                app:counterMaxLength="50"
+                                app:hintTextAppearance="@style/hintStyle"
+                                app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow">
+
+
+                                <android.support.design.widget.TextInputEditText
+
+
+                                    android:id="@+id/editText_email"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:background="@drawable/background_input"
+                                    android:inputType="textEmailAddress"
+                                    android:maxLength="50"
+                                    android:maxLines="1"
+                                    android:padding="10dp"
+
+
+                                    />
+
+                            </android.support.design.widget.TextInputLayout>
+
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1.0"
+                                android:gravity="bottom"
+                                android:hint="@string/hint_phone_number_contact_info"
+                                app:counterEnabled="true"
+                                app:counterMaxLength="15"
+                                app:hintTextAppearance="@style/hintStyle"
+                                app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow">
+
+                                <android.support.design.widget.TextInputEditText
+                                    android:id="@+id/editText_phone_number"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:background="@drawable/background_input"
+                                    android:inputType="phone"
+                                    android:maxLength="25"
+                                    android:maxLines="1"
+                                    android:padding="10dp"
+
+                                    />
+
+
+                            </android.support.design.widget.TextInputLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="10dp"
+                            android:layout_marginTop="-25dp"
+                            android:weightSum="2.0"
+                            android:layout_gravity="center_vertical|center_horizontal"
+
+
+                            >
+
+                            <Button
+
+                                android:id="@+id/button_setUp_ignore"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:layout_weight="1.0"
+                                android:text="@string/ignore"
+                                android:theme="@style/ThemeOverlay.MyDarkButton"
+
+                                />
+
+
+                            <Button
+                                android:id="@+id/button_setUp_ContactInfo"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:layout_weight="1.0"
+                                android:text="@string/save"
+                                android:theme="@style/ThemeOverlay.MyDarkButton" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </FrameLayout>
+        </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:paddingBottom="5dp"
+
+        >
+
+        <ImageView
+            android:id="@+id/android.R.id.icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons_full_box_24"
+            android:layout_gravity="center_vertical|center_horizontal"
+            />
+
+        <TextView
+            android:id="@+id/android.R.id.text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_tap_1"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:paddingBottom="5dp"
+            android:textColor="@android:color/white"
+
+            />
+
+    </LinearLayout>

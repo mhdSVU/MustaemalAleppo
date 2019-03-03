@@ -1,0 +1,10 @@
+{
+  "rules": {
+    "data": {
+      "$thing": {
+        ".read":  "root.child('groups').child(data.child('group').val()).hasChild(auth.id)",
+        ".write": "root.child('groups').child(data.child('group').val()).hasChild(auth.id)"
+      }
+    }
+  }
+}
