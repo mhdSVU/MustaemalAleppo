@@ -2,8 +2,6 @@ package mohammedyouser.com.mustaemalaleppo.Data;
 
 import android.content.Context;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -18,10 +16,9 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import androidx.recyclerview.widget.RecyclerView;
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.CircleTransform;
-
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * Created by mohammed_youser on 10/23/2017.
@@ -151,12 +148,13 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     private void setImage_circle(Context context, Uri imageURL, float thumbnail, ImageView imageView)
     {
         Glide.with(context).load(imageURL)//TODO
-                /*.bitmapTransform(new CircleTransform(context))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)*/
-                .into(imageView)
+                //.bitmapTransform(new CircleTransform(context))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .transform(new CircleTransform(context))
+                .into(imageView);
 
 
-        ;
+
 
 
     }

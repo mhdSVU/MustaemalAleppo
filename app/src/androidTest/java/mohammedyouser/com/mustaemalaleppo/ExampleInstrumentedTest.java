@@ -1,13 +1,14 @@
 package mohammedyouser.com.mustaemalaleppo;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Instrumentation test, which will execute on an Android device.

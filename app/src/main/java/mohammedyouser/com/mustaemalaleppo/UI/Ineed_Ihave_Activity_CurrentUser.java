@@ -5,16 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +16,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,13 +33,42 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import mohammedyouser.com.mustaemalaleppo.Domain.Add_NewItem_Activity;
 import mohammedyouser.com.mustaemalaleppo.Domain.Category;
 import mohammedyouser.com.mustaemalaleppo.Domain.City;
 import mohammedyouser.com.mustaemalaleppo.Domain.SetUpContactInfo_Activity;
 import mohammedyouser.com.mustaemalaleppo.R;
 
-import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.ASSETS_FILE_NAME_CATEGORIES;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.ASSETS_FILE_NAME_CITIES;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.CODE_ENCODE_SYSTEM_UTF_8;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_ID;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY__STATELABEL;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY__STATEVALUE;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_VALUE__STATELABEL_IHAVE;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_VALUE__STATELABEL_INEED;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_VALUE__STATEVALUE_IHAVE;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_VALUE__STATEVALUE_INEED;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_IHAVE;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_INEED;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEMS;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_DATE_AND_TIME;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_PRICE;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_TITLE;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USERS;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USER_EMAIL;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USER_IMAGE;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USER_NAME;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USER_PHONE_NUMBER;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.hideProgressDialog;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.showProgressDialog;
 
 public class Ineed_Ihave_Activity_CurrentUser extends AppCompatActivity  implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -353,9 +374,10 @@ public class Ineed_Ihave_Activity_CurrentUser extends AppCompatActivity  impleme
 
      @Override
             protected void onNewIntent(Intent intent) {
-                setIntent(intent);
-                handleIntent();
-            }
+         super.onNewIntent(intent);
+         setIntent(intent);
+         handleIntent();
+     }
 
             private void handleIntent() {
 

@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,10 +16,17 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.Ineed_Ihave_Activity;
 
-import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.FRIENDLY_ENGAGE_TOPIC;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_INEED;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEMS;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_CATEGORY;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_CITY;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_TITLE;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MessagingService";

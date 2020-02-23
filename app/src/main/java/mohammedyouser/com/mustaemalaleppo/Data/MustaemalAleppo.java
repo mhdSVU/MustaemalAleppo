@@ -1,9 +1,8 @@
 package mohammedyouser.com.mustaemalaleppo.Data;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.multidex.MultiDexApplication;
-import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.multidex.MultiDexApplication;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;

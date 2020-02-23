@@ -25,6 +25,11 @@
     <color name="item_title">#FFa011</color>
     <color name="item_price">#c9421d</color>
 
+    <!--TODO-->
     <color name="nice_red">#fbc2561c</color>
+    <color name="fui_transparent">#fbc2561c</color>
+    <color name="fui_buttonShadow">#ff44ff</color>
+    <color name="fui_linkColor">#f33333</color>
+    <color name="fui_bgEmail">#fc2345</color>
 
 </resources>
