@@ -27,9 +27,9 @@
 
     <!--TODO-->
     <color name="nice_red">#fbc2561c</color>
-    <color name="fui_transparent">#fbc2561c</color>
-    <color name="fui_buttonShadow">#ff44ff</color>
-    <color name="fui_linkColor">#f33333</color>
-    <color name="fui_bgEmail">#fc2345</color>
+    <color name="fui_transparent">#e7a011</color>
+    <color name="fui_buttonShadow">#D6A65F</color>
+    <color name="fui_linkColor">#FFC4A475</color>
+    <color name="fui_bgEmail">#C4A475</color>
 
 </resources>
