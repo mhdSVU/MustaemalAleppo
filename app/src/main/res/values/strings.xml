@@ -1,7 +1,7 @@
 <resources>
 
     <!--app-->
-    <string name="app_name">I need I have Stuff</string>
+    <string name="my_app_new_name">I need I have Stuff</string>
     <string name="splash_motive1">Find best clients!</string>
     <string name="splash_motive2">Find real bargains!</string>
 
@@ -12,7 +12,7 @@
 
     <string name="start_phone_auth">Send me code</string>
     <string name="verify_phone_auth">Verify</string>
-    <string name="resend_phone_auth">Resend</string>
+    <string name="resend_phone_auth">Resend Me Code</string>
 
     <string name="cancel">Cancel</string>
     <string name="Delete">Delete</string>
@@ -24,7 +24,7 @@
     <string name="phone_auth_ignore">Ignore and proceed</string>
 
     <string name="ignore">Ignore</string>
-    <string name="save">Save</string>
+    <string name="add">Add</string>
     <string name="add_alert">Add Alert</string>
 
 
@@ -43,7 +43,7 @@
     <string name="label_sign_up">click her to sign up</string>
     <string name="label_sign_in_eml_pss">Please enter your already-created account information:</string>
     <string name="label_sign_up_eml_pss">Please complete the following form  to create a new account:</string>
-    <string name="label_ask_for_resend_code">If you have not received any code you can ask for sending a code again:</string>
+    <string name="label_ask_for_resend_code">Have not received any code?</string>
     <string name="label_set_up_contact_info">Please use the following form to add or modify your \" Contact Information \"  that other users use to contact with you:</string>
 
     <string name="label_add_dispaly_image">Click above to add an avatar</string>
@@ -51,14 +51,14 @@
     <string name="label_phone_details">Details:</string>
     <string name="label_current_status">Current status:</string>
     <string name="label_search_criteria">Choose city/category then press "Refersh":</string>
-    <string name="label_sign_in_phone_number">Please enter your phone number to send the verification code to(with international code):</string>
+    <string name="label_sign_up_phone_number_enter_code">Please enter the verification code we have just sent to the provided number:</string>
     <string name="label_sign_in_google_explaining">If you already have a google account you can use it to sign in by clicking on the following button. \n Otherwise, you will be involved in creating a new one.</string>
     <string name="label_item_single_desc_for_sale">The following item is for sale. In case you are interested in it, you can contact with the one who added it via email or phone.</string>
     <string name="label_item_single_desc_wanted">The following item is wanted. In case you are interested in it, you can contact with the one who added it with phone or email.</string>
     <string name="label_extra_info">Details:</string>
     <string name="label_category_choose">Choose suitble category</string>
     <string name="label_city_choose">Choose city</string>
-    <string name="label_email_to_item_user">Send email using...</string>
+    <string name="label_email_to_item_user">Send email using…</string>
 
 
     <!--actions-->
@@ -80,10 +80,10 @@
     <string name="title_ineed">I need</string>
     <string name="title_ihave">I have</string>
     <string name="title_activity_main">Ihave Ineed Items</string>
-    <string name="title_fragment_confirm_delete">This item will permanently deleted.</string>
+    <string name="title_fragment_confirm_delete">Delete Item</string>
     <string name="title_fragment_VPN_alert">VPN app might be needed! </string>
-    <string name="title_fragment_add_alert"> Choose category and city which you are interested in then press "Add Alert":</string>
-    <string name="title_subscribe">Subscribe to a "Category" in a "City"</string>
+    <string name="title_fragment_add_alert"> Please alert me whenever:</string>
+    <string name="title_subscribe">Create customized alert</string>
 
 
     <string name="title_activity_my_items">My Items</string>
@@ -103,7 +103,7 @@
     <string name="title_sort_ihave_item">Sort \"I have\" items</string>
     <string name="title_SIGN_IN">Sign in</string>
     <string name="title_SIGN_UP">Sign up</string>
-    <string name="title_email_to_item_user">From Ineed Ihave App: as to the item %s</string>
+    <string name="title_email_to_item_user">From Ineed Ihave App: As to the item %s\n</string>
     <string name="title_nav_manage_items">Manage My items</string>
     <string name="title_nav_add_items">Add items</string>
     <string name="title_nav_sort_items">Sort items</string>
@@ -122,12 +122,13 @@
     <string name="message_info_error_status_sign_in">Sign-in failed</string>
     <string name="instant_validation">(instant validation)</string>
     <string name="message_info_Authenticating">Authenticating</string>
-    <string name="message_info_UPDATING_CONTACT_INFO">Updating contact information...</string>
+    <string name="message_info_UPDATING_CONTACT_INFO">Updating contact information…</string>
     <string name="message_error_required_fields">Fields with * are required.</string>
     <string name="message_error_no_cat_selected">No category selected</string>
-    <string name="message_info_uploaded_ok">Ok uploaded</string>
+    <string name="message_info_uploaded_ok">OK uploaded</string>
     <string name="message_info_added_error"> Error: Adding Item failed!</string>
     <string name="message_info_added_ok">Item has been added successfully</string>
+    <string name="message_info_added_ok_alert">Your alert has been added successfully</string>
     <string name="message_info_refreshed_ok">Refreshed!</string>
     <string name="message_info_item_saved_ok">Item saved to gallery as image its name is:\n title and price of item</string>
     <string name="message_info_upload_error"> Error: Uploading Item Image failed!</string>
@@ -143,12 +144,12 @@
     <string name="message_info_item_saved_already">Item has already been saved to gallery</string>
     <string name="message_info_modified_ok">Item has been modified successfully</string>
     <string name="message_info_modifing_error">Error:Failed to modify item</string>
-    <string name="message_info_SIGNING_UP">Signing up...</string>
-    <string name="message_info_DELETING">Deleting...</string>
-    <string name="message_info_MODIFYING">Modifying item...</string>
-    <string name="message_info_ADDING_ITEM">Adding item...</string>
+    <string name="message_info_SIGNING_UP">Signing up…</string>
+    <string name="message_info_DELETING">Deleting…</string>
+    <string name="message_info_MODIFYING">Modifying item…</string>
+    <string name="message_info_ADDING_ITEM">Adding item…</string>
     <string name="message_info_loading">Loading…</string>
-    <string name="message_info_LOADING_DATA">Loading data...</string>
+    <string name="message_info_LOADING_DATA">Loading data…</string>
     <string name="message_info_signed_in">Signed In</string>
     <string name="message_info_signed_out">Signed Out</string>
     <string name="message_alert_delete_item">The current item will be  permanently deleted.</string>
@@ -159,25 +160,23 @@
     <string name="msg_info_subscribed_failed">Failed to subscribe to the topic</string>
 
 
-
-
     <!--hints-->
-    <string name="hint_user_name_contact_info">A display name...</string>
-    <string name="hint_user_email_contact_info">An Email to contact with you...</string>
-    <string name="hint_phone_number_contact_info">A phone number to contact with you...</string>
-    <string name="hint_search_item">Search for items here....</string>
-    <string name="hint_desc">Item description and details</string>
+    <string name="hint_user_name_contact_info">A display name</string>
+    <string name="hint_user_email_contact_info">An Email to contact with you…</string>
+    <string name="hint_phone_number_contact_info">A phone number to contact with you…</string>
+    <string name="hint_search_item">Search for items here…</string>
+    <string name="hint_desc">Item details</string>
     <string name="hint_item_title">Item title*</string>
-    <string name="search_hint">Search...</string>
+    <string name="search_hint">Search…</string>
     <string name="hint_phone_number">Phone Number</string>
     <string name="hint_verification_code">Verification Code</string>
-    <string name="hint_user_email">Email...</string>
-    <string name="hint_user_password">Password...</string>
+    <string name="hint_user_email">Email</string>
+    <string name="hint_user_password">Password</string>
     <string name="hint_user_id">User ID</string>
     <string name="hint_item_price">Item price*</string>
     <string name="hint_item_category"> Item Category*</string>
     <string name="hint_item_city"> Item City</string>
-    <string name="hint_user_name">Your display name...</string>
+    <string name="hint_user_name">Your display name</string>
 
 
     <!--Description-->
@@ -234,6 +233,40 @@
     <string name="sign_out">Sign out</string>
     <string name="SIGN_UP">Sign up</string>
     <string name="firebase_status_fmt">User: %s</string>
+    <string name="message_info_permission_declined">Permission Declined!</string>
+    <string name="title_sign_up_phone_number_verify">Phone Number Verification</string>
+    <string name="hint_phone_number_code">Verification Code..</string>
+    <string name="info_phone_number_status_status">Verification in progress..</string>
+    <string name="title_fragment_sign_up">Phone Number Verification</string>
+    <string name="message_error_password_doesnt_match">Passwords doesn\'t match</string>
+    <string name="hint_user_password_confirm">Re-type passowrd</string>
+    <string name="message_info_SIGNING_IN">Signing in…</string>
+    <string name="message_error_too_short">Too short! Password must be six characters at least.</string>
+    <string name="label_remember_me" />
+    <string name="label_remember_mere">Remember me</string>
+    <string name="hint_user_new_password_confirm">Re-type new password</string>
+    <string name="hint_user_new_password">Type new password</string>
+    <string name="message_error_add_alert">Something goes wrong! Failed to add alert!</string>
+    <string name="message_info_error_no_location">No location available!</string>
+    <string name="radio_txt_ineed">someone in need of item</string>
+    <string name="radio_txt_ihave">someone has an item</string>
+    <string name="title_nav_my_notifications">My Notifications</string>
+    <string name="title_nav_my_subscriptions">My Subscriptions</string>
+    <string name="title_nav_add_alert">Add Alert</string>
+    <string name="message_alert_sign_out_confirm">Are you sure you want to sign out?</string>
+    <string name="title_fragment_sign_out_confirm">Confirm Sign out</string>
+    <string name="title_activity__maps__item__location">Map</string>
+    <string name="title_nav_update_loc">Update My Location</string>
+    <string name="btn_confirm_update_location">Update My Location</string>
+    <string name="btn_preserve_location">Preserve My Loaction</string>
+    <string name="title_fragment_update_location_confirm">Confirm Update My Location</string>
+    <string name="message_alert_update_location_confirm">"Please keep in mind that alerts for items avaiable near you will be triggered according to the most recent location value. "</string>
+    <string name="title_unsubscribe">Unsubscribe</string>
+    <string name="title_fragment_remove_alert">Notificatios from this thread will be disabled.</string>
+    <string name="remove_alert">Proceed anyway</string>
+    <string name="title_user_subscriptions">My Subscribtions</string>
+    <string name="title_user_notifications">My Notifications</string>
+    <string name="default_val_user_address">No address available</string>
 
 
     <!--currently never used-->

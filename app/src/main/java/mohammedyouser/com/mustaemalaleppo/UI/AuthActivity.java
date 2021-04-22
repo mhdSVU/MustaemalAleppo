@@ -1,22 +1,23 @@
 package mohammedyouser.com.mustaemalaleppo.UI;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
-import mohammedyouser.com.mustaemalaleppo.ConnectionReceiverListener;
-import mohammedyouser.com.mustaemalaleppo.Device.ConnectionReceiver;
+import mohammedyouser.com.mustaemalaleppo.Device.ConnectivityChangeReceiverListener;
+import mohammedyouser.com.mustaemalaleppo.Device.ConnectivityChangeReceiver;
 import mohammedyouser.com.mustaemalaleppo.Domain.VPN_AlertDialogFragment;
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.R.*;
 
-import static mohammedyouser.com.mustaemalaleppo.Device.NetworkUtil.CheckNetworkConnectionStatus;
-import static mohammedyouser.com.mustaemalaleppo.Device.NetworkUtil.isConnected;
+import static mohammedyouser.com.mustaemalaleppo.Device.ConnectivityUtility.CheckConnectivity;
+import static mohammedyouser.com.mustaemalaleppo.Device.ConnectivityUtility.isConnected;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
 
 
@@ -24,7 +25,7 @@ public class AuthActivity extends AppCompatActivity implements
         TabLayout.OnTabSelectedListener,
         SignIn_fragment.OnFragmentInteractionListener,
         SignUp_fragment.OnFragmentInteractionListener,
-        ConnectionReceiverListener  {
+        ConnectivityChangeReceiverListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -44,10 +45,7 @@ public class AuthActivity extends AppCompatActivity implements
         alertVPN();
 
     }
-    public void setConnectionListener(ConnectionReceiverListener listener) {
-        ConnectionReceiver.connectionReceiverListener = listener;
 
-    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -55,7 +53,7 @@ public class AuthActivity extends AppCompatActivity implements
         // register connection status listener
         setConnectionListener(this);
 
-        CheckNetworkConnectionStatus();
+        CheckConnectivity();
     }
 
     private void setUpAuthTabLayout() {
@@ -152,24 +150,23 @@ public class AuthActivity extends AppCompatActivity implements
     }
 
     private void alertVPN() {
-        FragmentManager fragmentManager = getFragmentManager();
 
 
-        android.app.Fragment fragment = fragmentManager.findFragmentByTag("VPN_Alert_Fragment");
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("VPN_Alert_Fragment");
         if (fragment != null) {
-            fragmentManager.beginTransaction().remove(fragment).commit();
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
 
 
         VPN_AlertDialogFragment vpn_alertDialogFragment = new VPN_AlertDialogFragment();
-        vpn_alertDialogFragment.show(fragmentManager, "VPN_Alert_Fragment");
+        vpn_alertDialogFragment.show(getFragmentManager(), "VPN_Alert_Fragment");
 
 
     }
 
     @Override
-    public  void onNetworkConnectionStatusChanged() {
-        CheckNetworkConnectionStatus();
+    public  void onConnectivityChanged() {
+        CheckConnectivity();
 
         if(!isConnected) {
 
@@ -181,6 +178,11 @@ public class AuthActivity extends AppCompatActivity implements
             // dismiss the dialog or refresh the activity
             hideProgressDialog();
         }
+    }
+
+    public void setConnectionListener(ConnectivityChangeReceiverListener listener) {
+        ConnectivityChangeReceiver.connectivityChangeReceiver_Listener = listener;
+
     }
 
 

@@ -26,10 +26,16 @@
 
     <!-- Dark Buttons -->
     <style name="ThemeOverlay.MyDarkButton" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="colorButtonNormal">@color/nice_red</item>
+        <item name="colorButtonNormal">@color/white</item>
         <item name="android:layout_marginRight">4dp</item>
         <item name="android:layout_marginLeft">4dp</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:soundEffectsEnabled">true</item>
+        <item name="android:animateOnClick">true</item>
+    </style>
+    <!-- Dark Buttons -->
+    <style name="ThemeOverlay.MyButton" parent="ThemeOverlay.AppCompat.Light">
+
         <item name="android:soundEffectsEnabled">true</item>
         <item name="android:animateOnClick">true</item>
     </style>
@@ -49,7 +55,7 @@
         <item name="android:maxLines">3</item>
         <item name="android:padding">4dp</item>
         <item name="android:scrollbars">vertical</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:colorEdgeEffect"> @color/card_add_color</item>
     </style>
 
@@ -76,7 +82,9 @@
     <style name="hintStyle" parent="TextAppearance.Design.Hint">
 
 
-    <item name="android:textSize" >@dimen/size_hint</item>
+    <item name="android:textSize" >@dimen/size_hint_m</item>
     <item name="android:layout_marginBottom">@dimen/margin_bottom_hint</item>
 </style>
+
+    <dimen name="size_hint_m">18sp</dimen>
 </resources>

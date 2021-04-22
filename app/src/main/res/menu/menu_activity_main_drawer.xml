@@ -27,22 +27,50 @@
                 android:title="@string/title_nav_manage_items"
 
                 />
+            <item
+                android:id="@+id/nav_my_notifications"
+                android:icon="@drawable/ic_nav_drawer_notifications"
+                android:iconTint="@android:color/black"
+                android:title="@string/title_nav_my_notifications"
+
+                />
+            <item
+                android:id="@+id/nav_my_subscriptions"
+                android:icon="@drawable/ic_nav_drawer_subscriptions"
+                android:iconTint="@android:color/black"
+                android:title="@string/title_nav_my_subscriptions"
+
+                />
+            <item
+                android:id="@+id/nav_add_alert"
+                android:icon="@drawable/ic_nav_add_alert"
+                android:iconTint="@android:color/black"
+                android:title="@string/title_nav_add_alert"
+
+                />
+            <item
+                android:id="@+id/nav_update_my_location"
+                android:icon="@drawable/ic_nav_update_loc"
+                android:iconTint="@android:color/black"
+                android:title="@string/title_nav_update_loc"
+
+                />
 
         </menu>
     </item>
 
     <item android:title="My Account">
-        <menu
-            >
+        <menu>
             <item
                 android:id="@+id/nav_set_up_my_account"
                 android:icon="@mipmap/ic_account_circle_black_24dp"
                 android:title="@string/menu_item_set_up_my_account"
 
                 />
-            <item android:id="@+id/nav_sign_out"
-                android:title="@string/sign_out"
+            <item
+                android:id="@+id/nav_sign_out"
                 android:icon="@drawable/icons_sign_out_24"
+                android:title="@string/sign_out"
 
                 />
 

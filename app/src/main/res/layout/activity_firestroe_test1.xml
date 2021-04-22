@@ -7,7 +7,7 @@
     tools:context=".Domain.FireStoreTest1">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_logo_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="259dp"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="49dp"
         android:layout_marginTop="153dp"
@@ -50,7 +50,7 @@
         android:onClick="fetchData"
         android:text="Fetch"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/tv_logo_"
         app:layout_constraintTop_toBottomOf="@+id/editText2" />
 
     <Button
@@ -61,5 +61,5 @@
         android:text="Save"
         android:onClick="saveData"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/button2" />
+        app:layout_constraintStart_toStartOf="@+id/btn_sign_up" />
 </androidx.constraintlayout.widget.ConstraintLayout>

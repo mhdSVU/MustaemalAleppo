@@ -16,6 +16,26 @@ public class Item {
     private String itemImage;
     private String itemDetails;
 
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    private double latitude;
+    private double longitude;
+
     private String userID;//TODO
 
     //ToDo:
@@ -42,6 +62,7 @@ public class Item {
         this.price_evaluations_appropriate = price_evaluations_appropriate;
         this.price_evaluations_low = price_evaluations_low;
         this.userID = userID;
+
     }
 
 

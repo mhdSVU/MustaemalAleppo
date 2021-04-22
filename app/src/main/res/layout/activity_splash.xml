@@ -38,7 +38,7 @@
       android:layout_marginTop="-25dp"
       android:layout_marginBottom="100dp"
 
-      android:text="@string/app_name"
+      android:text="@string/my_app_new_name"
       android:textColor="@android:color/background_light"
       android:textSize="25sp"
       android:textStyle="bold" />

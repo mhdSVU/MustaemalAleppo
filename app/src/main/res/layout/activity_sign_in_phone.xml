@@ -42,14 +42,14 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView_label_sign_in"
+                    android:id="@+id/tv_label_sign_up"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
                     android:padding="5dp"
-                    android:text="@string/label_sign_in_phone_number"
+                    android:text="@string/label_sign_up_phone_number_enter_code"
                     android:textColor="@android:color/white"
                     android:textSize="19sp"
                     android:textStyle="bold" />
@@ -86,7 +86,7 @@
 
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editText_phone_number"
+                                android:id="@+id/et_phoneNumber"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/background_input"
@@ -113,13 +113,14 @@
 
 
          <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/field_verification_code"
+                                android:id="@+id/et_verify_code"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/background_input"
                                 android:padding="10dp"
                                 android:maxLines="1"
                                 android:inputType="number"
+             android:enabled="true"
                                 />
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -145,7 +146,7 @@
                             android:theme="@style/ThemeOverlay.MyDarkButton" />
 
                         <Button
-                            android:id="@+id/button_verify_phone"
+                            android:id="@+id/btn_verify"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.0"
@@ -196,7 +197,7 @@
                             android:textColor="@android:color/white" />
 
                         <TextView
-                            android:id="@+id/detail"
+                            android:id="@+id/et_details"
                             style="@style/ThemeOverlay.MyTextDetail"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -230,7 +231,7 @@
                         android:textStyle="bold" />
 
                     <Button
-                        android:id="@+id/button_resend"
+                        android:id="@+id/btn_resend_code_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"

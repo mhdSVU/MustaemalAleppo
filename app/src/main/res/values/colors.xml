@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#e7a011</color>
-    <color name="colorPrimaryDark">#FFa011</color>
-    <color name="colorAccent">#ff6f00</color>
+    <color name="colorPrimary">#06EF0E</color>
+    <color name="colorPrimaryDark">#4BAC6B</color>
+    <color name="colorAccent">@color/colorPrimaryDark</color>
 
     <color name="normal">#f7f9f8</color>
-    <color name="selcted_tab">#ed0f22</color>
+    <color name="selcted_tab">#0F3FED</color>
     <color name="sign_in">#FEFFFF</color>
 
+
+    <color name="green1" >#11DA1A</color>
+    <color name="green_light" >#CCF4CE</color>
     <color name="grey_100">@android:color/darker_gray</color>
     <color name="grey_300">#e0e0e0</color>
     <color name="grey_500">#b4b3b3</color>
@@ -21,7 +24,7 @@
     <color name="key_color">#ffffff</color>
     <color name="white">#f9f6f6</color>
     <color name="add_background_color">#f2f2ed</color>
-    <color name="add_key_color">#31e658</color>
+    <color name="add_key_color">#212322</color>//TODO
     <color name="item_title">#FFa011</color>
     <color name="item_price">#c9421d</color>
 

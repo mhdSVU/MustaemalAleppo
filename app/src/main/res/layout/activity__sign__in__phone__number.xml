@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal|center_vertical"
+    android:scrollbars="vertical"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_sign_in_phone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+
+        <TextView
+            android:id="@+id/tv_logo_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/logo_green"
+            android:text="Ineed Ihave Stuff"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/img_btn_user_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="32dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/desc_userImage"
+            android:elevation="5dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_logo_"
+            app:srcCompat="@mipmap/ic_account_circle_white_24dp" />
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="72dp"
+            android:background="@drawable/ic_baseline_add_circle_24"
+            android:elevation="12dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.564"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_logo_" />
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/ccp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="32dp"
+
+            android:background="@drawable/et_background_2"
+
+            app:ccpDialog_allowSearch="true"
+            app:ccpDialog_initialScrollToSelection="true"
+            app:ccpDialog_keyboardAutoPopup="false"
+            app:ccpDialog_showCloseIcon="true"
+            app:ccpDialog_showFastScroller="false"
+            app:ccpDialog_showFlag="false"
+            app:ccpDialog_showPhoneCode="true"
+
+            app:ccpDialog_showTitle="true"
+            app:ccp_arrowSize="20dp"
+            app:ccp_autoDetectCountry="true"
+            app:ccp_autoDetectLanguage="true"
+            app:ccp_autoFormatNumber="false"
+            app:ccp_clickable="true"
+            app:ccp_contentColor="@color/colorPrimaryDark"
+            app:ccp_countryAutoDetectionPref="SIM_ONLY"
+            app:ccp_countryPreference="TR,SYR"
+            app:ccp_defaultLanguage="ENGLISH"
+
+            app:ccp_defaultNameCode="US"
+            app:ccp_rememberLastSelection="true"
+            app:ccp_selectionMemoryTag="signupCCP"
+            app:ccp_showArrow="true"
+            app:ccp_showFlag="false"
+            app:ccp_showFullName="false"
+            app:ccp_showNameCode="true"
+            app:ccp_showPhoneCode="true"
+            app:ccp_textGravity="CENTER"
+            app:ccp_textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/til_et_phoneNumber"
+            app:layout_constraintEnd_toStartOf="@id/til_et_phoneNumber"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_logo_"
+            app:layout_constraintVertical_bias="0.6" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_et_phoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:gravity="bottom"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="8dp"
+            android:hint="@string/hint_phone_number"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+            app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
+
+            app:counterTextColor="@color/colorPrimaryDark"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/hintStyle"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toEndOf="@id/ccp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_logo_"
+
+            app:startIconDrawable="@android:drawable/stat_sys_phone_call"
+            app:startIconTint="@color/colorPrimaryDark">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_phoneNumber"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:background="@drawable/et_background_2"
+                android:drawablePadding="8dp"
+                android:inputType="phone"
+                android:paddingStart="12dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/colorPrimaryDark" />
+            <!--
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_phoneNumber_prefix"
+                            android:layout_width="30dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="32dp"
+                            android:layout_marginEnd="24dp"
+                            android:background="@drawable/et_background_2"
+                            android:drawablePadding="8dp"
+                            android:inputType="phone"
+                            android:paddingStart="12dp"
+                            android:paddingTop="10dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="5dp"
+                            android:textColor="@color/colorPrimaryDark" />-->
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_et_password"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+
+            android:gravity="bottom"
+            android:hint="@string/hint_user_password"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:counterEnabled="true"
+
+            app:endIconMode="password_toggle"
+            app:counterMaxLength="11"
+            app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
+            app:counterTextColor="@color/colorPrimaryDark"
+            app:errorEnabled="true"
+
+            app:hintTextAppearance="@style/hintStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@+id/til_et_phoneNumber"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:background="@drawable/et_background_2"
+                android:drawableLeft="@drawable/ic_baseline_security_24"
+
+                android:drawablePadding="8dp"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:maxLength="25"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:paddingLeft="12dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textColorHint="@color/colorPrimaryDark"
+                app:counterEnabled="true"
+                app:counterMaxLength="25"
+                app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
+                app:hintTextAppearance="@style/hintStyle"  />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--
+        <Button
+
+            android:id="@+id/button_start_verification"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:text="@string/start_phone_auth"
+            android:theme="@style/ThemeOverlay.MyDarkButton"
+            app:layout_constraintBaseline_toBaselineOf="@+id/button_verify_phone"
+            app:layout_constraintEnd_toStartOf="@+id/button_verify_phone"
+            app:layout_constraintStart_toStartOf="parent" />
+-->
+
+        <Button
+            android:id="@+id/btn_sign_in"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="24dp"
+            android:shadowColor="@color/colorPrimaryDark"
+            android:text="Sign in"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_et_password"
+            app:layout_constraintVertical_bias="0.103" />
+
+        <TextView
+            android:id="@+id/tv_haveAnAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:includeFontPadding="false"
+            android:text="Don't have an Account?"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_sign_up"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_sign_in"
+            app:layout_constraintVertical_bias="0.238" />
+
+        <TextView
+            android:id="@+id/tv_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:includeFontPadding="false"
+            android:text="Create New Account"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_haveAnAccount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_haveAnAccount"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/tv_userName_welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_logo_" />
+
+        <CheckBox
+            android:id="@+id/chb_remember_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_remember_mere"
+            android:textSize="16sp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_sign_in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_et_password"
+            app:layout_constraintVertical_bias="0.204" />
+
+        <TextView
+            android:id="@+id/tv_forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+android:paddingTop="4dp"
+            android:text="Forget your password?"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/chb_remember_me"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@id/chb_remember_me"
+            app:layout_constraintTop_toTopOf="@+id/chb_remember_me"
+            app:layout_constraintVertical_bias="0.204" />
+
+        <TextView
+            android:id="@+id/tv_sign_in_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sign_up" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

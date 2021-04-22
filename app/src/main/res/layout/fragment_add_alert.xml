@@ -1,39 +1,110 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="400dp"
+<androidx.core.widget.NestedScrollView
     android:layout_height="match_parent"
-    android:id="@+id/fl"
-    tools:context="mohammedyouser.com.mustaemalaleppo.UI.Ineed_Fragment">
+    android:layout_width="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fl"
+        android:layout_width="400dp"
+        android:layout_height="match_parent"
+        tools:context="mohammedyouser.com.mustaemalaleppo.UI.Ineed_Fragment">
 
-    <LinearLayout
-        android:id="@+id/ll_search_criteria"
-        android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/ll_search_criteria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+
+            android:padding="32dp">
+<RadioGroup
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RadioButton
+        android:id="@+id/rb_ihave"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical"
-        android:padding="5dp">
-        <Spinner
-            android:id="@+id/spinner_cities2"
-            style="@style/spinnerItemStyle"
-            android:layout_width="160dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/mybg"
-            android:gravity="center_vertical|center_horizontal"
-            android:popupBackground="#ffffff" />
+        android:layout_marginBottom="16dp"
+        android:checked="true"
+        android:text="@string/radio_txt_ihave" />
+
+    <RadioButton
+        android:id="@+id/rb_ineed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/radio_txt_ineed"
+        android:layout_marginBottom="8dp"
+        />
+</RadioGroup>
+
+            <TextView
+                android:text="as the following:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"/>
+
+            <Spinner
+                android:id="@+id/spinner_cities2"
+                style="@style/spinnerItemStyle"
+                android:layout_width="160dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/mybg"
+                android:gravity="center_vertical|center_horizontal"
+                android:popupBackground="#ffffff" />
 
 
-        <Spinner
-            android:id="@+id/spinner_categories2"
-            style="@style/spinnerItemStyle"
-            android:layout_width="160dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:background="@drawable/mybg"
-            android:gravity="center_vertical|center_horizontal"
-            android:popupBackground="#ffffff" />
-    </LinearLayout>
+            <Spinner
+                android:id="@+id/spinner_categories2"
+                style="@style/spinnerItemStyle"
+                android:layout_width="160dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:background="@drawable/mybg"
+                android:gravity="center_vertical|center_horizontal"
+                android:popupBackground="#ffffff" />
 
-</FrameLayout>
+            <EditText
+                android:id="@+id/et_max_price"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_vertical|center_horizontal"
+                android:hint="Max price"
+                android:inputType="numberDecimal"
+
+                />
+
+            <EditText
+                android:id="@+id/et_min_price"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_vertical|center_horizontal"
+                android:hint="Min price"
+                android:inputType="numberDecimal"
+
+                />
+
+            <EditText
+                android:id="@+id/et_max_distance"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"
+                android:background="@color/grey_500"
+                android:gravity="center_vertical|center_horizontal"
+                android:hint="Max distance in km"
+                android:inputType="numberDecimal"
+
+                />
+        </LinearLayout>
+
+    </FrameLayout>
+
+</androidx.core.widget.NestedScrollView>
+

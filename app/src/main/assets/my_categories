@@ -1,12 +1,15 @@
 [
+
+
+
   { "name": "All Categories", "code": "ALL" },
-  { "name": "Mobile Devices", "code": "MB" },
+  { "name": "Mobile Phones", "code": "MB" },
   { "name": "Cars", "code": "CR" },
   { "name": "Clothes", "code": "CL" },
   { "name": "Books", "code": "BK" },
   { "name": "Foods", "code": "FD" },
   { "name": "Furniture", "code": "FR" },
-  { "name": "Pets", "code": "PT" },
+  { "name": "Laptops/PCs", "code": "PT" },
   { "name": "Electronic Devices", "code": "EL" },
   { "name": "Miscellaneous", "code": "DR" }
 

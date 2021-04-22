@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".UI.Ineed_Ihave_Activity"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/app_bar_main"
+   >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,7 +25,7 @@
             android:background="@color/colorPrimary"
 
             android:layout_width="match_parent"
-            android:layout_height="60dp"/>
+            android:layout_height="56dp"/>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"

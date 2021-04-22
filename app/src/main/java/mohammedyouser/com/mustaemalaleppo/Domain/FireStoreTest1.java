@@ -40,7 +40,7 @@ public class FireStoreTest1 extends AppCompatActivity {
         setContentView(R.layout.activity_firestroe_test1);
         name=(EditText) findViewById(R.id.editText);
         surname=(EditText) findViewById(R.id.editText2);
-        result=(TextView) findViewById(R.id.textView);
+        result=(TextView) findViewById(R.id.tv_logo_);
         dataToSave =new  HashMap <String, String>();
 
 

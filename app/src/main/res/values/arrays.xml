@@ -16,15 +16,21 @@
 
     </string-array>
     <string-array name="array_categories">
-        <item>Mobile_Devices</item>
+        <item>All Categories</item>
+        <item>Mobile Phones</item>
         <item>Cars</item>
         <item>Clothes</item>
         <item>Books</item>
         <item>Foods</item>
         <item>Furniture</item>
-        <item>Pets</item>
-        <item>Electronic_Devices</item>
+        <item>Laptops/PCs</item>
+        <item>Electronic Devices</item>
         <item>Miscellaneous</item>
-    
+
+    </string-array>
+    <string-array name="array_item_states">
+        <item>I have this item</item>
+        <item>I need this item</item>
+
     </string-array>
 </resources>

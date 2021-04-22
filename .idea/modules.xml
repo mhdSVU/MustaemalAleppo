@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MustaemalAleppo.iml" filepath="$PROJECT_DIR$/MustaemalAleppo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libTest/libTest.iml" filepath="$PROJECT_DIR$/libTest/libTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MustaemalAleppo.iml" filepath="$PROJECT_DIR$/.idea/modules/MustaemalAleppo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MustaemalAleppo.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MustaemalAleppo.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/libTest/MustaemalAleppo.libTest.iml" filepath="$PROJECT_DIR$/.idea/modules/libTest/MustaemalAleppo.libTest.iml" />
     </modules>
   </component>
 </project>

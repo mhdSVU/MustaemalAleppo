@@ -9,14 +9,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
 import androidx.recyclerview.widget.RecyclerView;
+
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.CircleTransform;
 
@@ -25,33 +24,45 @@ import mohammedyouser.com.mustaemalaleppo.UI.CircleTransform;
  */
 
 public class MyViewHolder extends RecyclerView.ViewHolder {
-    public static final String TAG ="";
+    public static final String TAG = "";
+    private final TextView mItemUserName;
+    private final EditText mTitle;
+    private final EditText mItemPrice;
+    private final TextView mCity;
+    private final TextView mCategory;
+    private final TextView mDate;
+    private final EditText mItemDetails;
 
 
-    private View view;
-    ProgressBar progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar1);
-    ImageButton imageView = (ImageButton) itemView.findViewById(R.id.img_btn_itemImage);
+    private View mItemView;
+    ProgressBar progressBar = itemView.findViewById(R.id.progressBar1);
+    ImageButton imageButton = itemView.findViewById(R.id.img_btn_itemImage);
 
     public MyViewHolder(View itemView) {
         super(itemView);
-        this.view=itemView;
-
+        this.mItemView = itemView;
+        mTitle = (EditText) mItemView.findViewById(R.id.et_item_title);
+        mItemPrice = (EditText) mItemView.findViewById(R.id.et_item_price);
+        mCity = (TextView) mItemView.findViewById(R.id.tv_item_city);
+        mCategory = (TextView) mItemView.findViewById(R.id.tv_item_category);
+        mDate = (TextView) mItemView.findViewById(R.id.tv_item_date);
+        mItemDetails = (EditText) mItemView.findViewById(R.id.et_item_details);
+        mItemUserName = (TextView) mItemView.findViewById(R.id.textView_username);
 
 
     }
 
-    public void setView(View view) {
-        this.view = view;
+
+    public View getMyItemView() {
+        return mItemView;
     }
 
 
     public void setItemTitle(String title) {
-        EditText mTitle= (EditText) view.findViewById(R.id.et_item_title);
         mTitle.setText(title);
     }
 
     public void setItemPrice(String itemPrice) {
-        EditText mItemPrice=(EditText) view.findViewById(R.id.et_item_price);
         mItemPrice.setText(itemPrice);
         Log.d(TAG, "setItemImage: Price ");
 
@@ -59,20 +70,15 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
 
     public void setItemCity(String itemCity) {
 
-        TextView mCity= (TextView) view.findViewById(R.id.tv_item_city);
         mCity.setText(itemCity);
     }
 
     public void setItemCategory(String itemCategory) {
-        TextView mCategory= (TextView) view.findViewById(R.id.tv_item_category);
         mCategory.setText(itemCategory);
     }
 
-    public void setItemDateAndTime(String dateandtime)
+    public void setItemDateAndTime(String dateandtime) {
 
-    {
-
-        TextView mDate= (TextView) view.findViewById(R.id.tv_item_date);
         mDate.setText(dateandtime);
     }
 
@@ -80,34 +86,35 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
 
 
         if (itemImageURL != null) {
-            final ImageView finalImageView = imageView;
+            final ImageView finalImageView = imageButton;
 
 
-            Log.d(TAG, "setItemImage: Picasso "+ itemImageURL);
+            Log.d(TAG, "setItemImage: Picasso " + itemImageURL);
+            setImage_circle(ctx, Uri.parse(itemImageURL), 1, finalImageView);
 
-            Picasso.with(ctx).load(Uri.parse(itemImageURL)).networkPolicy(NetworkPolicy.OFFLINE).into(imageView, new Callback() {
+
+/*
+            Picasso.with(ctx).load(Uri.parse(itemImageURL)).networkPolicy(NetworkPolicy.OFFLINE).into(imageButton, new Callback() {
                 @Override
                 public void onSuccess() {
-                    if(progressBar!=null) {
+                    if (progressBar != null) {
                         progressBar.setVisibility(View.GONE);
                     }
 
                 }
 
                 @Override
-                public void onError()
-
-                {
+                public void onError() {
                     Picasso.with(ctx).load(itemImageURL).into(finalImageView);
 
-                    if(progressBar!=null) {
+                    if (progressBar != null) {
                         progressBar.setVisibility(View.GONE);
                     }
-
 
 
                 }
             });
+*/
 
 
         }
@@ -116,69 +123,57 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setItemDetails(String itemDetails) {
-        EditText mItemDetails=(EditText)view.findViewById(R.id.et_item_details);
         mItemDetails.setText(itemDetails);
     }
+
     public void setUserImage(final Context ctx, final String userImageURL) {
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView_userImage);
-        if(userImageURL!=null)
-        {
-            setImage_circle(ctx,Uri.parse(userImageURL),1,imageView);
+        if (userImageURL != null) {
+            setImage_circle(ctx, Uri.parse(userImageURL), 1, imageView);
 
-        }
-        else {
+        } else {
             imageView.setImageDrawable(ctx.getDrawable(R.drawable.ic_account_circle_white_24dp));
         }
 
     }
-    public void setUserName(String userName) {
-        TextView mItemUserName=(TextView)view.findViewById(R.id.textView_username);
 
-        if(userName!=null)
-        {
+    public void setUserName(String userName) {
+
+        if (userName != null) {
             mItemUserName.setText(userName);
 
+        } else {
+            mItemUserName.setText(R.string.default_val_user_name);
         }
-        else {
-            mItemUserName.setText("My name.");
-           }
     }
 
-    private void setImage_circle(Context context, Uri imageURL, float thumbnail, ImageView imageView)
-    {
+
+    public String getItemTitle() {
+        return mTitle.getText().toString();
+    }
+
+    public String getItemPrice() {
+        return mItemPrice.getText().toString();
+    }
+
+    public String getItemDetails() {
+        return mItemDetails.getText().toString();
+    }
+
+
+    private void setImage_circle(Context context, Uri imageURL, float thumbnail, ImageView imageView) {
+
         Glide.with(context).load(imageURL)//TODO
                 //.bitmapTransform(new CircleTransform(context))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .transform(new CircleTransform(context))
                 .into(imageView);
 
-
-
-
-
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
-
-
-
-
-    public String getItemTitle() {
-        EditText mTitle= (EditText) view.findViewById(R.id.et_item_title);
-       return mTitle.getText().toString();
-    }
-
-    public String getItemPrice() {
-        EditText mItemPrice=(EditText) view.findViewById(R.id.et_item_price);
-        return mItemPrice.getText().toString();
-    }
-
-    public String getItemDetails() {
-        EditText mItemDetails=(EditText)view.findViewById(R.id.et_item_details);
-        return mItemDetails.getText().toString();
-    }
-
-
-
 
 }
 
