@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:title="@string/title_nav_home">
+
+        <menu>
+            <item
+                android:id="@+id/nav_home"
+                android:icon="@drawable/ic_nav_home"
+                android:title="@string/title_nav_home" />
+
+            <item
+                android:id="@+id/nav_download_vpn"
+                android:icon="@drawable/ic_nav_vpn"
+                android:title="@string/title_nav_download_vpn"
+
+                />
+
+
+
+        </menu>
+
+    </item>
+    <item android:title="@string/title_nav_manage_items">
+
+        <menu>
+            <item
+                android:id="@+id/nav_add_item"
+                android:icon="@mipmap/ic_control_point_black_24dp"
+                android:title="@string/title_add_item" />
+
+            <item
+                android:id="@+id/nav_my_items"
+                android:icon="@drawable/ic_nav_my_items"
+                android:title="@string/title_nav_my_items"
+
+                />
+            <item
+                android:id="@+id/nav_my_favorites"
+                android:icon="@drawable/ic_nav_my_favorites"
+                android:title="@string/title_nav_my_favorites"
+
+                />
+        </menu>
+
+    </item>
+
+    <item android:title="@string/title_nav_manage_alerts">
+
+        <menu>
+
+            <item
+                android:id="@+id/nav_my_notifications"
+                android:icon="@drawable/ic_nav_drawer_notifications"
+                android:iconTint="@android:color/black"
+                android:title="@string/title_nav_my_notifications"
+
+                />
+            <item
+                android:id="@+id/nav_my_subscriptions"
+                android:icon="@drawable/ic_nav_drawer_subscriptions"
+                android:iconTint="@android:color/black"
+                android:title="@string/title_nav_my_subscriptions"
+
+                />
+            <item
+                android:id="@+id/nav_add_alert"
+                android:icon="@drawable/ic_nav_add_alert"
+                android:iconTint="@android:color/black"
+                android:title="@string/title_nav_add_alert"
+
+                />
+
+        </menu>
+    </item>
+
+    <item android:title="@string/title_nav_my_account">
+        <menu>
+            <item
+                android:id="@+id/nav_edit_my_profile"
+                android:icon="@mipmap/ic_account_circle_black_24dp"
+                android:title="@string/menu_item_edit_my_profile"
+
+                />
+             <item
+                android:id="@+id/nav_forget_me"
+                android:icon="@drawable/ic_nav_forget_me"
+                android:title="@string/title_nav_forget_me"
+
+                />
+            <item
+                android:id="@+id/nav_sign_out"
+                android:icon="@drawable/icons_sign_out_24"
+                android:title="@string/sign_out"
+
+                />
+
+        </menu>
+
+    </item>
+    <item android:title="@string/title_nav_app">
+        <menu>
+            <item
+                android:id="@+id/nav_share_app"
+                android:icon="@drawable/ic_nav_share_app"
+                android:title="@string/title_nav_share_app" />
+            <item
+                android:id="@+id/nav_rate_app"
+                android:icon="@drawable/ic_nav_rate_app"
+                android:title="@string/title_nav_rate_app"
+
+                />
+            <item
+                android:id="@+id/nav_about_app"
+                android:icon="@drawable/ic_nav_about_app"
+                android:title="@string/title_nav_about_app"
+
+                />
+            <item
+                android:id="@+id/nav_about_developer"
+                android:icon="@drawable/ic_nav_about_developer"
+                android:title="@string/title_nav_about_developer"
+
+                />
+            <item
+                android:id="@+id/nav_contact_us"
+                android:icon="@drawable/ic_nav_contact_us"
+                android:title="@string/title_nav_contact_us"
+
+                />
+
+
+        </menu>
+
+    </item>
+
+
+</menu>

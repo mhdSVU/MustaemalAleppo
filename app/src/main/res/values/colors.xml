@@ -5,8 +5,9 @@
     <color name="colorAccent">@color/colorPrimaryDark</color>
 
     <color name="normal">#f7f9f8</color>
-    <color name="selcted_tab">#0F3FED</color>
+    <color name="selcted_tab">#FFFF0000</color>
     <color name="sign_in">#FEFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
 
 
     <color name="green1" >#11DA1A</color>

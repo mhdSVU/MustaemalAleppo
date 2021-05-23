@@ -1,7 +1,7 @@
 <resources>
 
     <!--app-->
-    <string name="my_app_new_name">I need I have Stuff</string>
+    <string name="my_app_name">Ineed Ihave</string>
     <string name="splash_motive1">Find best clients!</string>
     <string name="splash_motive2">Find real bargains!</string>
 
@@ -43,7 +43,7 @@
     <string name="label_sign_up">click her to sign up</string>
     <string name="label_sign_in_eml_pss">Please enter your already-created account information:</string>
     <string name="label_sign_up_eml_pss">Please complete the following form  to create a new account:</string>
-    <string name="label_ask_for_resend_code">Have not received any code?</string>
+    <string name="label_ask_for_resend_code">No code received ?</string>
     <string name="label_set_up_contact_info">Please use the following form to add or modify your \" Contact Information \"  that other users use to contact with you:</string>
 
     <string name="label_add_dispaly_image">Click above to add an avatar</string>
@@ -55,9 +55,7 @@
     <string name="label_sign_in_google_explaining">If you already have a google account you can use it to sign in by clicking on the following button. \n Otherwise, you will be involved in creating a new one.</string>
     <string name="label_item_single_desc_for_sale">The following item is for sale. In case you are interested in it, you can contact with the one who added it via email or phone.</string>
     <string name="label_item_single_desc_wanted">The following item is wanted. In case you are interested in it, you can contact with the one who added it with phone or email.</string>
-    <string name="label_extra_info">Details:</string>
-    <string name="label_category_choose">Choose suitble category</string>
-    <string name="label_city_choose">Choose city</string>
+    <string name="label_item_details">Details:</string>
     <string name="label_email_to_item_user">Send email using…</string>
 
 
@@ -104,7 +102,7 @@
     <string name="title_SIGN_IN">Sign in</string>
     <string name="title_SIGN_UP">Sign up</string>
     <string name="title_email_to_item_user">From Ineed Ihave App: As to the item %s\n</string>
-    <string name="title_nav_manage_items">Manage My items</string>
+    <string name="title_nav_manage_items">Manage Items</string>
     <string name="title_nav_add_items">Add items</string>
     <string name="title_nav_sort_items">Sort items</string>
 
@@ -117,12 +115,13 @@
     <string name="message_info_error_no_image">Sorry!This item has no image to display!</string>
     <string name="message_info_error_no_phone_number">Sorry!This user has no phone number added!\n Please you can contact with him by email.</string>
     <string name="message_info_ok_status_code_sent">Code Sent</string>
-    <string name="message_info_error_status_verification">Verification failed</string>
-    <string name="message_info_ok_status_verification">Verification succeeded</string>
+    <string name="message_info_error_status_verification">Failed</string>
+    <string name="message_info_ok_status_verification">Succeeded</string>
     <string name="message_info_error_status_sign_in">Sign-in failed</string>
     <string name="instant_validation">(instant validation)</string>
     <string name="message_info_Authenticating">Authenticating</string>
-    <string name="message_info_UPDATING_CONTACT_INFO">Updating contact information…</string>
+    <string name="message_info_signing_out">Signing out…Please check Network and/or VPN app</string>
+    <string name="message_info_UPDATING_CONTACT_INFO">Updating Contact Information…</string>
     <string name="message_error_required_fields">Fields with * are required.</string>
     <string name="message_error_no_cat_selected">No category selected</string>
     <string name="message_info_uploaded_ok">OK uploaded</string>
@@ -131,7 +130,7 @@
     <string name="message_info_added_ok_alert">Your alert has been added successfully</string>
     <string name="message_info_refreshed_ok">Refreshed!</string>
     <string name="message_info_item_saved_ok">Item saved to gallery as image its name is:\n title and price of item</string>
-    <string name="message_info_upload_error"> Error: Uploading Item Image failed!</string>
+    <string name="message_info_upload_error"> Error: Uploading Image failed!</string>
     <string name="message_error_empty_field">Field(s) cannot be empty!</string>
     <string name="message_error_phone_number">Invalid phone number.</string>
     <string name="message_info_item_remove">Item has been removed successfully</string>
@@ -153,18 +152,19 @@
     <string name="message_info_signed_in">Signed In</string>
     <string name="message_info_signed_out">Signed Out</string>
     <string name="message_alert_delete_item">The current item will be  permanently deleted.</string>
-    <string name="message_error_network_connection">Error:Please check your network connection!</string>
+    <string name="message_error_network_connection">Error: Please check your network connection and/or VPN app!</string>
     <string name="message_info_fragment_VPN_alert">You might need to have one of VPN apps installed on your device to have this app working well.Download one? </string>
+    <string name="message_info_fragment_agree_ts_and_cs_alert">In order to be able to create an account, you have to check the box to show you are agree to our Terms of Use and Privacy Policy.</string>
     <string name="msg_token_fmt">The token is %s </string>
     <string name="msg_info_subscribed_ok">Subscribed to the topic: %s</string>
     <string name="msg_info_subscribed_failed">Failed to subscribe to the topic</string>
 
 
     <!--hints-->
-    <string name="hint_user_name_contact_info">A display name</string>
-    <string name="hint_user_email_contact_info">An Email to contact with you…</string>
+    <string name="hint_user_name_contact_info">Display Name</string>
+    <string name="hint_user_email_contact_info">Your Email…</string>
     <string name="hint_phone_number_contact_info">A phone number to contact with you…</string>
-    <string name="hint_search_item">Search for items here…</string>
+    <string name="hint_search_item">Search…</string>
     <string name="hint_desc">Item details</string>
     <string name="hint_item_title">Item title*</string>
     <string name="search_hint">Search…</string>
@@ -207,7 +207,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="menu_item_set_up_my_account">Set up my account</string>
+    <string name="menu_item_set_up_my_account">Set up My Account</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -236,7 +236,7 @@
     <string name="message_info_permission_declined">Permission Declined!</string>
     <string name="title_sign_up_phone_number_verify">Phone Number Verification</string>
     <string name="hint_phone_number_code">Verification Code..</string>
-    <string name="info_phone_number_status_status">Verification in progress..</string>
+    <string name="info_phone_number_status_status">In progress..</string>
     <string name="title_fragment_sign_up">Phone Number Verification</string>
     <string name="message_error_password_doesnt_match">Passwords doesn\'t match</string>
     <string name="hint_user_password_confirm">Re-type passowrd</string>
@@ -246,10 +246,10 @@
     <string name="label_remember_mere">Remember me</string>
     <string name="hint_user_new_password_confirm">Re-type new password</string>
     <string name="hint_user_new_password">Type new password</string>
-    <string name="message_error_add_alert">Something goes wrong! Failed to add alert!</string>
+    <string name="message_error_add_alert">Failed to add alert!Please check network and/or VPN!</string>
     <string name="message_info_error_no_location">No location available!</string>
-    <string name="radio_txt_ineed">someone in need of item</string>
-    <string name="radio_txt_ihave">someone has an item</string>
+    <string name="add_alert_state_ineed">Someone in need of an item</string>
+    <string name="add_alert_state_ihave">Someone has an item</string>
     <string name="title_nav_my_notifications">My Notifications</string>
     <string name="title_nav_my_subscriptions">My Subscriptions</string>
     <string name="title_nav_add_alert">Add Alert</string>
@@ -257,7 +257,7 @@
     <string name="title_fragment_sign_out_confirm">Confirm Sign out</string>
     <string name="title_activity__maps__item__location">Map</string>
     <string name="title_nav_update_loc">Update My Location</string>
-    <string name="btn_confirm_update_location">Update My Location</string>
+    <string name="btn_confirm_update_location">Update</string>
     <string name="btn_preserve_location">Preserve My Loaction</string>
     <string name="title_fragment_update_location_confirm">Confirm Update My Location</string>
     <string name="message_alert_update_location_confirm">"Please keep in mind that alerts for items avaiable near you will be triggered according to the most recent location value. "</string>
@@ -267,6 +267,147 @@
     <string name="title_user_subscriptions">My Subscribtions</string>
     <string name="title_user_notifications">My Notifications</string>
     <string name="default_val_user_address">No address available</string>
+    <string name="btn_save">SAVE</string>
+    <string name="btn_location_show">Location</string>
+    <string name="empty" />
+    <string name="title_account_ifo">Getting Account Information</string>
+    <string name="underScore">_</string>
+    <string name="in">" in "</string>
+    <string name="title_subscribtion_ineed">My Subscriptions for ordered items:</string>
+    <string name="title_subscribtion_ihave">My Subscriptions for available items:</string>
+    <string name="notification_des_added">"Added "</string>
+    <string name="notification_des_on">\n On </string>
+    <string name="space">" "</string>
+    <string translatable="false" name="tag_fragment_remove">removeDialogFragment</string>
+    <string name="forward_slash">/</string>
+    <string name="new_line">\n</string>
+    <string name="scheme">tel</string>
+    <string name="message_error_item_no_address">Sorry, this Item has no address provided!</string>
+    <string name="item_share_intro">From Ineed Ihave App:\n I found this item, you can have a look on it:\n </string>
+    <string name="item_share_price">"Its price is: "</string>
+    <string name="item_share_chooser_title">Share Item via</string>
+    <string name="title_position_current">Current Position</string>
+    <string name="message_error_no_address">No Address Available.</string>
+    <string name="message_info_loc_preserved">Your location preserved!</string>
+    <string name="item_notification_state_hint_ihave">Item for sale</string>
+    <string name="item_notification_state_hint_ineed">Item needed</string>
+    <string name="item_notification_extra_ineed">New needed items added!</string>
+    <string name="item_notification_style_title">New items</string>
+    <string name="item_notification_extra_ihave">New available items added!</string>
+    <string name="message_info_error_information_missing">Please first provide information needed!</string>
+    <string name="message_info_notification_preserved">Notification Preserved!</string>
+    <string name="message_info_favorite_preserved">Favorite Item Preserved!</string>
+    <string name="message_info_alert_preserved">Alert Preserved!</string>
+    <string name="message_ifo_add_alert_no">No Alert Added!</string>
+    <string name="message_error_sign_in_phone_number">Invalid Phone Number</string>
+    <string name="message_error_password">Invalid Password</string>
+    <string name="message_error_sign_out">Unable to sign out.Please check network and/or VPN!</string>
+    <string name="message_info_loc_updated">Location Updated!</string>
+    <string name="symbol_syrian_pound">S.P.</string>
+    <string name="add_alert_as_following">as the following:</string>
+    <string name="label_verification_status">Verification Status:</string>
+    <string name="label_review_phone_number">Review Phone Number</string>
+    <string name="welcome">Welcome</string>
+    <string name="label_loc_default">Default Location: </string>
+    <string name="label_password_updated">Password Updated!</string>
+    <string name="message_info_password_updated">Your password has been updated successfully.</string>
+    <string name="btn_password_reset_proceed">Proceed to Sign in</string>
+    <string name="message_error_item_not_found">Sorry, page not found! Item may have been delted!</string>
+    <string name="rb_add_item_ihave">I have this item</string>
+    <string name="rb_add_item_ineed">I need this item</string>
+    <string name="rb_add_item_loc_default">Default Location</string>
+    <string name="rb_add_item_loc_current">Current Location</string>
+    <string name="btn_sign_up">Sign Up</string>
+    <string name="tv_have_account">Already Have an Account?</string>
+    <string name="btn_sign_in">Sign in</string>
+    <string name="btn_confirm_reset_password">Confirm Reset Password</string>
+    <string name="tv_remembered_Password">Just remembered your old password?</string>
+    <string name="btn_cancel_reset_password">Cancel Reset Password</string>
+    <string name="tv_forgot_password_lable">Forgot Password</string>
+    <string name="tv_forgot_password_details">Please enter your phone number. An OTP SMS will be sent to this number.:</string>
+    <string name="btn_password_reset_start">Start Reset Password</string>
+    <string name="title_nav_my_items">My Items</string>
+    <string name="desc_img_user">User Image</string>
+    <string name="item_share_call">\n Feel free to call:  </string>
+    <string name="item_share_loc">You can find location here:</string>
+    <string name="item_share_state_ineed">needs the following item:</string>
+    <string name="item_share_state_ihave">has the following item:</string>
+    <string name="message_error_loc_cuurent">Unable to get current location!</string>
+    <string name="btn_retry">Retry</string>
+    <string name="btn_start_verify_phone_auth">Start Verification</string>
+    <string name="btn_cancel_verification">Cancel Verification</string>
+    <string name="message_error_sign_up">Sing Up Failed!</string>
+    <string name="title_nav_home">Home</string>
+    <string name="title_nav_manage_alerts">Manage Alerts</string>
+    <string name="message_info_no_subscriptions">You don\'t have any subscription yet!</string>
+    <string name="title_notification_place_holders">&lt;b> %1$s &lt;/b> %2$s %3$s &lt;b> %4$s &lt;/b></string>
+    <string name="notification_add_state_ihave">has</string>
+    <string name="notification_add_state_ineed">needs</string>
+    <string name="action_title_notifications">Notifications</string>
+    <string name="message_info_no_notifications">You don\'t have any notifications yet!</string>
+    <string name="title_fragment_delete_notification">Delete Notification</string>
+    <string name="title_fragment_delete_favorite">Delete Favorite Item</string>
+    <string name="messag_info_fragment_notification_delete">This notification will be deleted permanently</string>
+    <string name="messag_info_fragment_favorite_delete">This favorite item will be deleted permanently</string>
+    <string name="btn_delete">Delete</string>
+    <string name="message_info_adding_alert">Please wait, it might take some time depending on your network connection speed…</string>
+    <string name="message_info_removing_alert">Please wait, it might take some time depending on your network connection speed…</string>
+    <string name="title_nav_adding_alert">Adding Alert</string>
+    <string name="message_info_error_no_location_click_to_update_loc">No location available! \n Click to update location</string>
+    <string name="title_nav_download_vpn">Download VPN</string>
+    <string name="title_nav_forget_me">Forget Me</string>
+    <string name="message_info_fragment_forget_me">Your phone number and password will be removed from this device. They won\'t be automatically entered when you sign in again later.</string>
+    <string name="title_fragment_forget_me">Forget My Account</string>
+    <string name="btn_forget_me">Forget Me</string>
+    <string name="btn_keep_remember_me">Keep Remember Me</string>
+    <string name="message_info_forget_me">Your Phone Number and Password have been removed from this device. You have to manually enter then next time.</string>
+    <string name="message_error_too_many_requests">Blocked due to too many consective requests from this device so far! Please try again later.</string>
+    <string name="message_error_network_connection_short">Network / VPN problem.</string>
+    <string name="message_error_password_weak">Weak Password! Passowrd should be at least six chars.</string>
+    <string name="message_error_already_registered">This phone number is linked to an existing account.</string>
+    <string name="message_error_already_registered_short">Number already used.</string>
+    <string name="message_error_password_too_short">"Too Short Password. It should be six chars at least. "</string>
+    <string name="title_report_user">Report a User</string>
+    <string name="title_nav_my_account">My Account</string>
+    <string name="title_nav_additional">Additional Tasks</string>
+    <string name="menu_item_edit_my_profile">Edit My Profile</string>
+    <string name="message_info_fragment_report_user">A report containing the provided information will be sent directly to the Admin.</string>
+    <string name="btn_report">Report</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="rb_inappropriate_content">Inappropriate Content</string>
+    <string name="rb_misleading_fraud">Misleading or Fraud Content</string>
+    <string name="rb_violence_bad_communication">Violence or Bad Communication.</string>
+    <string name="tv_report_label">Report the user who has added this item  to Ineed Ihave?</string>
+    <string name="tv_report_des">Last added items by this user will forwarded to Ineed Ihave along with your feedback.</string>
+    <string name="hint_phone_number_reported">Enter his/her phone number</string>
+    <string name="message_info_report_user">Your report has been submitted successfully!</string>
+    <string name="message_info_no_report">No Report Submitted</string>
+    <string name="action_report">Report Item</string>
+    <string name="message_error_sign_in_reported_user">Your account has been locked for inappropriate content.</string>
+    <string name="message_error_reported_already">You have aready reported this user!</string>
+    <string name="tv_report_feedbac">Please select a reason for reporting :</string>
+    <string name="message_error_reached_max">You have reached the maximum allowed number of reports!</string>
+    <string name="title_nav_my_favorites">My Favorites</string>
+    <string name="cb_agree_ts_and_cs">I have read and agree to the  %1$s and %2$s .</string>
+    <string name="Got_IT">Got it</string>
+    <string name="title_fragment_Agree_Ts_and_Cs_alert">Terms of Use and Privacy Policy</string>
+    <string name="title_nav_share_app">Share App</string>
+    <string name="title_nav_app">Ineed Ihave App</string>
+    <string name="title_nav_about_app">About App</string>
+    <string name="title_nav_about_developer">About Developer</string>
+    <string name="title_nav_rate_app">Rate App</string>
+    <string name="title_nav_contact_us">Contact Us</string>
+    <string name="message_error_rate_app">Sorry! Rating app is unavailable right now!</string>
+    <string name="developer_name">" Eng.Mohammed Youser Sawwas"</string>
+    <string name="tv_all_rights">All Rights Reserved for:</string>
+    <string name="app_version">Version 1.1 Beta</string>
+    <string name="developer_info">Software Engineer - Android Developer\n mohammedyousersawwas@gmail.com\n(+963) 962938872</string>
+    <string name="add_alert_in">In City:</string>
+    <string name="add_alert_of">Of Category:</string>
+    <string name="add_alert_less_than">Equal or less than:</string>
+    <string name="add_alert_with_price">With Price:</string>
+    <string name="add_alert_not_less_than">Equal or more than:</string>
+    <string name="add_alert_not_more_far">Not more far of my location than:</string>
 
 
     <!--currently never used-->

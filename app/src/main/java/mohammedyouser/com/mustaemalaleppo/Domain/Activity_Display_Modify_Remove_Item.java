@@ -21,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.provider.MediaStore;
@@ -28,6 +30,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,8 +39,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,7 +48,6 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.jrummyapps.android.animations.Technique;
@@ -65,49 +65,56 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
-import mohammedyouser.com.mustaemalaleppo.Activity_Maps_Item_Location;
-import mohammedyouser.com.mustaemalaleppo.Data.MyViewHolder;
+import mohammedyouser.com.mustaemalaleppo.Data.ViewHolder_Item_Display_Edit;
+import mohammedyouser.com.mustaemalaleppo.Device.Activity_Maps_Item_Location;
 import mohammedyouser.com.mustaemalaleppo.R;
+import mohammedyouser.com.mustaemalaleppo.UI.Fragment_Dialog_Report_User;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
 
 
-public class Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
+public class
+Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
 
+    private static final String TAG_FRAGMENT_ITEM_REMOVE = "removeItemFragment";
+    private static final int REQUEST_READ_PERMISSION_ITEM_SHARE = 700;
     private boolean edit_state = false;
     private File myDir;
 
     private Uri uri_itemImg;
     private Bitmap bitmap;
 
-    private MyViewHolder viewHolder;
-    private TextView mSingleItemLabel;
+    private ViewHolder_Item_Display_Edit viewHolder;
+    private TextView m_TV_ItemLabel;
     private ImageButton img_btn_itemImage;
 
 
     private String userID;
-
     private String item_ID;
-    private DatabaseReference item_DB_Ref;
     private String item_city;
     private String item_category;
     private String item_userID;
-    private DatabaseReference item_user_DB_Ref;
     private String item_userEmail;
-    private String item_userPhoneNumber;
+    private String item_user_PhoneNumber;
+    private String notificationValue;
 
+
+    private DatabaseReference item_user_DB_Ref;
+    private DatabaseReference item_DB_Ref;
     private DatabaseReference db_ref_final;
     private DatabaseReference db_ref_items;
     private DatabaseReference db_ref_users;
     private DatabaseReference db_ref_currentUser_items;
-    private DatabaseReference db_root_userIDs_notifications;
+    private DatabaseReference db_root_usersIDs_notifications;
     private DatabaseReference db_root_tokens_notifications;
     private DatabaseReference db_root;
 
 
     private StorageReference storageReference_currentUser;
+    private StorageReference storageReference_item_img;
+
     private ValueEventListener selectedItem_db_ref_listener;
     private ValueEventListener selectedItem_db_ref_listener_img;
     private String str_uri_itemImg;
@@ -115,13 +122,22 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
     private ImageButton img_btn_send_sms;
     private ImageButton img_btn_whatsapp;
     private ImageButton img_btn_share;
-    private ImageButton img_btn_show_on_map;
+    private ImageButton img_btn_share_backgroun;
+    private Button img_btn_show_on_map;
     private ValueEventListener selectedItem_db_ref_listener_itemImage;
     private Bundle bundle;
     private boolean isAvl = true;
     private BroadcastReceiver receiver;
     private LocalBroadcastManager broadcaster;
     private boolean mItemFound = true;
+    private double itemLat;
+    private double itemLong;
+    private Uri itemImageUriShare;
+    private String itemState;
+    private String itemState_share;
+    private TextView mItemUserName;
+    private DatabaseReference db_Ref_SelectedItem;
+    Long notifications_count = 0L;
 
 
     @Override
@@ -134,15 +150,15 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
     }
 
-    private void reactToIntent(Bundle bundle) {
+    private DatabaseReference reactToIntent(Bundle bundle) {
         //check for nullity
-        if (bundle == null) return;
+        if (bundle == null) return null;
         if (bundle.containsKey(INTENT_KEY_SOURCE)) {
-            getSelectedItem_DB_Ref(
+            db_Ref_SelectedItem = get_SelectedItem_DB_Ref(
                     bundle.getString(INTENT_KEY_ITEM_ID),
-                    bundle.getString(INTENT_KEY__PATH_STATE),
-                    bundle.getString(INTENT_KEY_ITEM_CITY),
-                    bundle.getString(INTENT_KEY_ITEM_CAT)).runTransaction(new Transaction.Handler() {
+                    bundle.getString(INTENT_KEY__PATH_STATE));
+            Log.d(TAG, "reactToIntent: " + bundle.getString(INTENT_KEY_ITEM_ID));
+            db_Ref_SelectedItem.runTransaction(new Transaction.Handler() {
                 @NonNull
                 @Override
                 public Transaction.Result doTransaction(@NonNull MutableData currentData) {
@@ -172,46 +188,84 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
             }
             if (!mItemFound) {
                 update_UI_no_content();
-                return;
+                return null;
             }
 
             Log.d(TAG, "reactToIntent: INTENT_KEY_SOURCE ");
-            populateWithSelectedItem(getSelectedItem_DB_Ref(
+            populateWithSelectedItem(get_SelectedItem_DB_Ref(
                     bundle.getString(INTENT_KEY_ITEM_ID),
+                    bundle.getString(INTENT_KEY__PATH_STATE)));
+
+            decrementUserNotificationsCount(
                     bundle.getString(INTENT_KEY__PATH_STATE),
-                    bundle.getString(INTENT_KEY_ITEM_CITY),
-                    bundle.getString(INTENT_KEY_ITEM_CAT)));
+                    bundle.getString(INTENT_KEY_TOPIC),
+                    bundle.getString(INTENT_KEY_NOTIFICATION_ID));
             setNotificationFlagOpened(
                     bundle.getString(INTENT_KEY__PATH_STATE),
                     bundle.getString(INTENT_KEY_TOPIC),
                     bundle.getString(INTENT_KEY_NOTIFICATION_ID));
 
         } else {
-            populateWithSelectedItem(getSelectedItem_DB_Ref(
+            db_Ref_SelectedItem = get_SelectedItem_DB_Ref(
                     bundle.getString(INTENT_KEY_ITEM_ID),
-                    bundle.getString(INTENT_KEY__PATH_STATE),
-                    bundle.getString(INTENT_KEY_ITEM_CITY),
-                    bundle.getString(INTENT_KEY_ITEM_CAT)));
+                    bundle.getString(INTENT_KEY__PATH_STATE));
+            populateWithSelectedItem(db_Ref_SelectedItem);
         }
 
-
+        return db_Ref_SelectedItem;
     }
 
     private void update_UI_no_content() {
-        findViewById(R.id.fl_no_content).setVisibility(View.VISIBLE);
-        findViewById(R.id.fl_no_content).setBackgroundColor(getColor(R.color.grey_100));
+        findViewById(R.id.fl_main_subscription).setVisibility(View.VISIBLE);
+        findViewById(R.id.fl_main_subscription).setBackgroundColor(getColor(R.color.grey_100));
         findViewById(R.id.ll_no_content).setVisibility(View.VISIBLE);
         Log.d(TAG, "update_UI_no_content: ");
 
     }
 
     private void setNotificationFlagOpened(String state, String topicID, String notificationID) {
-        db_root_userIDs_notifications.child(userID).child(state).child(topicID).child(notificationID).runTransaction(new Transaction.Handler() {
+        db_root_usersIDs_notifications.child(userID).child(state).child(topicID).child(notificationID).runTransaction(new Transaction.Handler() {
             @NonNull
             @Override
             public Transaction.Result doTransaction(@NonNull MutableData currentData) {
                 if (currentData.getValue() != null) {
                     currentData.setValue(false);
+                    Log.d(TAG, "doTransaction:1 " + notifications_count);
+
+                    db_root_usersIDs_notifications.child(userID).child(PATH_NOTIFICATIONS_COUNT).runTransaction(new Transaction.Handler() {
+                        @NonNull
+                        @Override
+                        public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                            if (currentData.getValue() != null) {
+                                Log.d(TAG, "doTransaction:2 " + notifications_count);
+
+                                notifications_count = currentData.getValue(Long.class);
+                                if (notifications_count != null) {
+                                    notifications_count = notifications_count - 1;
+                                } else {
+                                    notifications_count = 0L;
+
+                                }
+                                currentData.setValue(notifications_count);
+                                Log.d(TAG, "doTransaction:3 " + notifications_count);
+                                return Transaction.success(currentData);
+                            }
+
+
+                            return Transaction.abort();
+                        }
+
+                        @Override
+                        public void onComplete(@com.google.firebase.database.annotations.Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                            if (committed) {
+                                // unique key saved
+                                Log.d(TAG, "onComplete: " + "unique key saved");
+                            } else {
+                                // unique key already exists
+
+                            }
+                        }
+                    });
 
                     return Transaction.success(currentData);
                 }
@@ -242,9 +296,59 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
     }
 
+    private void decreaseCount(String notificationValue) {
+        if (notificationValue.equals("true")) {
+            db_root.child(PATH_USERS).child(userID).child(PATH_NOTIFICATIONS_COUNT).runTransaction(new Transaction.Handler() {
+                @NonNull
+                @Override
+                public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                    Integer notifications_count = 0;
+                    if (currentData.getValue() == null) {
+                        return Transaction.success(currentData);
+                    }
+
+                    notifications_count = currentData.getValue(Integer.class);
+                    currentData.setValue(--notifications_count);
+
+                    return Transaction.success(currentData);
+                }
+
+                @Override
+                public void onComplete(@com.google.firebase.database.annotations.Nullable DatabaseError error, boolean committed, @com.google.firebase.database.annotations.Nullable DataSnapshot currentData) {
+                    if (committed) {
+                        // unique key saved
+                        Log.d("TAG", "onComplete: " + "unique key saved3");
+                    } else {
+                        // unique key already exists
+                    }
+                }
+            });
+        }
+
+    }
+
+    private void decrementUserNotificationsCount(String state, String topic, String notificationID) {
+        db_root_usersIDs_notifications.child(userID).child(state).child(topic).child(notificationID)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        notificationValue = String.valueOf(snapshot.getValue());
+                        decreaseCount(notificationValue);
+                        Log.d(TAG, "notificationValue: " + notificationValue);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+    }
+
     private void populateWithSelectedItem(DatabaseReference selectedItem_db_ref) {
 
-        findViewById(R.id.fl_no_content).setVisibility(View.GONE);
+        findViewById(R.id.fl_main_subscription).setVisibility(View.GONE);
         findViewById(R.id.ll_no_content).setVisibility(View.GONE);
 
         setUpViews();
@@ -260,8 +364,8 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
                     viewHolder.setItemPrice((String) dataSnapshot.child(PATH_ITEM_PRICE).getValue());
                     viewHolder.setItemCity((String) dataSnapshot.child(PATH_ITEM_CITY).getValue());
                     viewHolder.setItemCategory((String) dataSnapshot.child(PATH_ITEM_CATEGORY).getValue());
-                    viewHolder.setItemDateAndTime((String) dataSnapshot.child(PATH_ITEM_DATE_AND_TIME).getValue());
-                    //  viewHolder.setItemImage(Display_and_Manage_SingleItem_Activity.this, (String) dataSnapshot.child(PATH_ITEM_IMAGE).getValue());
+                    viewHolder.setItemDateAndTime(TimeAgo.getTimeAgo(-(dataSnapshot.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue(Long.class))));
+                   if(! String.valueOf(dataSnapshot.child(PATH_ITEM_DETAILS).getValue()).equals("null"))
                     viewHolder.setItemDetails((String) dataSnapshot.child(PATH_ITEM_DETAILS).getValue());
 
 /*
@@ -324,14 +428,13 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
     }
 
     private void openItemImage(DatabaseReference selectedItem_db_ref) {
-        Log.d(TAG, "populateWithSelectedItem: " + String.valueOf(selectedItem_db_ref));
         if (selectedItem_db_ref != null) {
 
             selectedItem_db_ref_listener_itemImage = selectedItem_db_ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    openItemImageInGallery((String) dataSnapshot.child(PATH_ITEM_IMAGE).getValue());
+                    openItemImageInGallery(String.valueOf(dataSnapshot.child(PATH_ITEM_IMAGE).getValue()));
                     selectedItem_db_ref.removeEventListener(selectedItem_db_ref_listener_itemImage);
                 }
 
@@ -353,22 +456,94 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
         initialize_User_LocalDir();
 
         initializeAuthenticationRef();
+        reactToIntent(getIntent().getExtras());
         initializeDatabaseRefs();
         initializeStorageRef();
-
+        initialize_item_loc_value();
+        initialize_item_state_value();
         setUpToolBar();
+        initialize_item_state_label_value(db_Ref_SelectedItem);
 
+    }
 
-        reactToIntent(getIntent().getExtras());
+    private void initialize_item_state_label_value(DatabaseReference db_Ref_SelectedItem) {
+        mItemUserName = (TextView) findViewById(R.id.textView_username);
+        m_TV_ItemLabel = findViewById(R.id.textView_lable_item);
+
+        db_Ref_SelectedItem.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                db_ref_users.child(String.valueOf(dataSnapshot.child(PATH_ITEM_USER_ID).getValue())).child(PATH_USER_NAME).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        m_TV_ItemLabel.setText(String.valueOf(snapshot.getValue()) + getString(R.string.space) + itemState_share);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void initialize_item_state_value() {
+        if (itemState.equals(PATH_IHAVE)) {
+
+            itemState_share = getString(R.string.item_share_state_ihave);
+
+        } else {
+            itemState_share = getString(R.string.item_share_state_ineed);
+        }
+
+    }
+
+    private void initialize_item_loc_value() {
+        db_Ref_SelectedItem.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()).equals("0")) ||
+                        (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()).equals("0"))
+                        || ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()).equals("null")) ||
+                        (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()).equals("null")))) {
+                    //  Toast.makeText(getBaseContext(), getString(R.string.message_error_item_no_address), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()) == null) || (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue())) == null) {
+                    //  Toast.makeText(getBaseContext(), getString(R.string.message_error_item_no_address), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                itemLat = Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()));
+                itemLong = Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void initialize_User_LocalDir() {
 
         String root = String.valueOf(getFilesDir());
         if (getItemStateFlag())
-            myDir = new File(root + "/Pictures" + "/MyStuffApp/" + PATH_INEED);
+            myDir = new File(root + "/Pictures/" + getString(R.string.my_app_name) + getString(R.string.forward_slash) + PATH_INEED);
+
         else if (!(getItemStateFlag())) {
-            myDir = new File(root + "/Pictures" + "/MyStuffApp/" + PATH_IHAVE);
+            myDir = new File(root + "/Pictures/" + getString(R.string.my_app_name) + getString(R.string.forward_slash) + PATH_IHAVE);
+
 
         }
 
@@ -389,9 +564,8 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
     }
 
     private void setUpViews() {
-        mSingleItemLabel = findViewById(R.id.textView_label_single_item);
         View mRootView = findViewById(R.id.rootView);
-        viewHolder = new MyViewHolder(mRootView);
+        viewHolder = new ViewHolder_Item_Display_Edit(mRootView);
 
         //setUpLabel(item_State);
 
@@ -406,6 +580,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
         img_btn_send_sms = findViewById(R.id.imageButton_user_send_sms);
         img_btn_whatsapp = findViewById(R.id.imageButton_user_whatsapp);
         img_btn_share = findViewById(R.id.img_btn_itemImage_share);
+        img_btn_share_backgroun = findViewById(R.id.img_btn_itemImage_share_background);
         img_btn_itemImage = findViewById(R.id.img_btn_itemImage);
         img_btn_show_on_map = findViewById(R.id.img_btn_show_on_map);
 
@@ -414,6 +589,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
         img_btn_itemImage.setOnClickListener(this);
         img_btn_whatsapp.setOnClickListener(this);
         img_btn_share.setOnClickListener(this);
+        img_btn_share_backgroun.setOnClickListener(this);
         img_btn_show_on_map.setOnClickListener(this);
 
 
@@ -437,6 +613,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
         storageReference_currentUser = FirebaseStorage.getInstance().getReferenceFromUrl(CODE_FIREBASE_STORAGE_REF);
     }
 
+
     private void initializeDatabaseRefs() {
 
         db_root = FirebaseDatabase.getInstance().getReference();
@@ -445,7 +622,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
         db_ref_users = db_root.child(PATH_USERS);
         db_ref_currentUser_items = db_root.child(PATH_USER_ITEMS);
 
-        db_root_userIDs_notifications = db_root.child(PATH_USERIDS_NOTIFICATIONS);
+        db_root_usersIDs_notifications = db_root.child(PATH_USERIDS_NOTIFICATIONS);
         db_root_tokens_notifications = db_root.child(PATH_TOKENS_NOTIFICATIONS);
 
         item_ID = getItemID();
@@ -460,12 +637,13 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
         if (item_ID != null && item_State != null && item_Category != null) {
 
             // getting the DB_Ref of the "selectedItem"  by providing the path data i.e. item_ID,item_State,item_City and item_Category.
-            item_DB_Ref = getSelectedItem_DB_Ref(item_ID, item_State, item_City, item_Category);
+            item_DB_Ref = get_SelectedItem_DB_Ref(item_ID, item_State);
 
         }
-
+        itemState = getIntent().getExtras().getString(INTENT_KEY__PATH_STATE);
 
     }
+
 
     private void setItemImage(Uri uri) {
         try {
@@ -487,7 +665,6 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
                 Log.d(TAG, "getItemID: " + getIntent().getExtras().getString(INTENT_KEY_ITEM_ID));
             return getIntent().getExtras().getString(INTENT_KEY_ITEM_ID);
         }
-        Toast.makeText(this, "In the name of Allah", Toast.LENGTH_LONG).show();
         return null;
     }
 
@@ -500,12 +677,12 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
 
         if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_INEED)) {
+            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_items.child(PATH_INEED).child(item_city).child(item_category);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_IHAVE)) {
+            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_items.child(PATH_IHAVE).child(item_city).child(item_category);
@@ -520,12 +697,12 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
 
         if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_INEED)) {
+            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_items.child(PATH_INEED).child(PATH_ALL_CITIES).child(item_category);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_IHAVE)) {
+            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_items.child(PATH_IHAVE).child(PATH_ALL_CITIES).child(item_category);
@@ -540,12 +717,12 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
 
         if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_INEED)) {
+            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_items.child(PATH_INEED).child(item_city).child(PATH_ALL_CATEGORIES);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_IHAVE)) {
+            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_items.child(PATH_IHAVE).child(item_city).child(PATH_ALL_CATEGORIES);
@@ -561,13 +738,13 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
         if (getIntent() != null) {
 
-            if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_INEED)) {
+            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_items.child(PATH_INEED).child(PATH_ALL_ITEMS);
                 Log.d(TAG, "getDB_Ref_AlItems 11: " + db_ref_final);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_IHAVE)) {
+            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_items.child(PATH_IHAVE).child(PATH_ALL_ITEMS);
@@ -585,12 +762,12 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
 
         if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_INEED)) {
+            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_INEED).child(item_city).child(item_category).child(PATH_USERS_IDS).child(userID);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_IHAVE)) {
+            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_IHAVE).child(item_city).child(item_category).child(PATH_USERS_IDS).child(userID);
@@ -605,12 +782,12 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
 
         if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_INEED)) {
+            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_INEED).child(PATH_ALL_CITIES).child(item_category).child(PATH_USERS_IDS).child(userID);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_IHAVE)) {
+            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_IHAVE).child(PATH_ALL_CITIES).child(item_category).child(PATH_USERS_IDS).child(userID);
@@ -625,12 +802,12 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
 
         if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_INEED)) {
+            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_INEED).child(item_city).child(PATH_ALL_CATEGORIES).child(PATH_USERS_IDS).child(userID);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_IHAVE)) {
+            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_IHAVE).child(item_city).child(PATH_ALL_CATEGORIES).child(PATH_USERS_IDS).child(userID);
@@ -645,12 +822,12 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
 
         if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_INEED)) {
+            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_INEED).child(PATH_ALL_ITEMS).child(PATH_USERS_IDS).child(userID);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_IHAVE)) {
+            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_IHAVE).child(PATH_ALL_ITEMS).child(PATH_USERS_IDS).child(userID);
@@ -661,19 +838,15 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
         return db_ref_final;
     }
 
-    private DatabaseReference getSelectedItem_DB_Ref(String item_ID, String item_State, String item_City, String item_Category) {
+    private DatabaseReference get_SelectedItem_DB_Ref(String item_ID, String item_State) {
 
-        if (item_City.equals(PATH_ALL_CITIES) && item_Category.equals(PATH_ALL_CATEGORIES)) {
-
-            item_DB_Ref = db_ref_items.child(item_State).child(PATH_ALL_ITEMS).child(item_ID);
-
-        } else {
-
-            item_DB_Ref = db_ref_items.child(item_State).child(item_City).child(item_Category).child(item_ID);
-        }
+        db_root = FirebaseDatabase.getInstance().getReference();
+        db_ref_items = db_root.child(PATH_ITEMS);
+        db_root_usersIDs_notifications = db_root.child(PATH_USERIDS_NOTIFICATIONS);
 
 
-        return item_DB_Ref;
+        return item_DB_Ref = db_ref_items.child(item_State).child(PATH_ALL_ITEMS).child(item_ID);
+
     }
 
     //...getting DB references end
@@ -684,7 +857,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
     private StorageReference getImgStorageRef() {
 
-        return storageReference_currentUser.child(PATH_STORAGE_USERS_PICTURES).child(userID);
+        return storageReference_currentUser.child(PATH_STORAGE_USERS_PICTURES).child(userID).child(getItemID());
     }
 
     //...getting Storage references end
@@ -700,7 +873,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                     checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
             ) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION_ITEM_MODIFY);
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION_ITEM_CLICK_IMG);
             } else {
                 upload_itemImg_and_data();
             }
@@ -722,13 +895,22 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
             Log.d("perms", "perms granted");
             openItemImage(item_DB_Ref);
 
-        } else {
+        } else if (requestCode == REQUEST_READ_PERMISSION_ITEM_SHARE &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            Log.d("perms", "perms granted");
+
+            shareItemImage(get_Item_Description_for_Share(itemState_share));
+
+        }
+       /* else {
             Log.d("perms", "perms not granted");
 
             Toast.makeText(Activity_Display_Modify_Remove_Item.this, getString(R.string.message_info_permission_declined), Toast.LENGTH_SHORT).show();
 
-        }
+        }*/
     }
+
 
     private void upload_itemImg_and_data() {
         if (uri_itemImg != null) {
@@ -741,7 +923,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
                     })
                     .addOnFailureListener(e ->
-                            Toast.makeText(Activity_Display_Modify_Remove_Item.this, getResources().getString(R.string.message_info_modifing_error) + "\n" + e.toString(), Toast.LENGTH_LONG).show())
+                            Toast.makeText(Activity_Display_Modify_Remove_Item.this, getResources().getString(R.string.message_info_modifing_error) + getString(R.string.new_line) + e.toString(), Toast.LENGTH_LONG).show())
                     .addOnCompleteListener(task -> hideProgressDialog());
         } else {
             manage_modifyItem_state(null);
@@ -753,7 +935,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
     //Entry point modification method
     public void manage_modifyItem_state(Uri uri_itemImg_download) {// main method for 'save' modification button
-
+        itemImageUriShare = uri_itemImg_download;
         if (item_city.equals(PATH_ALL_CITIES)
                 && item_category.equals(PATH_ALL_CATEGORIES)) {
 
@@ -940,14 +1122,14 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
         FragmentManager fragmentManager = getFragmentManager();
 
 
-        Fragment fragment = fragmentManager.findFragmentByTag("removeItemFragment");
+        Fragment fragment = fragmentManager.findFragmentByTag(TAG_FRAGMENT_ITEM_REMOVE);
         if (fragment != null) {
             fragmentManager.beginTransaction().remove(fragment).commit();
         }
 
 
-        RemoveItem_AlertDialogFragment removeItemAlertDialogFragment = new RemoveItem_AlertDialogFragment();
-        removeItemAlertDialogFragment.show(fragmentManager, "removeItemFragment");
+        Fragment_Dialog_RemoveItem_Alert removeItemAlertDialogFragment = new Fragment_Dialog_RemoveItem_Alert();
+        removeItemAlertDialogFragment.show(fragmentManager, TAG_FRAGMENT_ITEM_REMOVE);
 
 
     }
@@ -983,7 +1165,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
                 if (phoneNumber != null) {
                     Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
-                            "tel", phoneNumber, null));
+                            getString(R.string.scheme), phoneNumber, null));
                     startActivity(phoneIntent);
                 } else {
                     Toast.makeText(this, getString(R.string.message_info_error_no_phone_number), Toast.LENGTH_LONG).show();
@@ -1025,14 +1207,18 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
                 String subject = ((EditText) viewHolder.itemView.findViewById(R.id.et_item_title)).getText().toString();
                 String str_msg_watsapp_ = getString(R.string.title_email_to_item_user, subject) + getString(R.string.default_val_content_email_to_item_user, subject);
-                contactViaWhatsapp(get_selectedItem_userPhoneNumber(item_user_DB_Ref), str_msg_watsapp_);
+                contact_via_Whatsapp(get_selectedItem_userPhoneNumber(item_user_DB_Ref), str_msg_watsapp_);
 
             }
             break;
             case R.id.img_btn_itemImage_share: {
 
+                manageShareItemImagePerm();
+            }
+            break;
+            case R.id.img_btn_itemImage_share_background: {
 
-                shareItemImage(create_ItemImage_File(), getItemDescriptionforShare());
+                manageShareItemImagePerm();
             }
             break;
 
@@ -1077,10 +1263,20 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Intent intent = new Intent(Activity_Display_Modify_Remove_Item.this, Activity_Maps_Item_Location.class);
                         if ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()).equals("0")) ||
-                                (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()).equals("0"))) {
-                            Toast.makeText(getBaseContext(), "Sorry, this Item has no address provided!", Toast.LENGTH_SHORT).show();
+                                (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()).equals("0"))
+                                || ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()).equals("null")) ||
+                                (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()).equals("null")))) {
+                            Toast.makeText(getBaseContext(), getString(R.string.message_error_item_no_address), Toast.LENGTH_SHORT).show();
                             return;
                         }
+                        if ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()) == null) || (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue())) == null) {
+                            Toast.makeText(getBaseContext(), getString(R.string.message_error_item_no_address), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        itemLat = Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()));
+                        itemLong = Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()));
+
                         intent.putExtra(INTENT_KEY_ITEM_LAT, Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue())));
                         intent.putExtra(INTENT_KEY_ITEM_LONG, Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue())));
                         startActivity(intent);
@@ -1099,14 +1295,28 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
     }
 
-    private String getItemDescriptionforShare() {
-        String subject = "From Ineed Ihave Stuff App: I found this item, you can have a look on it: " + ((EditText) viewHolder.itemView.findViewById(R.id.et_item_title)).getText().toString() + "\n" +
+    private String get_Item_Description_for_Share(String itemState) {
+        String[] s = String.valueOf(m_TV_ItemLabel.getText()).split(itemState_share);
 
-                "Its price is: " + ((EditText) viewHolder.itemView.findViewById(R.id.et_item_price)).getText().toString();
+        String uri_loc = "http://maps.google.com/maps?saddr=Current%20Location&daddr=" + itemLat + "," + itemLong;
+        String subject = getString(R.string.item_share_intro) +
+
+                s[0] + getString(R.string.space) +
+                itemState + getString(R.string.new_line) + ((EditText) viewHolder.itemView.findViewById(R.id.et_item_title))
+                .getText() +
+                getString(R.string.new_line) +
+                getString(R.string.in) + getString(R.string.space) + item_city + getString(R.string.new_line) +
+                getString(R.string.item_share_price) + ((EditText) viewHolder.itemView.findViewById(R.id.et_item_price)).getText() +
+                getString(R.string.new_line) +
+                getString(R.string.item_share_loc) + getString(R.string.space) + uri_loc +
+                getString(R.string.new_line) +
+
+                getString(R.string.item_share_call) + item_user_PhoneNumber;
         return subject;
     }
 
-    private void contactViaWhatsapp(String item_userPhoneNumber, String item_data) {
+
+    private void contact_via_Whatsapp(String item_userPhoneNumber, String item_data) {
 
 
         try {
@@ -1117,15 +1327,10 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
             i.setData(Uri.parse(url));
             if (i.resolveActivity(packageManager) != null) {
                 startActivity(i);
-            } else {
-                Toast.makeText(this, "error whatsapp", Toast.LENGTH_SHORT).show();
-
-                // KToast.errorToast(getActivity(), getString(R.string.no_whatsapp), Gravity.BOTTOM, KToast.LENGTH_SHORT);
             }
         } catch (Exception e) {
             Log.e("ERROR WHATSAPP", e.toString());
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-            //KToast.errorToast(getActivity(), getString(R.string.no_whatsapp), Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
 
     }
@@ -1163,7 +1368,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_single_item, menu);
+        getMenuInflater().inflate(R.menu.menu_manage_item, menu);
 
         if (!(userID.equals(item_userID))) {
             menu.findItem(R.id.action_remove_item).setVisible(false);
@@ -1199,14 +1404,47 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
                 saveItemImageToGallery(
                         get_ScaledBitmap_from_drawable(img_btn_itemImage.getDrawable()),
-                        viewHolder.getItemTitle() + "_" + viewHolder.getItemPrice(),
+                        viewHolder.getItemTitle() + getString(R.string.underScore) + viewHolder.getItemPrice(),
                         viewHolder.getItemDetails());
+
+                break;
+            case R.id.action_report_item:
+                confirm_report_user(item_userID);
 
                 break;
 
         }
 
         return true;
+    }
+
+    private void confirm_report_user(String item_userID) {
+        Log.d(TAG, "confirm_report_user: A " + item_userID);
+        Fragment_Dialog_Report_User fragment_dialog_report_user = new Fragment_Dialog_Report_User();
+        Bundle bundle = new Bundle();
+        bundle.putString(BUNDLE_KEY_ITEM_USER_ID, item_userID);
+        fragment_dialog_report_user.setItem_userID(item_userID);
+        showDialogFragment(fragment_dialog_report_user, "frg_report_user");
+        getSupportFragmentManager().setFragmentResultListener(REQUEST_KEY_REPORT, this, (requestKey, result) -> {
+            if (result.getBoolean(BUNDLE_KEY_REPORT)) {
+                Toast.makeText(this, getString(R.string.message_info_report_user), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showDialogFragment(DialogFragment newFragment, String tag) {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction. We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        androidx.fragment.app.Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        // save transaction to the back stack
+        ft.addToBackStack("dialog");
+        newFragment.show(ft, tag);
+        getSupportFragmentManager().executePendingTransactions();
     }
 
     private void saveItemImageToGallery(Bitmap scaledBitmap, String itemImage_fileName, String description) {
@@ -1218,16 +1456,18 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("item_img_uri", String.valueOf(uri_itemImg));
+/*
+        outState.putString(INTENT_KEY_ITEM_IMG_URI, String.valueOf(uri_itemImg));
+*/
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState.containsKey("user_img_uri")) {
-            uri_itemImg = Uri.parse(savedInstanceState.getString("user_img_uri"));
+  /*      if (savedInstanceState.containsKey(INTENT_KEY_ITEM_IMG_URI)) {
+            uri_itemImg = Uri.parse(savedInstanceState.getString(INTENT_KEY_ITEM_IMG_URI));
             setImage_circle(this, uri_itemImg, 0.3f, img_btn_itemImage);
-        }
+        }*/
     }
 
 
@@ -1245,11 +1485,24 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                     checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
             ) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION_ITEM_CLICK_IMG);
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION_ITEM_MODIFY);
             } else {
 
                 openItemImage(item_DB_Ref);
 
+            }
+        }
+    }
+
+    private void manageShareItemImagePerm() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION_ITEM_SHARE);
+            } else {
+                shareItemImage(get_Item_Description_for_Share(itemState_share));
             }
         }
     }
@@ -1270,6 +1523,20 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
         //str_uri_itemImg = MediaStore.Images.Media.insertImage(getContentResolver(), scaledBitmap, viewHolder.getItemTitle() + "_" + viewHolder.getItemPrice(), viewHolder.getItemDetails());
         Toast.makeText(Activity_Display_Modify_Remove_Item.this, getString(R.string.message_info_item_saved_ok), Toast.LENGTH_SHORT).show();
         return itemImageFile.getPath();
+    }
+
+    public File get_ItemImage_finalFilePath_for_Share() {
+
+        File itemImageFile = create_ItemImage_File();
+        if (itemImageFile.exists()) {
+            return itemImageFile;
+        }
+
+        Bitmap scaledBitmap = get_ScaledBitmap_from_drawable(img_btn_itemImage.getDrawable());
+        if (scaledBitmap == null) return null;
+
+        compressBitmap(itemImageFile, scaledBitmap);
+        return itemImageFile;
     }
 
 
@@ -1348,7 +1615,8 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
     private File create_ItemImage_File() {
         final String item_ID = Objects.requireNonNull(getIntent().getExtras()).getString(INTENT_KEY_ITEM_ID);
-        String itemImage_fileName = viewHolder.getItemTitle() + "_" + viewHolder.getItemPrice() + "_" + item_ID + ".jpg";
+        String itemImage_fileName = viewHolder.getItemTitle() +
+                getString(R.string.underScore) + viewHolder.getItemPrice() + getString(R.string.underScore) + item_ID + ".jpg";
         return new File(myDir, itemImage_fileName);
     }
 
@@ -1360,52 +1628,67 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
                 return;
             }
 
-     /*       Uri fileURI = FileProvider.getUriForFile(
-                    getApplicationContext(),
-                    getPackageName() + ".provider", new File(itemImage_fileName));
-*/
-
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
-            // intent.setDataAndType(fileURI, "image/*");
             intent.setDataAndType(Uri.parse(itemImage_fileName), "image/*");
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             startActivity(intent);
 
-
         } catch (
                 Throwable throwable) {
-            Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d(TAG, "openItemImageInGallery: " + throwable.getMessage());
 
         }
 
     }
 
 
-    public void shareItemImage(File itemImage_FileName, String textToShare) {
+    public void shareItemImage(String textToShare) {
+        if (get_ItemImage_finalFilePath_for_Share() == null) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("text/*");
+            intent.putExtra(Intent.EXTRA_TEXT, textToShare);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        try {
-            if (itemImage_FileName.exists()) {
 
-                Uri fileURI = FileProvider.getUriForFile(getApplicationContext(), getPackageName() + ".provider", itemImage_FileName);
+            startActivity(Intent.createChooser(intent, getString(R.string.item_share_chooser_title)));
+        } else {
+            Uri fileURI = FileProvider.getUriForFile(getApplicationContext(), getPackageName() + ".provider", get_ItemImage_finalFilePath_for_Share());
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("image/*");
+            intent.putExtra(Intent.EXTRA_STREAM, fileURI);
+            intent.putExtra(Intent.EXTRA_TEXT, textToShare);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                Log.d(TAG, "shareItemImage: " + String.valueOf(fileURI));
+
+            startActivity(Intent.createChooser(intent, getString(R.string.item_share_chooser_title)));
+        }
+
+
+       /* try {
+
+            // if (itemImage_FileName.exists()) {
+            if (uri_itemImg != null) {
+
+                // Uri fileURI = FileProvider.getUriForFile(getApplicationContext(), getPackageName() + ".provider", itemImage_FileName);
+
+                //     Log.d(TAG, "shareItemImage: " + fileURI);
 
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
                 intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_STREAM, fileURI);
+                intent.putExtra(Intent.EXTRA_STREAM, uri_itemImg);
                 intent.putExtra(Intent.EXTRA_TEXT, textToShare);
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                /*intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(ItemDescription.this,
-                        BuildConfig.APPLICATION_ID +".provider",
-                        file));*/
-                startActivity(Intent.createChooser(intent, "Share image via"));
 
-                //  startActivity(intent);
+                startActivity(Intent.createChooser(intent, getString(R.string.item_share_chooser_title)));
 
 
             } else {
@@ -1416,18 +1699,13 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                /*intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(ItemDescription.this,
-                        BuildConfig.APPLICATION_ID +".provider",
-                        file));*/
-                startActivity(Intent.createChooser(intent, "Share image via"));
-                // Toast.makeText(this, getString(R.string.message_info_error_no_image), Toast.LENGTH_SHORT).show();
+                startActivity(Intent.createChooser(intent, getString(R.string.item_share_chooser_title)));
             }
         } catch (Throwable throwable) {
-            Toast.makeText(this, throwable.getMessage() + "\n share error", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_LONG).show();
 
-        } finally {
+        } finally {}*/
 
-        }
 
     }
 
@@ -1478,12 +1756,12 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
     private void setUpLabel(String item_state) {//TODO setUpLabel null view
 
-        if (item_state.equals(INTENT_VALUE__STATEVALUE_IHAVE)) {
-            mSingleItemLabel.setText(getString(R.string.label_item_single_desc_for_sale));
+        if (item_state.equals(INTENT_VALUE__STATE_IHAVE)) {
+            m_TV_ItemLabel.setText(getString(R.string.label_item_single_desc_for_sale));
 
 
-        } else if (item_state.equals(INTENT_VALUE__STATEVALUE_INEED)) {
-            mSingleItemLabel.setText(getString(R.string.label_item_single_desc_wanted));
+        } else if (item_state.equals(INTENT_VALUE__STATE_INEED)) {
+            m_TV_ItemLabel.setText(getString(R.string.label_item_single_desc_wanted));
 
         }
     }
@@ -1507,8 +1785,8 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
     }
 
     public boolean getItemStateFlag() {
-        if (getIntent().getExtras().containsKey(INTENT_KEY__STATEVALUE)) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATEVALUE).equals(INTENT_VALUE__STATEVALUE_IHAVE)) {
+        if (getIntent().getExtras().containsKey(INTENT_KEY__STATE)) {
+            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
 
                 return false;
 
@@ -1536,7 +1814,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                item_userPhoneNumber = (String) dataSnapshot.child(PATH_USER_PHONE_NUMBER).getValue();
+                item_user_PhoneNumber = (String) dataSnapshot.child(PATH_USER_PHONE_NUMBER).getValue();
 
 
             }
@@ -1546,7 +1824,7 @@ public class Activity_Display_Modify_Remove_Item extends AppCompatActivity imple
 
             }
         });
-        return item_userPhoneNumber;
+        return item_user_PhoneNumber;
     }
 
 

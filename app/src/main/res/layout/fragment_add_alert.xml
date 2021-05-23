@@ -1,107 +1,205 @@
-<androidx.core.widget.NestedScrollView
-    android:layout_height="match_parent"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/fl"
-        android:layout_width="400dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        tools:context="mohammedyouser.com.mustaemalaleppo.UI.Ineed_Fragment">
+        android:padding="16dp"
+        tools:context="mohammedyouser.com.mustaemalaleppo.UI.Fragment_Ineed">
 
         <LinearLayout
             android:id="@+id/ll_search_criteria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-
-            android:padding="32dp">
-<RadioGroup
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <RadioButton
-        android:id="@+id/rb_ihave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:checked="true"
-        android:text="@string/radio_txt_ihave" />
-
-    <RadioButton
-        android:id="@+id/rb_ineed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="@string/radio_txt_ineed"
-        android:layout_marginBottom="8dp"
-        />
-</RadioGroup>
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
 
             <TextView
-                android:text="as the following:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="8dp"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:background="@color/transparent"
+                android:text="@string/title_fragment_add_alert"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="+998359911" />
 
-            <Spinner
-                android:id="@+id/spinner_cities2"
-                style="@style/spinnerItemStyle"
-                android:layout_width="160dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/mybg"
-                android:gravity="center_vertical|center_horizontal"
-                android:popupBackground="#ffffff" />
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rb_ihave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:checked="true"
+                    android:text="@string/add_alert_state_ihave" />
+
+                <RadioButton
+                    android:id="@+id/rb_ineed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:checked="false"
+                    android:text="@string/add_alert_state_ineed" />
+            </RadioGroup>
 
 
-            <Spinner
-                android:id="@+id/spinner_categories2"
-                style="@style/spinnerItemStyle"
-                android:layout_width="160dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:background="@drawable/mybg"
-                android:gravity="center_vertical|center_horizontal"
-                android:popupBackground="#ffffff" />
-
-            <EditText
-                android:id="@+id/et_max_price"
-                android:layout_width="160dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:gravity="center_vertical|center_horizontal"
-                android:hint="Max price"
-                android:inputType="numberDecimal"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
 
-                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:textStyle="bold"
+                    android:text="@string/add_alert_in" />
 
-            <EditText
-                android:id="@+id/et_min_price"
-                android:layout_width="160dp"
+                <Spinner
+                    android:id="@+id/spinner_cities2"
+                    style="@style/spinnerItemStyle"
+                    android:layout_width="160dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginStart="36dp"
+                    android:background="@drawable/mybg"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:popupBackground="#ffffff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:gravity="center_vertical|center_horizontal"
-                android:hint="Min price"
-                android:inputType="numberDecimal"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
 
-                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:textStyle="bold"
+                    android:text="@string/add_alert_of" />
 
-            <EditText
-                android:id="@+id/et_max_distance"
-                android:layout_width="240dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginTop="16dp"
-                android:padding="8dp"
-                android:background="@color/grey_500"
-                android:gravity="center_vertical|center_horizontal"
-                android:hint="Max distance in km"
-                android:inputType="numberDecimal"
+                <Spinner
+                    android:id="@+id/spinner_categories2"
+                    style="@style/spinnerItemStyle"
+                    android:layout_width="160dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:background="@drawable/mybg"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:popupBackground="#ffffff" />
+            </LinearLayout>
 
-                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="start"
+                android:text="@string/add_alert_with_price"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/add_alert_less_than"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_max_price"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="Max price"
+                    android:inputType="numberDecimal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/add_alert_not_less_than"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_min_price"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input"
+                    android:hint="Min price"
+                    android:inputType="numberDecimal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/add_alert_not_more_far"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_max_distance"
+                    android:layout_width="240dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/grey_500"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:hint="Max distance in km"
+                    android:inputType="numberDecimal"
+                    android:padding="8dp"
+
+                    />
+            </LinearLayout>
+
         </LinearLayout>
 
     </FrameLayout>

@@ -29,9 +29,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,8 +49,8 @@ import mohammedyouser.com.mustaemalaleppo.R;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_ID;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_NAME;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_PHONE_NUMBER;
-import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY__STATEVALUE;
-import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_VALUE__STATEVALUE_INEED;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY__STATE;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_VALUE__STATE_INEED;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USERS;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USER_IMAGE;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USER_NAME;
@@ -176,8 +173,8 @@ public class Fragment_Reset_Password_Phone_Number_Verify_and_Create_Account exte
         m_tv_AskForResend = (TextView) view.findViewById(R.id.tv_ask_for_resend);
         m_btn_Verify = (Button) view.findViewById(R.id.btn_verify);
         m_btn_Resend = (Button) view.findViewById(R.id.btn_resend_code_phone);
-        m_btn_Modify = (Button) view.findViewById(R.id.btn_modify_phoneNumber);
-        m_pb_Verification = (ProgressBar) view.findViewById(R.id.pr_verify);
+        m_btn_Modify = (Button) view.findViewById(R.id.btn_review_phoneNumber);
+        m_pb_Verification = (ProgressBar) view.findViewById(R.id.pb_verify);
         m_coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.coordinatorLayout_reset_password);
 
 
@@ -460,44 +457,9 @@ public class Fragment_Reset_Password_Phone_Number_Verify_and_Create_Account exte
 
     // [END sign_in_with_phone]
 
-    private void handleSignInFailed(Exception e) {
-        //  hideProgressDialog(m_pd);
-        Toast.makeText(getActivity(), "Error" + e, Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), "Unsuccessful: Signing in failed!", Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), "Failed! Password and phone number don't match!", Toast.LENGTH_SHORT).show();
-
-    }
-
-    private void handleSignInSuccess(String userID) {
-        //   hideProgressDialog(m_pd);
-        //  finish();
-        // startMainActivity(userID);
-    }
-
 
     private void createUserProfile(final String userID) {
-        //  showProgressDialog(getContext(), getString(R.string.message_info_SIGNING_UP), getString(R.string.message_info_PLEASE_WAIT));
-    /*    if(m_uri_user_img.equals(null)){
-            m_uri_user_img=Uri.EMPTY;
-        }*/
-        Log.d(TAG, "createUserProfile: 1 " + userID);
-/*        if (m_uri_user_img != null) {
-            getFinalStorageReference(userID)
-                    .putFile(m_uri_user_img)//+flag intent+uri null+frgm oriint change ,auto sms+bb20 ccp+custom pb
-                    .addOnSuccessListener(taskSnapshot -> {
-                        taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> m_uri_user_img_download = uri);
-                        // Second save user name, email,...and the URL of user image to firebase
-                        Log.d(TAG, "createUserProfile: 2");
-                        storeUserInfoToFirebase(userID, m_uri_user_img_download);
-                        hideProgressDialog();
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.d(TAG, "createUserProfile: 3 "+e.getMessage());
-                        hideProgressDialog();
-                        Toast.makeText(getActivity(), e.toString() + " " + R.string.message_info_upload_error, Toast.LENGTH_LONG).show();
 
-                    });
-        } else {*/
         storeUserInfoToFirebase(userID, null);
         hideProgressDialog();
 
@@ -507,10 +469,6 @@ public class Fragment_Reset_Password_Phone_Number_Verify_and_Create_Account exte
     }
 
     private void storeUserInfoToFirebase(String userID, Uri uri_user_img_download) {
-  /*      if (!uri_user_img_download.equals(null)) {
-            Log.d(TAG, "storeUserInfoToFirebase:1 "+String.valueOf(uri_user_img_download));
-            get_UserAccountInfo_RootRef(userID).child(PATH_USER_IMAGE).setValue(uri_user_img_download);
-        }*/
         get_UserAccountInfo_RootRef(userID).child(PATH_USER_NAME).setValue(getUserAccountInfoFromBundle("userUserDisplayName"));
         get_UserAccountInfo_RootRef(userID).child(PATH_USER_PHONE_NUMBER).setValue(getUserAccountInfoFromBundle("userPhoneNumber"));
         get_UserAccountInfo_RootRef(userID).child(PATH_USER_PASSWORD).setValue(getUserAccountInfoFromBundle("userPassword"));
@@ -518,17 +476,9 @@ public class Fragment_Reset_Password_Phone_Number_Verify_and_Create_Account exte
 
     }
 
-    private void storeNewPasswordToFirebase(String userID, String newPassword) {
-        get_UserAccountInfo_RootRef(userID).child(PATH_USER_PASSWORD).setValue(getUserAccountInfoFromBundle("userPassword"));
-        Log.d(TAG, "storeUserInfoToFirebase: " + userID);
-        getFragmentManager().beginTransaction().remove(this).commit();
-        //startPassWordUpdatedActivity();
-        startPasswordResetActivity();
-
-    }
 
     private void startPasswordResetActivity() {
-            startActivity(new Intent(getActivity(), Activity_Reset_Password.class)
+            startActivity(new Intent(getActivity(), Activity_ForgetPassword_Reset_Password.class)
                     .putExtra(INTENT_KEY_USER_ID, userID));
 
     }
@@ -544,7 +494,7 @@ public class Fragment_Reset_Password_Phone_Number_Verify_and_Create_Account exte
     private void startSignInActivity(String userID, String userPhoneNumber, String userName, Context context) {
         Intent signInIntent = new Intent(context, Activity_Sign_In_Phone_Number.class);
 
-        signInIntent.putExtra(INTENT_KEY__STATEVALUE, INTENT_VALUE__STATEVALUE_INEED);
+        signInIntent.putExtra(INTENT_KEY__STATE, INTENT_VALUE__STATE_INEED);
         signInIntent.putExtra(INTENT_KEY_USER_ID, userID);
         signInIntent.putExtra(INTENT_KEY_USER_PHONE_NUMBER, userPhoneNumber);
         signInIntent.putExtra(INTENT_KEY_USER_NAME, userName);
@@ -705,7 +655,7 @@ public class Fragment_Reset_Password_Phone_Number_Verify_and_Create_Account exte
             case R.id.btn_resend_code_phone:
                 resendVerificationCode(m_str_userPhoneNumber, mResendToken);
                 break;
-            case R.id.btn_modify_phoneNumber:
+            case R.id.btn_review_phoneNumber:
                 dismiss();
                 break;
 

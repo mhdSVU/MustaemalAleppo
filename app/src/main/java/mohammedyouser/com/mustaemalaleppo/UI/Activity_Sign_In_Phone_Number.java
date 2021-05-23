@@ -1,5 +1,6 @@
 package mohammedyouser.com.mustaemalaleppo.UI;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,25 +11,31 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hbb20.CountryCodePicker;
 
 import java.util.Objects;
 
-import mohammedyouser.com.mustaemalaleppo.Domain.VPN_AlertDialogFragment;
+import mohammedyouser.com.mustaemalaleppo.Domain.Fragment_Dialog_VPN_Alert;
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
@@ -47,7 +54,6 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
 
     public Bundle bundle;
     private TextView m_tv_sign_up;
-    private TextView m_tv_userName_welcome;
     private Button m_btn_sign_in;
     private CountryCodePicker m_cpp;
 
@@ -55,7 +61,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
     private SessionManager sessionManager;
     private FirebaseAuth auth;
     private TextView m_tv_forget_password;
-    private TextView m_tv_sign_in_result;
+    private Integer user_reports_count_in;
 
 
     @Override
@@ -81,10 +87,8 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
         m_et_phoneNumber = (EditText) findViewById(R.id.et_phoneNumber);
         m_et_password = (EditText) findViewById(R.id.et_password);
         m_btn_sign_in = (Button) findViewById(R.id.btn_sign_in);
-        m_tv_sign_up = (TextView) findViewById(R.id.tv_sign_up);
-        m_tv_sign_in_result = (TextView) findViewById(R.id.tv_sign_in_result);
+        m_tv_sign_up = (TextView) findViewById(R.id.tv_choose_city_cat);
         m_tv_forget_password = (TextView) findViewById(R.id.tv_forget_password);
-        m_tv_userName_welcome = (TextView) findViewById(R.id.tv_userName_welcome);
         m_cpp = (CountryCodePicker) findViewById(R.id.ccp);
         m_chb_remember_me = (CheckBox) findViewById(R.id.chb_remember_me);
 
@@ -96,35 +100,48 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
 
         doFirebaseInitializations();
 
-        alertVPN();
+        confirm_download_VPN();
 
 
     }
 
-    private void alertVPN() {
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("VPN_Alert_Fragment");
+    private void confirm_download_VPN() {
+      /*  Fragment fragment = getSupportFragmentManager().findFragmentByTag("VPN_Alert_Fragment");
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
 
-        VPN_AlertDialogFragment vpn_alertDialogFragment = new VPN_AlertDialogFragment();
-        vpn_alertDialogFragment.show(getFragmentManager(), "VPN_Alert_Fragment");
-
-
+        Fragment_Dialog_VPN_Alert fragmentDialogVPNAlert = new Fragment_Dialog_VPN_Alert();
+        fragmentDialogVPNAlert.show(getFragmentManager(), "VPN_Alert_Fragment");*/
+        showDialogFragment(new Fragment_Dialog_VPN_Alert(), "frg_vpn");
     }
+
+    public void showDialogFragment(DialogFragment newFragment, String tag) {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction. We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        // save transaction to the back stack
+        ft.addToBackStack("dialog");
+        newFragment.show(ft, tag);
+        getSupportFragmentManager().executePendingTransactions();
+    }
+
 
     private void restore_RememberMe_Session() {
         if (sessionManager.isRememberMeSession()) {
-            m_et_phoneNumber.setText(String.valueOf(sessionManager.get_RememberMe_Session().get(SessionManager.SHP_KEY_PHONE_NUMBER)).substring(4));
+            if (!String.valueOf(sessionManager.get_RememberMe_Session().get(SessionManager.SHP_KEY_PHONE_NUMBER)).equals("null") && String.valueOf(sessionManager.get_RememberMe_Session().get(SessionManager.SHP_KEY_PHONE_NUMBER)).length() >= 4)
+                m_et_phoneNumber.setText(String.valueOf(sessionManager.get_RememberMe_Session().get(SessionManager.SHP_KEY_PHONE_NUMBER)).substring(4));
             m_et_password.setText(String.valueOf(sessionManager.get_RememberMe_Session().get(SessionManager.SHP_KEY_PASSWORD)));
         }
     }
 
     private void initializeUserInfo() {
-        ;
         m_et_phoneNumber.setText(getValuefromIntent(INTENT_KEY_USER_PHONE_NUMBER));
-        m_tv_userName_welcome.setText("Wellcome, " + getValuefromIntent(INTENT_KEY_USER_NAME) + "yuo have successfully created your account.\n Please use your phone number and password to sign in.");
-        //userID = (Objects.requireNonNull(getIntent().getExtras()).getString(INTENT_KEY_USER_ID));
     }
 
     private String getValuefromIntent(String key) {
@@ -153,7 +170,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_sign_up:
+            case R.id.tv_choose_city_cat:
                 startSignUpActivity();
                 break;
             case R.id.btn_sign_in:
@@ -168,7 +185,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
     }
 
     private void startForgetPasswordActivity() {
-        startActivity(new Intent(this, Activity_Forget_Password_Enter_Number.class));
+        startActivity(new Intent(this, Activity_ForgetPassword_Enter_Number.class));
 
     }
 
@@ -196,6 +213,10 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
                 sessionManager.create_RememberMe_Session(getFinalPhoneNumber(), getContentOfView(m_et_password));
 
             }
+            if (!m_chb_remember_me.isChecked()) {
+                sessionManager.delete_RememberMe_Session();
+
+            }
 
             FirebaseAuth.getInstance().signInWithEmailAndPassword(phone_number + "@m.org", password)
                     .addOnCompleteListener(task -> {
@@ -218,7 +239,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
     private void handleSignInSuccess(String userID) {
         hideProgressDialog(m_pd);
         // finish();
-        startMainActivity(userID);
+        checkUserReportsCount(userID);
     }
 
     private void handleSignInFailed(Task<AuthResult> task) {
@@ -228,37 +249,31 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
             try {
                 throw Objects.requireNonNull(task.getException());
             } catch (FirebaseAuthInvalidUserException e) {
-                m_tv_sign_in_result.setError("Invalid Phone Number");
+         /*       m_tv_sign_in_result.setError("Invalid Phone Number");
                 m_tv_sign_in_result.requestFocus();
-                m_tv_sign_in_result.setText("Invalid Phone Number");
+                m_tv_sign_in_result.setText("Invalid Phone Number");*/
+                showSnackBar(this, getString(R.string.message_error_phone_number));
             } catch (FirebaseAuthInvalidCredentialsException e) {
-                m_tv_sign_in_result.setError("Invalid Password");
+              /*  m_tv_sign_in_result.setError("Invalid Password");
                 m_tv_sign_in_result.requestFocus();
-                m_tv_sign_in_result.setText("Invalid Password");
+                m_tv_sign_in_result.setText("Invalid Password");*/
+                showSnackBar(this, getString(R.string.message_error_password));
+
 
             } catch (FirebaseNetworkException e) {
-                Snackbar.make(this.findViewById(R.id.cl_sign_in_phone), getString(R.string.message_error_network_connection),
-                        Snackbar.LENGTH_SHORT).show();
-                m_tv_sign_in_result.setText(getString(R.string.message_error_network_connection));
 
+                showSnackBar_with_action(this, getString(R.string.message_error_network_connection),getString(R.string.title_nav_download_vpn));
 
             } catch (Exception e) {
                 Log.e(LOG_TAG, e.getMessage());
+                showSnackBar_with_action(this, getString(R.string.message_error_network_connection),getString(R.string.title_nav_download_vpn));
+
 
             }
-            Log.w(LOG_TAG, "signInWithEmail:failed", task.getException());
-            Toast.makeText(this, getString(R.string.message_error_sign_in) + "\n" + getString(R.string.message_error_network_connection) + ", and/or VPN app status!",
-                    Toast.LENGTH_SHORT).show();
-            //updateUI(null);
+
         }
     }
 
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        //moveTaskToBack(true);
-    }
 
     private DatabaseReference get_UserAccountInfo_RootRef() {
         return db_root_users;
@@ -271,13 +286,42 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
 
     }
 
-    private void startMainActivity(String userID) {
 
-        startActivity(new Intent(this, Ineed_Ihave_Activity.class)
-                .putExtra(INTENT_KEY_USER_ID, userID));
+    private void checkUserReportsCount(String userID) {
+        db_root_users.child(userID).child(PATH_REPORTS_COUNT_IN).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot_user_reports_count_in) {
 
+                    user_reports_count_in = snapshot_user_reports_count_in.getValue(Integer.class);
+                if (user_reports_count_in != null) {
+                    Log.d(TAG, "onDataChange: user_reports_count_in"+user_reports_count_in);
+                    if (userReportsCountsIsAcceptable(user_reports_count_in)) {
+                        startActivity(new Intent(Activity_Sign_In_Phone_Number.this, Activity_Ineed_Ihave.class)
+                                .putExtra(INTENT_KEY_USER_ID, userID));
+                    } else {
+                        auth.signOut();
+                        showSnackBar(Activity_Sign_In_Phone_Number.this, getString(R.string.message_error_sign_in_reported_user));
+                    }
+                } else {
+                    startActivity(new Intent(Activity_Sign_In_Phone_Number.this, Activity_Ineed_Ihave.class)
+                            .putExtra(INTENT_KEY_USER_ID, userID));
+                }
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+
+        });
     }
+
+    private boolean userReportsCountsIsAcceptable(Integer user_reports_count_in) {
+        if(user_reports_count_in!=null)
+        return user_reports_count_in < MAX_ALLOWED_REPORTS_COUNT;
+        return true;
+    }
+
 
     private String getContentOfView(View view) {
         return String.valueOf(((EditText) view).getText()).trim();
@@ -315,5 +359,25 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
         return validationState;
     }
 
+
+    public  void showSnackBar_with_action(Activity activity, String message, String action) {
+        View rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+
+        Snackbar.make(rootView, message, BaseTransientBottomBar.LENGTH_LONG).setAction(action, v -> {
+            if (action.equals(activity.getString(R.string.title_nav_download_vpn))) {
+
+                confirm_download_VPN();
+            }
+        }).show();
+    }
+    private void confirmDownloadVPN() {
+        showDialogFragment(new Fragment_Dialog_VPN_Alert(), "frg_vpn");
+        getSupportFragmentManager().setFragmentResultListener(REQUEST_KEY_DOWNLOAD_VPN, this, (requestKey, bundle) -> {
+            if (bundle.getBoolean(BUNDLE_KEY_DOWNLOAD_VPN)) {
+                //download vpn
+            }
+        });
+
+    }
 
 }

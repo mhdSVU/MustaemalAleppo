@@ -3,7 +3,9 @@ package mohammedyouser.com.mustaemalaleppo.UI;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -22,10 +24,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -42,6 +49,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -55,10 +63,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import mohammedyouser.com.mustaemalaleppo.Domain.VPN_AlertDialogFragment;
-import mohammedyouser.com.mustaemalaleppo.GpsUtils;
+import mohammedyouser.com.mustaemalaleppo.Domain.Fragment_Dialog_Must_Agree_Ts_and_Cs_Alert;
+import mohammedyouser.com.mustaemalaleppo.Domain.Fragment_Dialog_VPN_Alert;
+import mohammedyouser.com.mustaemalaleppo.Device.GpsUtils;
 import mohammedyouser.com.mustaemalaleppo.R;
 
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_IMAGE_URI;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_NAME;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_PASSWORD;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_PHONE_NUMBER;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USERS;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USER_LOCATION_LAT;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USER_LOCATION_LONG;
@@ -73,8 +86,11 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
     private EditText m_et_phoneNumber;
     private EditText m_et_password;
     private EditText m_et_password_confirm;
+    private TextInputLayout m_til_password;
+    private TextInputLayout m_til_password_confirm;
     private ImageButton m_img_btn_user_image;
     private Button m_btn_sign_up;
+    private CheckBox m_cb_agree_ts_and_cs;
     private CountryCodePicker m_cpp;
 
     private DatabaseReference db_root_users;
@@ -94,6 +110,14 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
     private boolean isGPS = false;
     private LocationCallback locationCallback;
     private boolean requestingLocationUpdates = true;
+    private Spanned terms;
+    private Spanned privacy;
+    private Spanned iagree;
+    private Spanned and;
+    private TextView m_tv_iagree;
+    private TextView m_tv_terms;
+    private TextView m_tv_and;
+    private TextView m_tv_privacy;
 
 
     @Override
@@ -105,15 +129,54 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         m_et_phoneNumber = (EditText) findViewById(R.id.et_phoneNumber);
         m_et_password = (EditText) findViewById(R.id.et_password);
         m_et_password_confirm = (EditText) findViewById(R.id.et_password_confirm);
-        m_img_btn_user_image = (ImageButton) findViewById(R.id.img_btn_user_image);
+        m_img_btn_user_image = (ImageButton) findViewById(R.id.img_btn_developer_image);
         m_btn_sign_up = (Button) findViewById(R.id.btn_sign_up);
         m_tv_sign_in = (TextView) findViewById(R.id.tv_sign_in);
         m_cpp = (CountryCodePicker) findViewById(R.id.ccp);
+        m_til_password = findViewById(R.id.til_password);
+        m_til_password_confirm = findViewById(R.id.til_password_confirm);
+        m_cb_agree_ts_and_cs = findViewById(R.id.cb_agree_ts_and_cs);
+        m_tv_iagree = findViewById(R.id.tv_iagree);
+        m_tv_terms = findViewById(R.id.tv_terms);
+        m_tv_and = findViewById(R.id.tv_and);
+        m_tv_privacy = findViewById(R.id.tv_privacy);
+
+        iagree = Html.fromHtml("<h4>I have read and agree to:</h4>");
+        terms = Html.fromHtml("<a href=\"https://drive.google.com/file/d/1xd4bnCruesMuj73Wfh91Tf06rEkLGb8B/view?usp=sharing\">Terms of Use</a>");
+        and = Html.fromHtml("<h4> and </h4>");
+        privacy = Html.fromHtml("<a href=\"https://drive.google.com/file/d/1qg7K8LFaEBYtKX6MFf-WKJbgEnsWRMDf/view?usp=sharing\">Privacy Policy</a>");
+
+        m_tv_iagree.setText(iagree);
+        m_tv_terms.setText(terms);
+        m_tv_and.setText(and);
+        m_tv_privacy.setText(privacy);
+
+        m_tv_terms.setMovementMethod(LinkMovementMethod.getInstance());
+        m_tv_privacy.setMovementMethod(LinkMovementMethod.getInstance());
+
 
         m_img_btn_user_image.setOnClickListener(this);
         m_tv_sign_in.setOnClickListener(this);
+        m_tv_sign_in.setMovementMethod(LinkMovementMethod.getInstance());
         m_btn_sign_up.setOnClickListener(this);
         m_cpp.setOnClickListener(this);
+        m_et_password.setOnEditorActionListener((v, actionId, event) -> {
+            m_til_password.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
+            return true;
+        });
+        m_et_password_confirm.setOnEditorActionListener((v, actionId, event) -> {
+            m_til_password_confirm.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
+            return true;
+        });
+        m_et_password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                m_til_password.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
+
+                return false;
+            }
+        });
+
 
         doFirebaseInitializations();
         if (savedInstanceState != null) {
@@ -121,21 +184,11 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         } else {
             fragment_phone_number_verify = new Fragment_Sign_Up_Phone_Number_Verify_and_Create_Account();
         }
-        alertVPN();
+
+        confirm_download_VPN();
 
     }
 
-    private void alertVPN() {
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("VPN_Alert_Fragment");
-        if (fragment != null) {
-            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-        }
-
-        VPN_AlertDialogFragment vpn_alertDialogFragment = new VPN_AlertDialogFragment();
-        vpn_alertDialogFragment.show(getFragmentManager(), "VPN_Alert_Fragment");
-
-
-    }
 
     @Override
     protected void onStop() {
@@ -145,7 +198,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("uri_user_img", String.valueOf(uri_user_img));
+        outState.putString(INTENT_KEY_USER_IMAGE_URI, String.valueOf(uri_user_img));
     }
 
     @Override
@@ -157,16 +210,14 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState.containsKey("uri_user_img")) {
-            if (savedInstanceState.getString("uri_user_img").equals(null)) {
-                uri_user_img = Uri.parse(savedInstanceState.getString("uri_user_img"));
+        if (savedInstanceState.containsKey(INTENT_KEY_USER_IMAGE_URI)) {
+            if (savedInstanceState.getString(INTENT_KEY_USER_IMAGE_URI).equals(null)) {
+                uri_user_img = Uri.parse(savedInstanceState.getString(INTENT_KEY_USER_IMAGE_URI));
                 if (!uri_user_img.equals(null)) {
                     Log.d("TAG", "onRestoreInstanceState: " + uri_user_img);
 
                     setImage_circle(this, uri_user_img, 0.3f, m_img_btn_user_image);
                 }
-                //m_img_btn_user_image.setImageDrawable(getResources().getDrawable(R.drawable.ic_account_circle_white_24dp,this.getTheme()));
-
             }
 
         }
@@ -195,7 +246,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
 
             fragment_phone_number_verify.show(getSupportFragmentManager(), STR_TAG_FRAGMENT_VERIFY);
         } else {
-            Toast.makeText(this, "Please first provide information needed!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.message_info_error_information_missing), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -210,9 +261,25 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
 
     private boolean checkError(View view) {
         boolean validationState = true;
-        if (view instanceof ImageButton) {
+     /*   if (view instanceof ImageButton) {
             if (getContentOfView(view).equals(Uri.EMPTY)) {
                 Toast.makeText(this, "You havn't add any image for your account!", Toast.LENGTH_SHORT).show();
+            }
+
+        }*/
+        if (view.getId() == R.id.et_userName) {
+            if (TextUtils.isEmpty(getContentOfView(view))) {
+                ((EditText) view).setError(getString(R.string.message_error_empty_field));
+                ((EditText) view).requestFocus();
+                validationState = false;
+            }
+
+        }
+        if (view.getId() == R.id.et_phoneNumber) {
+            if (TextUtils.isEmpty(getContentOfView(view))) {
+                ((EditText) view).setError(getString(R.string.message_error_empty_field));
+                ((EditText) view).requestFocus();
+                validationState = false;
             }
 
         }
@@ -220,6 +287,17 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
             if (TextUtils.isEmpty(getContentOfView(view))) {
                 ((EditText) view).setError(getString(R.string.message_error_empty_field));
                 ((EditText) view).requestFocus();
+                m_til_password.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                m_til_password_confirm.setEndIconMode(TextInputLayout.END_ICON_NONE);
+
+                validationState = false;
+            }
+            if (TextUtils.getTrimmedLength(getContentOfView(view)) < 6 && TextUtils.getTrimmedLength(getContentOfView(view)) > 0) {
+                ((EditText) view).setError(getString(R.string.message_error_password_too_short));
+                ((EditText) view).requestFocus();
+                m_til_password.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                m_til_password_confirm.setEndIconMode(TextInputLayout.END_ICON_NONE);
+
                 validationState = false;
             }
 
@@ -249,14 +327,6 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
 
         }
 
-        if (TextUtils.isEmpty(getContentOfView(view))) {
-            ((EditText) view).setError(getString(R.string.message_error_empty_field));
-            ((EditText) view).requestFocus();
-
-            validationState = false;
-
-        }
-
         return validationState;
     }
 
@@ -264,10 +334,10 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
 
         Bundle bundle = new Bundle();
 
-        bundle.putString("userPhoneNumber", getFinalPhoneNumber());
-        bundle.putString("userPassword", getContentOfView(m_et_password));
-        bundle.putString("userImageUri", getContentOfView(m_img_btn_user_image));
-        bundle.putString("userUserDisplayName", getContentOfView(m_et_userName));
+        bundle.putString(INTENT_KEY_USER_PHONE_NUMBER, getFinalPhoneNumber());
+        bundle.putString(INTENT_KEY_USER_PASSWORD, getContentOfView(m_et_password));
+        bundle.putString(INTENT_KEY_USER_IMAGE_URI, getContentOfView(m_img_btn_user_image));
+        bundle.putString(INTENT_KEY_USER_NAME, getContentOfView(m_et_userName));
 
         return bundle;
     }
@@ -346,7 +416,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
                 setUserImage(uri_user_img);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
-                Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, String.valueOf(error), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -369,6 +439,10 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
                     prepareGPS();
 
                 }*/
+                if (!m_cb_agree_ts_and_cs.isChecked()) {
+                    show_Must_Agree_Ts_Cs_Fragment_Dialog();
+                    return;
+                }
 
                 show_Phone_Number_Verify_Fragment_Dialog(createBundle_UserAccountInfo());
 
@@ -380,7 +454,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
             }
 
             break;*/
-            case R.id.img_btn_user_image:
+            case R.id.img_btn_developer_image:
                 manage_Adding_UserImg_Perm();
 
                 break;
@@ -391,13 +465,14 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
 
     }
 
-    private void startSignUpActivity() {
-        startActivity(new Intent(this, AuthActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+    private void show_Must_Agree_Ts_Cs_Fragment_Dialog() {
+        showDialogFragment(new Fragment_Dialog_Must_Agree_Ts_and_Cs_Alert(), "frg_must_agree_ts_cs");
 
     }
 
+
     private void startSignInActivity() {
-        startActivity(new Intent(this, Activity_Sign_In_Phone_Number.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        startActivity(new Intent(this, Activity_Sign_In_Phone_Number.class));
     }
 
     private void manage_Adding_UserImg_Perm() {
@@ -415,7 +490,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-      super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length >= 0) {
             if (requestCode == REQUEST_PERMISSION_LOCATION_GET) {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
@@ -449,8 +524,6 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
                 Toast.makeText(Activity_Sign_Up_Phone_Number.this, getString(R.string.message_info_permission_declined), Toast.LENGTH_SHORT).show();
 
             }
-        } else {
-            Toast.makeText(this, "No feedback from user!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -490,7 +563,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
                     } else {
                         message.what = 1;
                         Bundle bundle = new Bundle();
-                        result = " Unable to get address for this location.";
+                        result = context.getString(R.string.message_info_error_no_location);
                         bundle.putString("address", result);
                         message.setData(bundle);
                     }
@@ -544,7 +617,7 @@ if (!enabled) {
                     locationAddress = null;
             }
             Log.e("location Address=", locationAddress);
-           // update_UI_with_Location(locationAddress);
+            // update_UI_with_Location(locationAddress);
         }
     }
 
@@ -587,7 +660,7 @@ if (!enabled) {
                         getAddressFromLocation_GeoCoderProcessor(locationResult.getLocations().get(latestLocationIndex), getBaseContext(), m_geocoderHandler);
                         store_UserLocation_To_DB(new LatLng(locationResult.getLocations().get(latestLocationIndex).getLatitude(),
 
-                                locationResult.getLocations().get(latestLocationIndex).getLongitude()), "userID");
+                                locationResult.getLocations().get(latestLocationIndex).getLongitude()), "userID");//TODO record loc
 
 
                     }
@@ -627,6 +700,32 @@ if (!enabled) {
   /*      db_root_users.child(userID).child(PATH_USER_LOCATION_LAT).setValue(String.valueOf(latLng.latitude));
         db_root_users.child(userID).child(PATH_USER_LOCATION_LONG).setValue(String.valueOf(latLng.longitude));*/
 
+    }
+
+    private void confirm_download_VPN() {
+      /*  Fragment fragment = getSupportFragmentManager().findFragmentByTag("VPN_Alert_Fragment");
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+
+        Fragment_Dialog_VPN_Alert fragmentDialogVPNAlert = new Fragment_Dialog_VPN_Alert();
+        fragmentDialogVPNAlert.show(getFragmentManager(), "VPN_Alert_Fragment");*/
+        showDialogFragment(new Fragment_Dialog_VPN_Alert(), "frg_vpn");
+    }
+
+    public void showDialogFragment(DialogFragment newFragment, String tag) {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction. We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        // save transaction to the back stack
+        ft.addToBackStack("dialog");
+        newFragment.show(ft, tag);
+        getSupportFragmentManager().executePendingTransactions();
     }
 
 

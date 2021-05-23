@@ -1,7 +1,9 @@
 <resources>
 
     <!-- Base application theme. -->
+
     <style name="AppTheme" parent="Theme.AppCompat.Light">
+
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -82,9 +84,21 @@
     <style name="hintStyle" parent="TextAppearance.Design.Hint">
 
 
+
     <item name="android:textSize" >@dimen/size_hint_m</item>
     <item name="android:layout_marginBottom">@dimen/margin_bottom_hint</item>
 </style>
 
-    <dimen name="size_hint_m">18sp</dimen>
+    <style name="ShapeAppearanceOverlay.MyApp.Button.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+<!--
+    style="@style/Widget.MaterialComponents.Button.Icon"
+-->
+    <dimen name="size_hint_m">16sp</dimen>
+
+    <style name="Error" parent="TextAppearance.AppCompat">
+        <item name="android:paddingEnd">16dp</item>
+    </style>
 </resources>

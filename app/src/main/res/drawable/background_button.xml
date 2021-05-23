@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" />
+    <corners android:radius="30dp" />
+    <size  android:height="@dimen/height_searchView" android:width="@dimen/width_searchView"/>
+</shape>

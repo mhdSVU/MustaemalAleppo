@@ -1,5 +1,5 @@
 [
-  { "name": "All Cities", "code": 0 },
+  { "name": "All-Cities", "code": 0 },
   { "name": "Damascus", "code": 1 },
   { "name": "Aleppo", "code": 2 },
   { "name": "Homs", "code": 3 },

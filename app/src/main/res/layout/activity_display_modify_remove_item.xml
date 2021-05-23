@@ -8,7 +8,7 @@
     android:background="@android:color/white"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context=".Domain.Add_Item_Activity"
+    tools:context=".Domain.Activity_Display_Modify_Remove_Item"
 
     >
 
@@ -19,33 +19,39 @@
         android:background="@color/green1"
         android:gravity="left"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintBottom_toTopOf="@id/nstdscrl"
+        app:layout_constraintBottom_toTopOf="@id/ns_scroll"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/title_item_details" />
 
     <TextView
-        android:id="@+id/textView_label_single_item"
+        android:id="@+id/textView_lable_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:gravity="left"
         android:padding="10dp"
-        android:text="@string/label_item_single_desc_for_sale"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/toolBar"
-        app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar"
+        tools:text="@string/message_info_ADDING_ITEM" />
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nstdscrl"
+        android:id="@+id/ns_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="24dp"
+        android:fillViewport="true"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintCircleRadius="15dp"
+        app:layout_constraintCircleRadius="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolBar">
@@ -75,7 +81,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="500dp">
+                    android:layout_height="580dp">
 
 
                     <ImageButton
@@ -154,8 +160,8 @@
                         android:id="@+id/tv_item_city"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="80dp"
                         android:text="item_city"
-
                         android:textColor="@android:color/white"
                         android:textSize="17sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -169,11 +175,11 @@
                         android:id="@+id/tv_item_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="80dp"
                         android:gravity="end"
                         android:text="item_date"
                         android:textColor="@android:color/white"
                         android:textSize="17sp"
-
 
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -183,15 +189,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.601" />
 
-                    <TextView
-                        android:id="@+id/tv_item_category"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="item_category"
-                        android:textColor="@color/item_price"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
+
 
 
                     <TextView
@@ -225,49 +223,64 @@
 
                     <EditText
                         android:id="@+id/et_item_details"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="190dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="32dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="80dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="90dp"
+
+                        android:background="@drawable/background_input"
                         android:enabled="false"
+                        android:gravity="center_vertical"
                         android:inputType="text"
                         android:isScrollContainer="true"
                         android:maxLines="3"
+                        android:padding="16dp"
                         android:scrollbars="vertical"
                         android:text="@string/default_val_extra_info"
+
                         android:textColor="@color/colorPrimary"
                         android:textSize="17sp"
 
                         app:layout_constraintBottom_toTopOf="@+id/imageView_userImage"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.134"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_details_lable"
-                        app:layout_constraintVertical_bias="0.418" />
-                    <ImageButton
+                        app:layout_constraintTop_toBottomOf="@+id/tv_details_lable" />
+
+                    <Button
                         android:id="@+id/img_btn_show_on_map"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_show_on_map"
-                        android:tint="@color/colorPrimaryDark"
+                        android:layout_width="128dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/background_button"
+                        android:drawableLeft="@drawable/ic_location"
                         android:elevation="8dp"
-                        android:background="@android:color/transparent"
-                        app:layout_constraintStart_toEndOf="@id/et_item_details"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+
+                        android:insetBottom="0dp"
+                        android:padding="4dp"
+                        android:text="@string/btn_location_show"
+                        android:textColor="@color/colorPrimary"
+
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+
+                        android:tint="@color/colorPrimaryDark"
+
                         app:layout_constraintBottom_toTopOf="@+id/imageView_userImage"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_details_lable"
-
-
-
-
-                        />
-
+                        app:layout_constraintEnd_toEndOf="@id/tv_item_date"
+                        app:layout_constraintStart_toEndOf="@id/et_item_details"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_details_lable" />
 
                     <ImageView
                         android:id="@+id/imageView_userImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginBottom="20dp"
                         android:scaleType="centerInside"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -280,7 +293,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="@string/default_val_user_name"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView_userImage"
@@ -291,14 +303,14 @@
 
                     <ImageButton
                         android:id="@+id/imageButton_user_phoneCall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_marginStart="16dp"
                         android:background="@android:color/transparent"
-                        android:scaleType="center"
+                        android:scaleType="fitCenter"
                         android:src="@mipmap/ic_call_black_24dp"
                         android:stateListAnimator="@android:animator/fade_out"
-                        android:tint="@color/green1"
+                        android:tint="@color/colorAccent"
                         app:layout_constraintBottom_toBottomOf="@+id/textView_username"
                         app:layout_constraintStart_toEndOf="@+id/textView_username"
                         app:layout_constraintTop_toTopOf="@+id/textView_username"
@@ -306,14 +318,14 @@
 
                     <ImageButton
                         android:id="@+id/imageButton_user_send_sms"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginBottom="16dp"
                         android:background="@android:color/transparent"
-                        android:scaleType="center"
+                        android:scaleType="fitCenter"
                         android:src="@mipmap/ic_email_black_24dp"
                         android:stateListAnimator="@android:animator/fade_out"
-                        android:tint="@color/green1"
+                        android:tint="@color/colorAccent"
                         app:layout_constraintBottom_toBottomOf="@+id/imageButton_user_phoneCall"
                         app:layout_constraintEnd_toStartOf="@id/imageButton_user_whatsapp"
                         app:layout_constraintHorizontal_bias="0.102"
@@ -324,8 +336,8 @@
 
                     <ImageButton
                         android:id="@+id/imageButton_user_whatsapp"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginBottom="21dp"
                         android:background="@android:color/transparent"
                         android:scaleType="centerInside"
@@ -343,16 +355,18 @@
 
             </androidx.cardview.widget.CardView>
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/img_btn_itemImage_share_background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="408dp"
+                android:layout_marginTop="480dp"
                 android:background="@drawable/background_share"
                 android:elevation="0dp"
-                android:theme="@style/ThemeOverlay.MyButton"
-
-
+                android:foregroundGravity="center"
                 android:stateListAnimator="@android:animator/fade_out"
+
+
+                android:theme="@style/ThemeOverlay.MyButton"
                 android:translationZ="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -363,7 +377,7 @@
                 android:id="@+id/img_btn_itemImage_share"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="400dp"
+                android:layout_marginTop="480dp"
                 android:background="@drawable/ic_baseline_share_24"
                 android:elevation="16dp"
                 android:theme="@style/ThemeOverlay.MyButton"
@@ -391,9 +405,9 @@
         android:visibility="invisible"
         android:weightSum="2.0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/nstdscrl"
-        app:layout_constraintStart_toStartOf="@id/nstdscrl"
-        app:layout_constraintTop_toBottomOf="@id/nstdscrl">
+        app:layout_constraintEnd_toEndOf="@id/ns_scroll"
+        app:layout_constraintStart_toStartOf="@id/ns_scroll"
+        app:layout_constraintTop_toBottomOf="@id/ns_scroll">
 
         <Button
             android:id="@+id/button_dismiss_modifications"
@@ -413,7 +427,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1.0"
-            android:text="@string/add"
+            android:text="@string/btn_save"
 
             android:theme="@style/ThemeOverlay.MyDarkButton"
 
@@ -424,47 +438,47 @@
 
     <FrameLayout
 
-        android:id="@+id/fl_no_content"
+        android:id="@+id/fl_main_subscription"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="24dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintCircleRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/toolBar">
 
-    <LinearLayout
-        android:id="@+id/ll_no_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
+        <LinearLayout
+            android:id="@+id/ll_no_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginTop="200dp"
-            app:tint="@color/colorPrimary"
-            android:src="@drawable/ic_removed_item" />
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="200dp"
+                android:src="@drawable/ic_removed_item"
+                app:tint="@color/colorPrimary" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:lines="2"
-            android:text="Sorry, page not found! Item may have been delted!"
-            android:textSize="16sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:lines="2"
+                android:text="@string/message_error_item_not_found"
+                android:textSize="16sp" />
 
 
-    </LinearLayout>
+        </LinearLayout>
 
-</FrameLayout>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

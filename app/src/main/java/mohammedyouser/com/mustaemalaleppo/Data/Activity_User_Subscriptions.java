@@ -3,16 +3,22 @@ package mohammedyouser.com.mustaemalaleppo.Data;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,20 +32,19 @@ import com.google.firebase.database.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import mohammedyouser.com.mustaemalaleppo.ItemViewModel;
 import mohammedyouser.com.mustaemalaleppo.R;
+import mohammedyouser.com.mustaemalaleppo.UI.Fragment_AddAlert_Dialog;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
 
-public class Activity_User_Subscriptions extends AppCompatActivity implements View.OnClickListener {
+public class Activity_User_Subscriptions extends AppCompatActivity implements View.OnClickListener,Fragment_AddAlert_Dialog.OnFragmentInteractionListener {
 
 
-    private RecyclerView mRecyclerView_ineed;
-    private RecyclerView mRecyclerView_ihave;
+    private RecyclerView mRecyclerView;
 
     private DatabaseReference db_root_items;
     private DatabaseReference db_root_items_users;
-    private DatabaseReference db_root_items_user_topics;
+    private DatabaseReference db_root_user_topics;
     private DatabaseReference db_root;
     private DatabaseReference db_root_userIDs_notifications;
     private DatabaseReference db_root_tokens_notifications;
@@ -49,7 +54,9 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
     public Bundle bundle;
     public ProgressBar mProgress;
 
-    private ItemViewModel viewModel;
+    private ViewModel_Item viewModel;
+    private LinearLayout m_ll_no_content;
+    private FloatingActionButton m_fab_add_alert;
 
 
 
@@ -59,7 +66,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
         setContentView(R.layout.activity__user__subscriptions);
         setUpToolBar();
 
-        viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ViewModel_Item.class);
 
 
         mProgress = findViewById(R.id.progressBar1);
@@ -77,17 +84,18 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
         create_userID_tokens_notifications_list(PATH_INEED);
         create_userID_tokens_notifications_list(PATH_IHAVE);
 
-        //Define recycleview
-        mRecyclerView_ihave = findViewById(R.id.recycler_Expand_ihave);
-        mRecyclerView_ineed = findViewById(R.id.recycler_Expand_ineed);
-        mRecyclerView_ihave.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView_ineed.setLayoutManager(new LinearLayoutManager(this));
-
+        m_fab_add_alert = findViewById(R.id.fab_add_alert);
+        m_ll_no_content = findViewById(R.id.ll_no_content);
+        mRecyclerView = findViewById(R.id.recycler_Expand_ineed);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        m_fab_add_alert.setOnClickListener(this);
 
         //reading data from firebase
-        db_root_items_user_topics.addValueEventListener(new ValueEventListener() {
+        db_root_user_topics.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showProgressDialog(getBaseContext(),getString(R.string.title_nav_adding_alert),getString(R.string.message_info_adding_alert));
+
                 final List<TopicMainCategory> topicMainCategoryList = new ArrayList<>();
                 for (final DataSnapshot topicCategory_snapshot : dataSnapshot.getChildren()) {
 
@@ -102,25 +110,37 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
                             for (DataSnapshot topic : dataSnapshot.getChildren()) {
                                 final String topicTitle = String.valueOf(topic.getKey());
 
-                                String[] topicCityCat_ = topicTitle.split("_");
+                                String[] topicCityCat_ = topicTitle.split(getString(R.string.underScore));
 
-                                topicList.add(new Topic(topicCityCat_[3] + " in " + topicCityCat_[2],topicCategory_key));
-                                Log.d(TAG, "onDataChange: "+topicCategory_key);
+                                topicList.add(new Topic(topicCityCat_[3] + getString(R.string.in) + topicCityCat_[2], topicCategory_key));
+                                Log.d(TAG, "onDataChange: " + topicCategory_key);
 
                             }
 
                             if (topicCategory_key.equals(PATH_INEED)) {
-                                topicMainCategoryList.add(new TopicMainCategory("My Subscriptions for ordered items:", topicList));
+                                if (topicList.size() == 0) {
+                                    topicMainCategoryList.clear();
+                                } else {
+                                    topicMainCategoryList.add(new TopicMainCategory(getString(R.string.title_subscribtion_ineed), topicList));
+
+                                }
 
                             } else {
-                                topicMainCategoryList.add(new TopicMainCategory("My Subscriptions for available items:", topicList));
+                                if (topicList.size() == 0) {
+                                    topicMainCategoryList.clear();
+                                } else {
+                                    topicMainCategoryList.add(new TopicMainCategory(getString(R.string.title_subscribtion_ihave), topicList));
+
+                                }
 
                             }
 
 
-                            DocExpandableRecyclerAdapter_Subscriptions adapter = new DocExpandableRecyclerAdapter_Subscriptions(topicMainCategoryList, Activity_User_Subscriptions.this);
+                            Adapter_ExpandableRecycler__Subscriptions adapter = new Adapter_ExpandableRecycler__Subscriptions(topicMainCategoryList, Activity_User_Subscriptions.this);
 
-                            mRecyclerView_ineed.setAdapter(adapter);
+                            mRecyclerView.setAdapter(adapter);
+
+                            updateUI_If_No_Content(topicMainCategoryList.size());
                             hideProgressBar(mProgress);
 
 
@@ -143,6 +163,9 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
 
             }
         });
+        hideProgressBar(mProgress);
+        mProgress.setVisibility(View.GONE);
+
     }
 
 
@@ -158,7 +181,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
         db_root_items = db_root.child(PATH_ITEMS);
         db_root_items_users = db_root.child(PATH_USER_ITEMS);
 
-        db_root_items_user_topics = db_root.child(PATH_USERS_TOPICS).child(userID);
+        db_root_user_topics = db_root.child(PATH_USERS_TOPICS).child(userID);
 
         db_root_userIDs_notifications = db_root.child(PATH_USERIDS_NOTIFICATIONS);
         db_root_tokens_notifications = db_root.child(PATH_TOKENS_NOTIFICATIONS);
@@ -166,7 +189,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
     }
 
     private void create_userID_tokens_notifications_list(String itemKind) {
-        db_root.child(PATH_USERS_TOKENS).child(userID).child(PATH_TOKENS).addListenerForSingleValueEvent(new ValueEventListener() {
+        db_root.child(PATH_USERSIDs_TOKENS).child(userID).child(PATH_TOKENS).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot_userID_tokens) {
                 for (DataSnapshot snapshot_userID_token : snapshot_userID_tokens.getChildren()) {
@@ -263,6 +286,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
 
             }
         });
+
     }
 
     private void setUpToolBar() {
@@ -272,15 +296,49 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle(getString(R.string.title_user_subscriptions));
     }
 
 
     @Override
     public void onClick(View v) {
 
+        switch (v.getId()) {
+            case R.id.fab_add_alert:
+                show_Add_Alert_Dialog();
 
+
+        }
     }
+    private void show_Add_Alert_Dialog() {
 
+        showDialogFragment(new  Fragment_AddAlert_Dialog(),"AddAlertDialog");
+/*
+        getSupportFragmentManager().setFragmentResultListener(BUNDLE_KEY_ADD_ALERT, this, (requestKey, bundle) -> {
+            if (bundle.getBoolean(BUNDLE_KEY_ADD_ALERT)) {
+                showProgressDialog(this,getString(R.string.title_nav_adding_alert),getString(R.string.message_info_adding_alert));
+                Log.d(TAG, "show_Add_Alert_Dialog: ");
+                create_userID_tokens_notifications_list(PATH_IHAVE);
+                create_userID_tokens_notifications_list(PATH_INEED);
+                hideProgressBar(mProgress);
+            }
+        });
+*/
+    }
+    public void showDialogFragment(DialogFragment newFragment, String tag) {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction. We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        // save transaction to the back stack
+        ft.addToBackStack("dialog");
+        newFragment.show(ft, tag);
+        getSupportFragmentManager().executePendingTransactions();
+    }
 
     @Override
     public void onDestroy() {
@@ -290,5 +348,23 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
     }
 
 
+    private void updateUI_If_No_Content(long topicsCount) {
+        if (topicsCount == 0) {
+            Log.d(TAG, "updateUI_If_No_Content: topicsCount == 0");
+            m_ll_no_content.setVisibility(View.VISIBLE);
+        } else {
+            Log.d(TAG, "updateUI_If_No_Content: topicsCount != 0  " + topicsCount);
 
+            m_ll_no_content.setVisibility(View.GONE);
+
+        }
+
+
+    }
+
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

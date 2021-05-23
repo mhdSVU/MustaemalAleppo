@@ -6,9 +6,31 @@ import android.os.Parcelable;
 public class Notification implements Parcelable {
 
 
-    private  String mState;
-    private  String mCategory;
-    private  String mCity;
+    private String mState;
+    private String mCategory;
+    private String mCity;
+    private String ID;
+    private String mValue = "";
+    private String mTitle = "";
+    private String mTopic = "";
+    private String mDateTime = "";
+    private String mUserName;
+    private String mImgURL = "";
+
+
+    public Notification(String mState, String mCategory, String mCity, String ID, String mValue, String mTitle, String mTopic, String mDateTime,String mUserName,String mImgURL) {
+        this.mState = mState;
+        this.mCategory = mCategory;
+        this.mCity = mCity;
+        this.ID = ID;
+        this.mValue = mValue;
+        this.mTitle = mTitle;
+        this.mTopic = mTopic;
+        this.mDateTime = mDateTime;
+        this.mImgURL = mImgURL;
+        this.mUserName = mUserName;
+    }
+
 
     public void setmValue(String mValue) {
         this.mValue = mValue;
@@ -26,11 +48,6 @@ public class Notification implements Parcelable {
         return ID;
     }
 
-    private  String ID;
-    private  String mValue="";
-    private String mTitle="";
-    private String mTopic="";
-    private String mDateTime="";
 
     public void setmTopic(String mTopic) {
         this.mTopic = mTopic;
@@ -60,7 +77,15 @@ public class Notification implements Parcelable {
         return CREATOR;
     }
 
-    private String mUserName;
+
+    public String getmImgURL() {
+        return mImgURL;
+    }
+
+    public void setmImgURL(String mImgURL) {
+        this.mImgURL = mImgURL;
+    }
+
 
     public void setTopic(String mTopic) {
         this.mTopic = mTopic;
@@ -92,18 +117,6 @@ public class Notification implements Parcelable {
 
     public String getmCity() {
         return mCity;
-    }
-
-    public Notification(String mState, String mCategory, String mCity, String ID, String mValue, String mTitle, String mTopic, String mDateTime, String mUserName) {
-        this.mState = mState;
-        this.mCategory = mCategory;
-        this.mCity = mCity;
-        this.ID = ID;
-        this.mValue = mValue;
-        this.mTitle = mTitle;
-        this.mTopic = mTopic;
-        this.mDateTime = mDateTime;
-        this.mUserName = mUserName;
     }
 
     protected Notification(Parcel in) {

@@ -26,10 +26,10 @@
         />
 </group>
 
-    <item android:title="@string/action_add_alert"
-        android:id="@+id/action_add_alert"
-        app:showAsAction="ifRoom"
-        android:icon="@mipmap/ic_add_alert_white_24dp"
+    <item android:title="@string/action_title_notifications"
+        android:id="@+id/action_show_notifications"
+        app:showAsAction="always"
+        app:actionLayout="@layout/action_notification"
         />
     <item android:title=""
         android:id="@+id/action_search"

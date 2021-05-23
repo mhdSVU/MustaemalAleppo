@@ -10,7 +10,9 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import mohammedyouser.com.mustaemalaleppo.R;
 
@@ -44,6 +45,14 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
 
     public Bundle bundle;
     public ProgressBar mProgress;
+    private LinearLayout m_ll_no_content;
+    private String mNotificationTitle;
+    private String mNotificationDateTime;
+    private String mNotificationUserName;
+    private String mNotificationUserImage;
+    private Notification mNotification;
+    private TextView m_tv_label_notifications_ihave;
+    private TextView m_tv_label_notifications_ineed;
 
 
     @Override
@@ -52,19 +61,10 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
         setContentView(R.layout.activity__user__notifications);
 
         setUpToolBar();
-
-        mProgress = findViewById(R.id.progressBar1);
-        mProgress.setVisibility(View.VISIBLE);
+        setUpViews();
 
 
-        mProgress.setIndeterminate(true);
-        mProgress.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
-        //Define recycleview
-        mRecyclerView_ihave = findViewById(R.id.recycler_Expand_ihave);
-        mRecyclerView_ineed = findViewById(R.id.recycler_Expand_ineed);
-        mRecyclerView_ihave.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView_ineed.setLayoutManager(new LinearLayoutManager(this));
 
         setUpAuthentication();
 
@@ -73,14 +73,35 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
         create_userID_notifications_list(PATH_INEED);
         create_userID_notifications_list(PATH_IHAVE);
 
+        fetchUserNotifications(PATH_IHAVE);
+        fetchUserNotifications(PATH_INEED);
 
+        updateUI_If_No_Content();
+    }
+
+    private void setUpViews() {
+        mProgress = findViewById(R.id.progressBar1);
+       // mProgress.setVisibility(View.VISIBLE);
+
+
+        mProgress.setIndeterminate(true);
+        mProgress.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+
+        //Define recycleview
+        m_ll_no_content = findViewById(R.id.ll_no_content);
+        mRecyclerView_ihave = findViewById(R.id.recycler_Expand_ihave);
+        mRecyclerView_ineed = findViewById(R.id.recycler_Expand_ineed);
+        mRecyclerView_ihave.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView_ineed.setLayoutManager(new LinearLayoutManager(this));
+        m_tv_label_notifications_ihave = findViewById(R.id.tv_label_notifications_ihave);
+        m_tv_label_notifications_ineed = findViewById(R.id.tv_label_notifications_ineed);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //fetching notifications from firebase DB
-        fetchUserNotifications();
+        create_userID_notifications_list(PATH_IHAVE);
+        create_userID_notifications_list(PATH_INEED);
     }
 
     private void setUpAuthentication() {
@@ -98,289 +119,276 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
 
     }
 
-    private void create_userID_notifications_list(String itemKind) {
+    private void create_userID_notifications_list(String itemState) {
         Log.d(TAG, "create_userID_tokens_notifications_list: ");
         //fetching Notifications topics and notifications from Users_Tokens
-        db_root.child(PATH_USERS_TOKENS).child(userID).child(PATH_TOKENS).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot_userID_tokens) {
-                for (DataSnapshot snapshot_userID_token : snapshot_userID_tokens.getChildren()) {
+        db_root.child(PATH_USERSIDs_TOKENS).child(userID).child(PATH_TOKENS)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot_userID_tokens) {
+                        for (DataSnapshot snapshot_userID_token : snapshot_userID_tokens.getChildren()) {
 
-                    db_root_tokens_notifications.child(snapshot_userID_token.getKey()).child(itemKind)
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot_topics) {
-                            for (DataSnapshot snapshot_topic : snapshot_topics.getChildren()) {
-                                //Adding "Notifications topics" to UsersIDS_Notifications
-                                db_root_userIDs_notifications.child(userID).child(itemKind)
-                                        .child(snapshot_topic.getKey()).runTransaction(new Transaction.Handler() {
-                                    @NonNull
-                                    @Override
-                                    public Transaction.Result doTransaction(@NonNull MutableData currentData) {
-                                        if (currentData.getValue() == null) {
-                                            currentData.setValue(true);
-                                            snapshot_topic.getRef().addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot_notification_topic) {
-                                                    for (DataSnapshot snapshot_notificationID : snapshot_notification_topic.getChildren()) {
-                                                        //Adding "Notifications" to UsersIDS_Notifications
-
-                                                           db_root_userIDs_notifications.child(userID).child(itemKind).child(snapshot_topic.getKey())
-                                                       // db_root_userIDs_notifications.child(userID).child(itemKind).child(snapshot_notification_topic.getKey())
-                                                                .child(snapshot_notificationID.getKey()).runTransaction(new Transaction.Handler() {
-                                                            @NonNull
-                                                            @Override
-                                                            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
-                                                                if (currentData.getValue() == null) {
-                                                                    //  currentData.setValue(snapshot_notificationID.getValue());
-                                                                    currentData.setValue(true);
-                                                                    Log.d(TAG, "doTransaction: "+(snapshot_notificationID.getValue()));
+                            db_root_tokens_notifications.child(snapshot_userID_token.getKey()).child(itemState)
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot_topics) {
+                                            for (DataSnapshot snapshot_topic : snapshot_topics.getChildren()) {
+                                                //Adding "Notifications topics" to UsersIDS_Notifications
+                                                db_root_userIDs_notifications.child(userID).child(itemState)
+                                                        .child(snapshot_topic.getKey()).runTransaction(new Transaction.Handler() {
+                                                    @NonNull
+                                                    @Override
+                                                    public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                                                        if (currentData.getValue() == null) {
+                                                            currentData.setValue(true);
+                                                            snapshot_topic.getRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot snapshot_notification_topic) {
+                                                                    for (DataSnapshot snapshot_notificationID : snapshot_notification_topic.getChildren()) {
+                                                                        //Adding "Notifications" to UsersIDS_Notifications
 
 
-                                                                    return Transaction.success(currentData);
+                                                                        db_root_userIDs_notifications.child(userID).child(itemState).child(snapshot_topic.getKey())
+                                                                                // db_root_userIDs_notifications.child(userID).child(itemState).child(snapshot_notification_topic.getKey())
+                                                                                .child(snapshot_notificationID.getKey()).runTransaction(new Transaction.Handler() {
+                                                                            @NonNull
+                                                                            @Override
+                                                                            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                                                                                if (currentData.getValue() == null) {
+                                                                                    //  currentData.setValue(snapshot_notificationID.getValue());
+                                                                                    currentData.setValue(true);
+                                                                                    Log.d(TAG, "doTransaction: " + (snapshot_notificationID.getValue()));
+
+
+                                                                                    return Transaction.success(currentData);
+                                                                                }
+
+                                                                                return Transaction.abort();
+                                                                            }
+
+                                                                            @Override
+                                                                            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                                                                                if (committed) {
+                                                                                    // unique key saved
+                                                                                    Log.d(TAG, "onCompletesdfsdsd: " + "unique key saved 2");
+                                                                                } else {
+                                                                                    // unique key already exists
+                                                                                }
+
+                                                                            }
+                                                                        });
+
+                                                                    }
                                                                 }
 
-                                                                return Transaction.abort();
-                                                            }
-                                                            @Override
-                                                            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
-                                                                if (committed) {
-                                                                    // unique key saved
-                                                                    Log.d(TAG, "onCompletesdfsdsd: " + "unique key saved 2");
-                                                                } else {
-                                                                    // unique key already exists
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError error) {
+
                                                                 }
-                                                            }
-                                                        });
+                                                            });
+
+                                                            return Transaction.success(currentData);
+                                                        }
+
+
+                                                        return Transaction.abort();
                                                     }
-                                                }
 
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                    @Override
+                                                    public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                                                        if (committed) {
+                                                            // unique key saved
+                                                            Log.d(TAG, "onComplete: " + "unique key saved3");
+                                                        } else {
+                                                            // unique key already exists
+                                                            snapshot_topic.getRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot snapshot_notification_topic) {
+                                                                    for (DataSnapshot snapshot_notificationID : snapshot_notification_topic.getChildren()) {
+                                                                        db_root_userIDs_notifications.child(userID).child(itemState).child(snapshot_topic.getKey()).child(snapshot_notificationID.getKey()).runTransaction(new Transaction.Handler() {
+                                                                            @NonNull
+                                                                            @Override
+                                                                            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                                                                                if (currentData.getValue() == null) {
+                                                                                    currentData.setValue(snapshot_notificationID.getValue());
 
-                                                }
-                                            });
 
-                                            /*db_root_tokens_notifications.child(snapshot_userID_token.getKey()).child(itemKind)
-                                                    .child(snapshot_topic.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {*/
+                                                                                    return Transaction.success(currentData);
+                                                                                }
 
 
+                                                                                return Transaction.abort();
+                                                                            }
 
-                                            return Transaction.success(currentData);
+                                                                            @Override
+                                                                            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                                                                                if (committed) {
+                                                                                    // unique key saved
+                                                                                    Log.d(TAG, "onComplete: " + "unique key saved 1");
+                                                                                } else {
+                                                                                    // unique key already exists
+                                                                                }
+                                                                            }
+                                                                        });
+
+                                                                    }
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                });
+
+
+                                            }
+
+
                                         }
 
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
 
-                                        return Transaction.abort();
-                                    }
-
-                                    @Override
-                                    public void onComplete(@com.google.firebase.database.annotations.Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
-                                        if (committed) {
-                                            // unique key saved
-                                            Log.d(TAG, "onComplete: " + "unique key saved3");
-                                        } else {
-                                            // unique key already exists
-                                            snapshot_topic.getRef().addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot_notification_topic) {
-                                                    for (DataSnapshot snapshot_notificationID : snapshot_notification_topic.getChildren()) {
-                                                        db_root_userIDs_notifications.child(userID).child(itemKind).child(snapshot_topic.getKey()).child(snapshot_notificationID.getKey()).runTransaction(new Transaction.Handler() {
-                                                            @NonNull
-                                                            @Override
-                                                            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
-                                                                if (currentData.getValue() == null) {
-                                                                    currentData.setValue(snapshot_notificationID.getValue());
-
-
-                                                                    return Transaction.success(currentData);
-                                                                }
-
-
-                                                                return Transaction.abort();
-                                                            }
-
-                                                            @Override
-                                                            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
-                                                                if (committed) {
-                                                                    // unique key saved
-                                                                    Log.d(TAG, "onComplete: " + "unique key saved 1");
-                                                                } else {
-                                                                    // unique key already exists
-                                                                }
-                                                            }
-                                                        });
-
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                                }
-                                            });
                                         }
-                                    }
-                                });
+                                    });
 
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
 
                         }
-                    });
+                    }
 
 
-                }
-            }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+                    }
+                });
     }
 
-    private void fetchUserNotifications() {
-        db_root_userIDs_notifications.child(userID).child(PATH_INEED).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot_notifications_topics) {
+    private void fetchUserNotifications(String itemState) {
+        //notificationTopicList.clear();
+        // notificationList.clear();
 
-                final List<NotificationTopic> notificationTopicList = new ArrayList<>();
-                for (final DataSnapshot snapshot_notification_topic : snapshot_notifications_topics.getChildren()) {
+        db_root_userIDs_notifications.child(userID).child(itemState)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot_notifications_topics) {
+
+                        final ArrayList<NotificationTopic> notificationTopicList = new ArrayList<>();
+
+                        for (final DataSnapshot snapshot_notification_topic : snapshot_notifications_topics.getChildren()) {
+                            final ArrayList<Notification> notificationList = new ArrayList<>();
+
+                            final String topicKey = String.valueOf(snapshot_notification_topic.getKey());
+
+                            snapshot_notification_topic.getRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot_notification_topic) {
+                                    for (DataSnapshot snapshot_notification : snapshot_notification_topic.getChildren()) {
+                                        final String notificationKey = String.valueOf(snapshot_notification.getKey());
+                                        final String notificationValue = String.valueOf(snapshot_notification.getValue());
+
+                                        String[] topicCityCat_ = String.valueOf(snapshot_notification_topic.getKey()).split("_");
+                                        FirebaseDatabase.getInstance().getReference()
+                                                .child(PATH_ITEMS).child(itemState).child(PATH_ALL_ITEMS).child(notificationKey).
+                                                addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot_item) {
+
+                                                        db_root.child(PATH_USERS).child(String.valueOf(snapshot_item.child(PATH_ITEM_USER_ID).getValue())).
+                                                                addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(@NonNull DataSnapshot snapshot_userItem) {
+
+                                                                        mNotificationTitle = String.valueOf(snapshot_item.child(PATH_ITEM_TITLE).getValue());
+                                                                        mNotificationDateTime = String.valueOf(snapshot_item.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue());
+                                                                        mNotificationUserName = String.valueOf(snapshot_item.child(PATH_ITEM_USER_NAME).getValue());
+                                                                        mNotificationUserImage = String.valueOf(snapshot_userItem.child(PATH_USER_IMAGE).getValue());
+
+                                                                        Log.d(TAG, "onDataChange:1     mNotificationTitle,\n" +
+                                                                                "                                                topicKey,\n" +
+                                                                                "                                               mNotificationDateTime,\n" +
+                                                                                "                                                mNotificationUserName,\n" +
+                                                                                "                                             mNotificationUserImage))" + mNotificationTitle + " " + topicKey + " " +
+                                                                                mNotificationDateTime + " " +
+                                                                                mNotificationUserName + " " +
+                                                                                mNotificationUserImage);
+
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                                    }
+                                                                });
+                                                        mNotification = new Notification(itemState, topicCityCat_[3],
+                                                                topicCityCat_[2],
+                                                                notificationKey,
+                                                                notificationValue,
+                                                                String.valueOf(snapshot_item.child(PATH_ITEM_TITLE).getValue()),
+                                                                topicKey,
+                                                                String.valueOf(snapshot_item.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue()),
+                                                                String.valueOf(snapshot_item.child(PATH_ITEM_USER_NAME).getValue()),
+                                                                String.valueOf(mNotificationUserImage));
+
+                                                        notificationList.add(mNotification);
 
 
-                    final String str_notification_topic_key = String.valueOf(snapshot_notification_topic.getKey());
-                    String[] topicCityCat_ = str_notification_topic_key.split("_");
+                                                    }
 
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    snapshot_notification_topic.getRef().addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot_notification_topic) {
-                            final List<Notification> notificationList = new ArrayList<>();
-                            for (DataSnapshot snapshot_notification : dataSnapshot_notification_topic.getChildren()) {
-                                final String notificationTitle = String.valueOf(snapshot_notification.getKey());
+                                                    }
+                                                });
 
-                                String[] topicCityCat_=String.valueOf(snapshot_notification_topic.getKey()).split("_");
-                                FirebaseDatabase.getInstance().getReference().child(PATH_ITEMS).child(PATH_INEED)
-                                        .child(PATH_ALL_ITEMS).child(String.valueOf(snapshot_notification.getKey())).
-                                        addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                        notificationList.add(new Notification(PATH_INEED, topicCityCat_[3], topicCityCat_[2],snapshot_notification.getKey(),String.valueOf(snapshot_notification.getValue()),
-                                                String.valueOf(snapshot.child(PATH_ITEM_TITLE).getValue()),
-                                                String.valueOf(snapshot_notification_topic.getKey()),
-                                                String.valueOf(snapshot.child(PATH_ITEM_DATE_AND_TIME).getValue()),
-                                                String.valueOf(snapshot.child(PATH_ITEM_USER_NAME).getValue())));
                                     }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                                    String[] topicCityCat_ = topicKey.split(getString(R.string.underScore));
+
+                              /*      if (notificationList.size() != 0) {
+                                        notificationTopicList.add(new NotificationTopic(topicCityCat_[3] + getString(R.string.in) + topicCityCat_[2], notificationList));
+
+                                    }*/
+                                    notificationTopicList.add(new NotificationTopic(topicCityCat_[3] + getString(R.string.in) + topicCityCat_[2], notificationList));
+
+                                    if (itemState.equals(PATH_INEED)) {
+                                        Adapter_ExpandableRecycler__Notifications adapter_ineed = new Adapter_ExpandableRecycler__Notifications(itemState, notificationList, notificationTopicList, Activity_User_Notifications.this, m_tv_label_notifications_ihave, m_tv_label_notifications_ineed, m_ll_no_content);
+
+                                        mRecyclerView_ineed.setAdapter(adapter_ineed);
+                                        adapter_ineed.notifyDataSetChanged();
+
+                                    } else {
+                                        Adapter_ExpandableRecycler__Notifications adapter_ihave = new Adapter_ExpandableRecycler__Notifications(itemState, notificationList, notificationTopicList, Activity_User_Notifications.this, m_tv_label_notifications_ihave, m_tv_label_notifications_ineed, m_ll_no_content);
+                                        mRecyclerView_ihave.setAdapter(adapter_ihave);
+
+                                        adapter_ihave.notifyDataSetChanged();
 
                                     }
-                                });
+                                    hideProgressBar(mProgress);
+                                }
 
-                            }
+                                @Override
+                                public void onCancelled(DatabaseError error) {
+                                    // Failed to read value
+                                    Log.d(TAG, "onCancelled: Failed to read value. " + error.toException());
+                                }
 
-                            notificationTopicList.add(new NotificationTopic( String.valueOf(snapshot_notification_topic.getKey()), notificationList));
-
-                            DocExpandableRecyclerAdapter_Notifications adapter = new DocExpandableRecyclerAdapter_Notifications(notificationTopicList, Activity_User_Notifications.this);
-
-                            mRecyclerView_ineed.setAdapter(adapter);
-                            hideProgressBar(mProgress);
-
+                            });
 
                         }
 
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-                            Log.d(TAG, "onCancelled: Failed to read value. " + error.toException());
-                        }
+                    }
 
-                    });
-                }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        db_root_userIDs_notifications.child(userID).child(PATH_IHAVE).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot_notifications_topics) {
-
-                final List<NotificationTopic> notificationTopicList = new ArrayList<>();
-                for (final DataSnapshot snapshot_notification_topic : snapshot_notifications_topics.getChildren()) {
+                    }
+                });
 
 
-                    final String str_notification_topic_key = String.valueOf(snapshot_notification_topic.getKey());
-                    String[] topicCityCat_ = str_notification_topic_key.split("_");
-
-
-                    snapshot_notification_topic.getRef().addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot_notification_topic) {
-                            final List<Notification> notificationList = new ArrayList<>();
-                            for (DataSnapshot snapshot_notification : dataSnapshot_notification_topic.getChildren()) {
-                                final String notificationTitle = String.valueOf(snapshot_notification.getKey());
-
-                                String[] topicCityCat_=String.valueOf(snapshot_notification_topic.getKey()).split("_");
-                                FirebaseDatabase.getInstance().getReference().child(PATH_ITEMS).child(PATH_IHAVE)
-                                        .child(PATH_ALL_ITEMS).child(String.valueOf(snapshot_notification.getKey())).
-                                        addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                        notificationList.add(new Notification(PATH_IHAVE, topicCityCat_[3], topicCityCat_[2],snapshot_notification.getKey(),String.valueOf(snapshot_notification.getValue()),
-                                                String.valueOf(snapshot.child(PATH_ITEM_TITLE).getValue()),
-                                                String.valueOf(snapshot_notification_topic.getKey()),
-                                                String.valueOf(snapshot.child(PATH_ITEM_DATE_AND_TIME).getValue()),
-                                                String.valueOf(snapshot.child(PATH_ITEM_USER_NAME).getValue())));
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-
-                            }
-
-                            notificationTopicList.add(new NotificationTopic( String.valueOf(snapshot_notification_topic.getKey()), notificationList));
-
-                            DocExpandableRecyclerAdapter_Notifications adapter = new DocExpandableRecyclerAdapter_Notifications(notificationTopicList, Activity_User_Notifications.this);
-
-                            mRecyclerView_ihave.setAdapter(adapter);
-                            hideProgressBar(mProgress);
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-                            Log.d(TAG, "onCancelled: Failed to read value. " + error.toException());
-                        }
-
-                    });
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     private void setUpToolBar() {
@@ -403,6 +411,32 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
     public void onDestroy() {
         super.onDestroy();
         // myAdapter.stopListening();
+
+    }
+
+    private void updateUI_If_No_Content() {
+        db_root_userIDs_notifications.child(userID)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            if (dataSnapshot.hasChildren()) {
+
+                                m_ll_no_content.setVisibility(View.GONE);
+                                m_tv_label_notifications_ihave.setVisibility(View.VISIBLE);
+                                m_tv_label_notifications_ineed.setVisibility(View.VISIBLE);
+                                mProgress.setVisibility(View.GONE);
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
     }
 

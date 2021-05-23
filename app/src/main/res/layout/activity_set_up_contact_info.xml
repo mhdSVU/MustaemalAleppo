@@ -1,9 +1,8 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -13,10 +12,9 @@
         android:scrollbars="vertical">
 
         <FrameLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            >
+            android:layout_gravity="center_horizontal">
 
 
             <androidx.cardview.widget.CardView
@@ -24,14 +22,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="68dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="68dp"
                 android:elevation="7dp"
-                android:padding="10dp"
                 android:visibility="visible"
-                app:cardBackgroundColor="@color/fui_buttonShadow"
+                app:cardBackgroundColor="@color/colorPrimary"
                 app:cardCornerRadius="20dp"
+
 
                 >
 
@@ -41,108 +39,156 @@
                     android:layout_marginTop="40dp"
                     android:orientation="vertical"
 
-                    >
+                    android:padding="16dp">
 
+                    <TextView
+                        android:id="@+id/tv_userPhoneNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/transparent"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        tools:text="+998359911"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        />
 
-                    <LinearLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:layout_marginTop="15dp"
-                        android:orientation="vertical"
-                        android:padding="10dp"
-                        android:weightSum="3.0"
+                        android:layout_height="80dp"
+                        android:gravity="bottom"
+                        android:hint="@string/hint_user_name_contact_info"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="15"
+                        app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
+                        app:hintTextAppearance="@style/hintStyle"
 
                         >
 
-                        <com.google.android.material.textfield.TextInputLayout
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editText_displayName"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1.0"
-                            android:gravity="bottom"
-                            android:hint="@string/hint_user_name_contact_info"
-                            app:counterEnabled="true"
-                            app:counterMaxLength="25"
-                            app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
-                            app:hintTextAppearance="@style/hintStyle"
-
-                            >
+                            android:layout_height="40dp"
+                            android:background="@drawable/background_input"
+                            android:inputType="textPersonName"
+                            android:maxLength="15"
+                            android:maxLines="1"
+                            android:padding="10dp"
 
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editText_displayName"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="10dp"
-                                android:background="@drawable/background_input"
-                                android:inputType="textPersonName"
-                                android:maxLength="25"
-                                android:maxLines="1"
-                                android:padding="10dp"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:gravity="bottom"
+                        android:hint="@string/hint_user_email_contact_info"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="50"
+                        app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
+                        app:hintTextAppearance="@style/hintStyle">
 
 
-                                />
+                        <com.google.android.material.textfield.TextInputEditText
 
-                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/editText_email"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1.0"
-                            android:gravity="bottom"
-                            android:hint="@string/hint_user_email_contact_info"
-                            app:counterEnabled="true"
-                            app:counterMaxLength="50"
-                            app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
-                            app:hintTextAppearance="@style/hintStyle">
+                            android:layout_height="40dp"
+                            android:background="@drawable/background_input"
+                            android:inputType="textEmailAddress"
+                            android:maxLength="50"
+                            android:maxLines="1"
+                            android:padding="10dp"
 
 
-                            <com.google.android.material.textfield.TextInputEditText
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
-                                android:id="@+id/editText_email"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:background="@drawable/background_input"
-                                android:inputType="textEmailAddress"
-                                android:maxLength="50"
-                                android:maxLines="1"
-                                android:padding="10dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:padding="8dp"
+                        android:text="@string/label_loc_default"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="48dp"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/ll_location"
+                            android:layout_width="170dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/background_input"
+                            android:gravity="center_vertical"
+
+                            android:padding="16dp">
 
 
-                                />
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:src="@drawable/ic_location" />
 
-                        </com.google.android.material.textfield.TextInputLayout>
+                            <TextView
+                                android:id="@+id/tv_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:textColor="@color/colorPrimary" />
 
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1.0"
-                            android:gravity="bottom"
-                            android:hint="@string/hint_phone_number_contact_info"
-                            app:counterEnabled="true"
-                            app:counterMaxLength="15"
-                            app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
-                            app:hintTextAppearance="@style/hintStyle">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_phoneNumber"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:background="@drawable/background_input"
-                                android:inputType="phone"
-                                android:maxLength="25"
-                                android:maxLines="1"
-                                android:padding="10dp"
-
-                                />
+                            <ProgressBar
+                                android:id="@+id/pb_location"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:indeterminateTint="@color/colorPrimaryDark" />
 
 
-                        </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout><!---->
+                        <Button
+                            android:id="@+id/btn_update_my_location"
 
+                            android:layout_width="100dp"
+                            android:layout_height="48dp"
 
+                            android:layout_margin="8dp"
+                            android:background="@drawable/background_button"
+                            android:drawableLeft="@drawable/ic_location"
+                            android:elevation="8dp"
+
+                            android:gravity="center_horizontal|center_vertical"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+
+                            android:insetBottom="0dp"
+                            android:padding="4dp"
+                            android:text="@string/btn_confirm_update_location"
+                            android:textColor="@color/colorPrimary"
+
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -157,7 +203,7 @@
 
                         <Button
 
-                            android:id="@+id/button_setUp_ignore"
+                            android:id="@+id/button_ignore_user_info"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1.0"
@@ -168,31 +214,64 @@
 
 
                         <Button
-                            android:id="@+id/button_setUp_ContactInfo"
+                            android:id="@+id/button_save_user_info"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1.0"
-                            android:text="@string/add"
+                            android:text="@string/btn_save"
                             android:theme="@style/ThemeOverlay.MyDarkButton" />
 
 
                     </LinearLayout>
+
                 </LinearLayout>
+
 
             </androidx.cardview.widget.CardView>
 
-            <ImageButton
-                android:id="@+id/img_btn_user_image"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:layout_marginBottom="500dp"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/desc_userImage"
-                android:elevation="5dp"
-                android:scaleType="centerCrop"
-                android:layout_gravity="center_horizontal"
-                app:srcCompat="@mipmap/ic_account_circle_white_24dp" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="500dp"
+                android:elevation="8dp">
+
+
+                <ImageView
+                    android:id="@+id/img_btn_developer_image"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:background="@drawable/background_user_image"
+
+                    app:srcCompat="@mipmap/ic_account_circle_black_24dp"
+                    app:tint="@color/colorPrimary" />
+
+                <ImageView
+                    android:id="@+id/img_btn_user_image_add"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="70dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/desc_userImage"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_add_user_image_add"
+                    app:tint="@color/nice_red" />
+
+                <ImageView
+                    android:id="@+id/img_btn_user_image_edit"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="70dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/desc_userImage"
+                    android:scaleType="fitCenter"
+                    app:tint="@color/nice_red"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_add_user_image_edit" />
+            </RelativeLayout>
 
         </FrameLayout>
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="mohammedyouser.com.mustaemalaleppo">
 
@@ -21,7 +20,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/my_app_new_name"
+        android:label="@string/my_app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
@@ -41,28 +40,46 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activity_Maps_Item_Location"
+            android:name=".Device.Activity_Maps_Item_Location"
             android:label="@string/title_activity__maps__item__location"></activity>
-        <activity android:name=".Data.Activity_User_Notifications" />
-        <activity android:name=".Data.Activity_User_Subscriptions" />
-        <activity android:name=".UI.Activity_Reset_Password" />
-        <activity android:name=".UI.ActivityForgetPasswordSuccessfulReset" />
-        <activity android:name=".UI.Activity_Forget_Password_Enter_Number" />
-        <activity android:name=".UI.Activity_Sign_Up_Phone_Number"   android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
-
-
-        </activity>
         <activity
-            android:name=".UI.AuthActivity"
-            android:label=""
-            android:windowSoftInputMode="stateHidden" />
+            android:name=".Data.Activity_User_Favorites"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:label="My Favorites" />
+        <activity
+            android:name=".Data.Activity_User_Notifications"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+        <activity
+            android:name=".Data.Activity_User_Subscriptions"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+        <activity
+            android:name=".UI.Activity_ForgetPassword_Reset_Password"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+        <activity
+            android:name=".UI.Activity_ForgetPassword_SuccessfulReset"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+        <activity
+            android:name=".UI.Activity_ForgetPassword_Enter_Number"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+        <activity
+            android:name=".UI.Activity_Sign_Up_Phone_Number"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+        <activity
+            android:name=".Domain.Activity_About_Developer"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+        <activity
+            android:name=".Domain.Activity_About_App"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+
+
         <activity
             android:name=".UI.Activity_Sign_In_Phone_Number"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:label=""
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".UI.SplashActivity"
-            android:label=""
+            android:label="@string/my_app_name"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar.NoStatusBar"
             android:windowSoftInputMode="stateHidden">
@@ -73,32 +90,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Domain.Add_Item_Activity"
+            android:name=".Domain.Activity_Add_Item"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label=""
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".UI.SignInActivity_Phone"
-            android:label=""
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".UI.SignInActivity_Google"
-            android:label=""
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".UI.SignInActivity_EmlPass"
-            android:label=""
-            android:windowSoftInputMode="stateHidden" />
+
+
         <activity
             android:name=".Domain.Activity_Display_Modify_Remove_Item"
-            android:label=""
-            android:theme="@style/AppTheme.NoActionBar"
             android:allowEmbedded="true"
-            android:resizeableActivity="true"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".UI.Ineed_Ihave_Activity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label=""
+            android:resizeableActivity="true"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity
+            android:name=".UI.Activity_Ineed_Ihave"
+            android:configChanges="screenSize|keyboardHidden"
             android:label=""
             android:windowSoftInputMode="stateHidden">
             <meta-data
@@ -116,19 +126,19 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".UI.Ineed_Ihave_Activity_CurrentUser"
-            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:name=".UI.Activity_Ineed_Ihave_CurrentUser"
+            android:configChanges="screenSize|keyboardHidden"
             android:label=""
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Domain.SetupContactInfo_Activity"
+            android:name=".Domain.Activity_SetupContactInfo"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:label=""
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".Domain.FireStoreTest1" />
 
         <meta-data
             android:name="android.app.searchable"
@@ -160,7 +170,7 @@
         </receiver>
 
         <service
-            android:name=".Domain.MyFirebaseMessagingService"
+            android:name=".Domain.Service_FirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

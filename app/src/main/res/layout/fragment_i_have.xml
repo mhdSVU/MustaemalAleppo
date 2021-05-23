@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mohammedyouser.com.mustaemalaleppo.UI.Ihave_Fragment">
+    tools:context="mohammedyouser.com.mustaemalaleppo.UI.Fragment_Ihave">
 
     <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -55,16 +55,7 @@
 
             />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="-3dp"
-            android:layout_marginEnd="15dp"
-            android:text="@string/label_add_item_ihave"
-            android:textColor="@color/colorAccent" />
+
     </LinearLayout>
 
     <FrameLayout

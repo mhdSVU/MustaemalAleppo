@@ -13,4 +13,8 @@ public class TopicMainCategory extends ExpandableGroup<Topic> {
         super(title, topics);
     }
 
+    @Override
+    public int getItemCount() {
+        return super.getItemCount();
+    }
 }

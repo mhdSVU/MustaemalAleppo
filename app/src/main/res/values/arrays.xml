@@ -16,15 +16,17 @@
 
     </string-array>
     <string-array name="array_categories">
-        <item>All Categories</item>
-        <item>Mobile Phones</item>
+        <item>All-Categories</item>
+        <item>Real-Estates</item>
         <item>Cars</item>
+        <item>Mobile-Phones</item>
+        <item>Services-Jobs</item>
         <item>Clothes</item>
         <item>Books</item>
         <item>Foods</item>
         <item>Furniture</item>
-        <item>Laptops/PCs</item>
-        <item>Electronic Devices</item>
+        <item>Laptops-PCs</item>
+        <item>Electronic-Devices</item>
         <item>Miscellaneous</item>
 
     </string-array>
