@@ -3,6 +3,7 @@ package mohammedyouser.com.mustaemalaleppo.Data;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import mohammedyouser.com.mustaemalaleppo.R;
@@ -24,21 +26,34 @@ import mohammedyouser.com.mustaemalaleppo.UI.CircleTransform;
  */
 
 public class ViewHolder_Item extends RecyclerView.ViewHolder {
+    public SparseBooleanArray getSparseBooleanArray() {
+        return sparseBooleanArray;
+    }
+
+
+
+    SparseBooleanArray sparseBooleanArray= new SparseBooleanArray();
     public static final String TAG = "TAG";
     final TextView mItemUserName;
     private final EditText mTitle;
     private final EditText mItemPrice;
     private final TextView mDate;
     private final EditText mItemDetails;
+
+    public CheckBox getM_cb_favorite() {
+        return m_cb_favorite;
+    }
+
     private final CheckBox m_cb_favorite;
     private final ImageButton m_img_btn_itemImage;
+    private final Context context;
 
 
     private View mItemView;
     ProgressBar progressBar = itemView.findViewById(R.id.progressBar1);
     ImageButton imageButton = itemView.findViewById(R.id.img_btn_itemImage);
 
-    public ViewHolder_Item(View itemView) {
+    public ViewHolder_Item(View itemView, Context context) {
         super(itemView);
         this.mItemView = itemView;
         mTitle = (EditText) mItemView.findViewById(R.id.et_item_title);
@@ -48,17 +63,41 @@ public class ViewHolder_Item extends RecyclerView.ViewHolder {
         mItemUserName = (TextView) mItemView.findViewById(R.id.textView_username);
         m_cb_favorite = (CheckBox) mItemView.findViewById(R.id.cb_favorite);
         m_img_btn_itemImage = (ImageButton) mItemView.findViewById(R.id.img_btn_itemImage);
+        this.context = context;
 
 
     }
+    public void bind(int position){
 
+        if(sparseBooleanArray.get(position,false)){
+            //set_button_checkBox_Favorite(false);
+            m_cb_favorite.setChecked(false);
+        }
+        else {
+            m_cb_favorite.setChecked(true);
+
+        }
+    }
 
     public View getMyItemView() {
         return mItemView;
     }
-    public View get_checkBox_Favorite() {
+
+    public CheckBox get_checkBox_Favorite() {
         return m_cb_favorite;
-    }  public View get_imgButton_itemImage() {
+    }
+
+    public void set_button_checkBox_Favorite(boolean isAddedToFavorites) {
+        if(isAddedToFavorites) {
+            m_cb_favorite.setButtonDrawable(ContextCompat.getDrawable(context, R.drawable.ic_add_to_favorite_filled));
+        }
+        else{
+            m_cb_favorite.setButtonDrawable(ContextCompat.getDrawable(context, R.drawable.ic_add_to_favorite));
+
+        }
+    }
+
+    public View get_imgButton_itemImage() {
         return m_img_btn_itemImage;
     }
 
@@ -68,14 +107,11 @@ public class ViewHolder_Item extends RecyclerView.ViewHolder {
     }
 
 
-
     public void setItemPrice(String itemPrice) {
         mItemPrice.setText(itemPrice);
         Log.d(TAG, "setItemImage: Price ");
 
     }
-
-
 
 
     public void setItemDateAndTime(String dateandtime) {
@@ -145,11 +181,9 @@ public class ViewHolder_Item extends RecyclerView.ViewHolder {
             mItemUserName.setText(userName);
 
         } else {
-            mItemUserName.setText(R.string.default_val_user_name);
+            mItemUserName.setText(R.string.empty);
         }
     }
-
-
 
 
     private void setImage_circle(Context context, Uri imageURL, float thumbnail, ImageView imageView) {

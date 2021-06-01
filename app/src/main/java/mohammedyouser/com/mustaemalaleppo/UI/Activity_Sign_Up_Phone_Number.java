@@ -88,6 +88,8 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
     private EditText m_et_password_confirm;
     private TextInputLayout m_til_password;
     private TextInputLayout m_til_password_confirm;
+    private TextInputLayout m_til_phone_number;
+    private TextInputLayout m_til_et_userName;
     private ImageButton m_img_btn_user_image;
     private Button m_btn_sign_up;
     private CheckBox m_cb_agree_ts_and_cs;
@@ -135,6 +137,8 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         m_cpp = (CountryCodePicker) findViewById(R.id.ccp);
         m_til_password = findViewById(R.id.til_password);
         m_til_password_confirm = findViewById(R.id.til_password_confirm);
+        m_til_phone_number = findViewById(R.id.til_et_phoneNumber);
+        m_til_et_userName = findViewById(R.id.til_et_userName);
         m_cb_agree_ts_and_cs = findViewById(R.id.cb_agree_ts_and_cs);
         m_tv_iagree = findViewById(R.id.tv_iagree);
         m_tv_terms = findViewById(R.id.tv_terms);
@@ -267,17 +271,10 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
             }
 
         }*/
-        if (view.getId() == R.id.et_userName) {
-            if (TextUtils.isEmpty(getContentOfView(view))) {
-                ((EditText) view).setError(getString(R.string.message_error_empty_field));
-                ((EditText) view).requestFocus();
-                validationState = false;
-            }
 
-        }
         if (view.getId() == R.id.et_phoneNumber) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
-                ((EditText) view).setError(getString(R.string.message_error_empty_field));
+                (m_til_phone_number).setError(getString(R.string.message_error_empty_field));
                 ((EditText) view).requestFocus();
                 validationState = false;
             }
@@ -285,24 +282,20 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         }
         if (view.getId() == R.id.et_password) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
-                ((EditText) view).setError(getString(R.string.message_error_empty_field));
+                m_til_password.setError(getString(R.string.message_error_empty_field));
                 ((EditText) view).requestFocus();
-                m_til_password.setEndIconMode(TextInputLayout.END_ICON_NONE);
-                m_til_password_confirm.setEndIconMode(TextInputLayout.END_ICON_NONE);
 
                 validationState = false;
             }
             if (TextUtils.getTrimmedLength(getContentOfView(view)) < 6 && TextUtils.getTrimmedLength(getContentOfView(view)) > 0) {
-                ((EditText) view).setError(getString(R.string.message_error_password_too_short));
+                (m_til_password).setError(getString(R.string.message_error_password_too_short));
                 ((EditText) view).requestFocus();
-                m_til_password.setEndIconMode(TextInputLayout.END_ICON_NONE);
-                m_til_password_confirm.setEndIconMode(TextInputLayout.END_ICON_NONE);
 
                 validationState = false;
             }
 
             if (!getContentOfView(view).equals(getContentOfView(m_et_password_confirm))) {
-                ((EditText) view).setError(getString(R.string.message_error_password_doesnt_match));
+                (m_til_password_confirm).setError(getString(R.string.message_error_password_doesnt_match));
                 ((EditText) view).requestFocus();
 
                 validationState = false;
@@ -311,18 +304,26 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         }
         if (view.getId() == R.id.et_password_confirm) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
-                ((EditText) view).setError(getString(R.string.message_error_empty_field));
+                (m_til_password_confirm).setError(getString(R.string.message_error_empty_field));
                 ((EditText) view).requestFocus();
 
                 validationState = false;
 
             }
             if (!getContentOfView(view).equals(getContentOfView(m_et_password_confirm))) {
-                ((EditText) view).setError(getString(R.string.message_error_password_doesnt_match));
+                (m_til_password_confirm).setError(getString(R.string.message_error_password_doesnt_match));
                 ((EditText) view).requestFocus();
 
                 validationState = false;
 
+            }
+
+        }
+        if (view.getId() == R.id.et_userName) {
+            if (TextUtils.isEmpty(getContentOfView(view))) {
+                (m_til_et_userName).setError(getString(R.string.message_error_empty_field));
+                ((EditText) view).requestFocus();
+                validationState = false;
             }
 
         }

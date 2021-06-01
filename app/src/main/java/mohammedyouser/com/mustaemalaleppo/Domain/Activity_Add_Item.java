@@ -670,8 +670,15 @@ if (!enabled) {
             }
         });
 
+        if(String.valueOf(mDetails.getText()).equals("null")){
+            custom_newItem_DB_Ref.child(PATH_ITEM_DETAILS).setValue(getString(R.string.tv_details_default_val));
 
-        custom_newItem_DB_Ref.child(PATH_ITEM_DETAILS).setValue(String.valueOf(mDetails.getText()));
+        }
+        else {
+            custom_newItem_DB_Ref.child(PATH_ITEM_DETAILS).setValue(String.valueOf(mDetails.getText()));
+
+        }
+
         custom_newItem_DB_Ref.child(PATH_ITEM_USER_ID).setValue(userID);
         custom_newItem_DB_Ref.child(PATH_ITEM_IMAGE).setValue(String.valueOf(uri_itemImg_download));
 

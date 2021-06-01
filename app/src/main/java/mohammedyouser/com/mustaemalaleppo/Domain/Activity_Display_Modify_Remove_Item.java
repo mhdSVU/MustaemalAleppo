@@ -1,6 +1,7 @@
 package mohammedyouser.com.mustaemalaleppo.Domain;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
@@ -364,9 +365,19 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                     viewHolder.setItemPrice((String) dataSnapshot.child(PATH_ITEM_PRICE).getValue());
                     viewHolder.setItemCity((String) dataSnapshot.child(PATH_ITEM_CITY).getValue());
                     viewHolder.setItemCategory((String) dataSnapshot.child(PATH_ITEM_CATEGORY).getValue());
-                    viewHolder.setItemDateAndTime(TimeAgo.getTimeAgo(-(dataSnapshot.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue(Long.class))));
-                   if(! String.valueOf(dataSnapshot.child(PATH_ITEM_DETAILS).getValue()).equals("null"))
-                    viewHolder.setItemDetails((String) dataSnapshot.child(PATH_ITEM_DETAILS).getValue());
+
+                    if (!String.valueOf(dataSnapshot.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue()).equals("null")) {
+                        viewHolder.setItemDateAndTime(TimeAgo.getTimeAgo(-(dataSnapshot.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue(Long.class))));
+                    }
+
+                    if (!String.valueOf(dataSnapshot.child(PATH_ITEM_DETAILS).getValue()).equals("null")) {
+                        viewHolder.setItemDetails((String) dataSnapshot.child(PATH_ITEM_DETAILS).getValue());
+                    } else {
+                        viewHolder.setItemDetails(getString(R.string.tv_details_default_val));
+                    }
+
+
+
 
 /*
                     Uri uri_itemImg = Uri.parse((String) dataSnapshot.child(PATH_ITEM_IMAGE).getValue());
@@ -1158,6 +1169,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
+        Technique.PULSE.playOn(v);
         switch (v.getId()) {
             case R.id.imageButton_user_phoneCall: {
                 String phoneNumber = get_selectedItem_userPhoneNumber(item_user_DB_Ref);
@@ -1167,8 +1179,6 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                     Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
                             getString(R.string.scheme), phoneNumber, null));
                     startActivity(phoneIntent);
-                } else {
-                    Toast.makeText(this, getString(R.string.message_info_error_no_phone_number), Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -1194,8 +1204,11 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                     Toast.makeText(this, getString(R.string.message_info_error_no_email), Toast.LENGTH_LONG).show();
                 }*/
 
-                String subject = ((EditText) viewHolder.itemView.findViewById(R.id.et_item_title)).getText().toString();
-                String str_msg_sms = getString(R.string.title_email_to_item_user, subject) + getString(R.string.default_val_content_email_to_item_user, subject);
+                String subject = String.valueOf(((EditText) viewHolder.itemView.findViewById(R.id.et_item_title)).getText());
+                String content = getString(R.string.default_val_content_email_to_item_user, subject);
+                String str_msg_sms = getString(R.string.title_email_to_item_user, subject)+content;
+
+
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + get_selectedItem_userPhoneNumber(item_user_DB_Ref)));
                 intent.putExtra("sms_body", str_msg_sms);
@@ -1754,17 +1767,6 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     }
 
 
-    private void setUpLabel(String item_state) {//TODO setUpLabel null view
-
-        if (item_state.equals(INTENT_VALUE__STATE_IHAVE)) {
-            m_TV_ItemLabel.setText(getString(R.string.label_item_single_desc_for_sale));
-
-
-        } else if (item_state.equals(INTENT_VALUE__STATE_INEED)) {
-            m_TV_ItemLabel.setText(getString(R.string.label_item_single_desc_wanted));
-
-        }
-    }
 
 
     public String getCurrentDate() {

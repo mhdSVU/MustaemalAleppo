@@ -32,7 +32,9 @@ public class Activity_ForgetPassword_SuccessfulReset extends AppCompatActivity i
     }
 
     private void startSignInActivity() {
-        startActivity(new Intent(this,Activity_Sign_In_Phone_Number.class));
+
+        startActivity(new Intent(this,Activity_Sign_In_Phone_Number.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
+        finish();
     }
     private void startMainActivity() {
         startActivity(new Intent(this, Activity_Ineed_Ihave.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));

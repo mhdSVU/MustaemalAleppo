@@ -114,7 +114,6 @@
                     android:layout_marginStart="52dp"
                     android:layout_marginTop="2dp"
                     android:layout_weight="0.5"
-                    android:text="@string/label_search_criteria"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
                     android:visibility="invisible" />
@@ -139,18 +138,10 @@
                         android:layout_weight="1.0"
                         android:background="@drawable/mybg"
                         android:gravity="center_vertical|center_horizontal"
-                        android:popupBackground="#ffffff" />
-
-                    <ImageButton
-                        android:id="@+id/img_btn_refresh"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:padding="7dp"
-                        android:src="@drawable/ic_autorenew_white_24dp"
-
+                        android:popupBackground="#ffffff"
+                        android:layout_marginEnd="16dp"
                         />
+
 
 
                     <Spinner

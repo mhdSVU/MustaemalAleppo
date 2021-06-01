@@ -18,6 +18,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import mohammedyouser.com.mustaemalaleppo.Device.ConnectivityChangeReceiverListener;
 import mohammedyouser.com.mustaemalaleppo.Device.ConnectivityChangeReceiver;
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.Activity_Ineed_Ihave;
 import mohammedyouser.com.mustaemalaleppo.UI.SplashActivity;
@@ -53,7 +54,6 @@ public class Ineed_Ihave extends MultiDexApplication implements ConnectivityChan
        if (userID != null)
             startMainActivity(getString(R.string.empty),userID );
         }
-
 
         Intent splashActivityIntent;
         splashActivityIntent = new Intent(Ineed_Ihave.this, SplashActivity.class);
@@ -122,5 +122,8 @@ dateInLocalTimeZone.toString();  //2017-11-09T20:38:56+05:30[Asia/Kolkata]
                 .putExtra(INTENT_KEY_USER_PHONE_NUMBER, phone_number));
 
     }
+
+
+
 
 }

@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +48,8 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
     private EditText m_et_phoneNumber;
     private EditText m_et_password;
     private CheckBox m_chb_remember_me;
+    private TextInputLayout m_til_password;
+
 
     private DatabaseReference db_root_users;
     private String userID;
@@ -62,6 +65,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
     private FirebaseAuth auth;
     private TextView m_tv_forget_password;
     private Integer user_reports_count_in;
+    private TextInputLayout m_til_phone_number;
 
 
     @Override
@@ -84,6 +88,8 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__sign__in__phone__number);
 
+        m_til_password = findViewById(R.id.til_password);
+        m_til_phone_number = findViewById(R.id.til_et_phoneNumber);
         m_et_phoneNumber = (EditText) findViewById(R.id.et_phoneNumber);
         m_et_password = (EditText) findViewById(R.id.et_password);
         m_btn_sign_in = (Button) findViewById(R.id.btn_sign_in);
@@ -186,6 +192,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
 
     private void startForgetPasswordActivity() {
         startActivity(new Intent(this, Activity_ForgetPassword_Enter_Number.class));
+        finish();
 
     }
 
@@ -335,27 +342,24 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
     private boolean checkError(View view) {
         boolean validationState = true;
 
+        if (view.getId() == R.id.et_phoneNumber) {
+            if (TextUtils.isEmpty(getContentOfView(view))) {
+                (m_til_phone_number).setError(getString(R.string.message_error_empty_field));
+                ((EditText) view).requestFocus();
+                validationState = false;
+            }
+
+        }
         if (view.getId() == R.id.et_password) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
-                ((EditText) view).setError(getString(R.string.message_error_empty_field));
-                view.requestFocus();
+                m_til_password.setError(getString(R.string.message_error_empty_field));
+                ((EditText) view).requestFocus();
+
                 validationState = false;
             }
-
-            if (TextUtils.getTrimmedLength(getContentOfView(view)) < 6) {
-                ((EditText) view).setError(getString(R.string.message_error_too_short));
-                view.requestFocus();
-                validationState = false;
-
-            }
-
-
         }
-        if (TextUtils.isEmpty(getContentOfView(view))) {
-            ((EditText) view).setError(getString(R.string.message_error_empty_field));
-            view.requestFocus();
-            validationState = false;
-        }
+
+
         return validationState;
     }
 

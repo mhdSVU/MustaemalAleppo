@@ -9,6 +9,14 @@
                 android:id="@+id/nav_home"
                 android:icon="@drawable/ic_nav_home"
                 android:title="@string/title_nav_home" />
+            <item
+                android:id="@+id/nav_change_language_ar"
+                android:icon="@drawable/ic_nav_language"
+                android:title="@string/title_nav_language_ar" />
+            <item
+                android:id="@+id/nav_change_language_en"
+                android:icon="@drawable/ic_nav_language"
+                android:title="@string/title_nav_language_en" />
 
             <item
                 android:id="@+id/nav_download_vpn"
@@ -16,7 +24,6 @@
                 android:title="@string/title_nav_download_vpn"
 
                 />
-
 
 
         </menu>
@@ -83,7 +90,7 @@
                 android:title="@string/menu_item_edit_my_profile"
 
                 />
-             <item
+            <item
                 android:id="@+id/nav_forget_me"
                 android:icon="@drawable/ic_nav_forget_me"
                 android:title="@string/title_nav_forget_me"

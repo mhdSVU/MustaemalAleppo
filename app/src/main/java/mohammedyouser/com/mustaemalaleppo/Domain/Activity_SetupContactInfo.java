@@ -270,7 +270,6 @@ public class Activity_SetupContactInfo extends AppCompatActivity implements View
                     if (uri_user_img.getScheme().equals("file")) {
                         manage_adding_userImg(uri_user_img);
                         storageReference.putFile(uri_user_img).addOnSuccessListener(taskSnapshot -> {
-                            Toast.makeText(getBaseContext(), R.string.message_info_uploaded_ok, Toast.LENGTH_SHORT).show();
                             storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
                                 uri_download = uri;
                                 Log.d("d_uri", String.valueOf(uri_download));
@@ -282,8 +281,6 @@ public class Activity_SetupContactInfo extends AppCompatActivity implements View
 
                         }).addOnFailureListener(e -> {
                             hideProgressDialog();
-                            Toast.makeText(getBaseContext(), e.toString() + getString(R.string.space) + R.string.message_info_upload_error, Toast.LENGTH_LONG).show();
-
                         });
                     } else {
                         storeUserInfoToFirebase(null);
@@ -532,7 +529,9 @@ public class Activity_SetupContactInfo extends AppCompatActivity implements View
                             sb.append(address.getAddressLine(i)); //.append("\n");
                         }
                         //  sb.append(address.getSubThoroughfare()).append("\n");
-                        sb.append(address.getThoroughfare()).append("\n");//\n
+                        if(!address.getThoroughfare().equals("null"))
+                            sb.append(address.getThoroughfare()).append("\n");//\n
+
                         sb.append(address.getLocality()).append("\n");//\n
                         sb.append(address.getCountryName());
                         result = sb.toString();
@@ -770,7 +769,7 @@ if (!enabled) {
 
                 })
                 .addOnFailureListener(e ->
-                        Toast.makeText(Activity_SetupContactInfo.this, getResources().getString(R.string.message_info_upload_error) + "\n" + e, Toast.LENGTH_LONG).show())
+                        Log.d(TAG, "upload_userImg_and_data: "+e.getMessage()))
                 .addOnCompleteListener(task -> hideProgressDialog());
     }
     private String setUserPhoneNumber(final String userID) {

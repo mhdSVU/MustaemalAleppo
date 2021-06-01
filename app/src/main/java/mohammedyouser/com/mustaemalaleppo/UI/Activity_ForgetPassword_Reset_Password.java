@@ -24,7 +24,7 @@ import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstant
 public class Activity_ForgetPassword_Reset_Password extends AppCompatActivity implements View.OnClickListener {
 
 
-    private static final String TAG = "h";
+    private static final String TAG = "Activity_ForgetPassword_Reset_Password";
     private EditText m_et_password;
     private EditText m_et_password_confirm;
 
@@ -137,6 +137,7 @@ public class Activity_ForgetPassword_Reset_Password extends AppCompatActivity im
 
             break;*/
             case R.id.btn_reset_cancel:
+                auth.signOut();
                 startSignInActivity();
                 break;
 
@@ -156,10 +157,8 @@ public class Activity_ForgetPassword_Reset_Password extends AppCompatActivity im
                     if (task.isSuccessful()) {
                         storeNewPasswordToFirebase(currentUser.getUid(), newPassword);
                         startPassWordUpdatedActivity();
-                        Log.d(TAG, "User password updated.");
                     }
                 }).addOnFailureListener(e -> {
-            Log.d(TAG, "resetUserPassword: "+e.getMessage());
 
         });
     }
@@ -168,20 +167,22 @@ public class Activity_ForgetPassword_Reset_Password extends AppCompatActivity im
     private void storeNewPasswordToFirebase(String userID, String newPassword) {
 
             get_UserAccountInfo_RootRef(userID).child(PATH_USER_PASSWORD).setValue(newPassword);
-            Log.d(TAG, "storeUserInfoToFirebase: " + userID);
-
-
-
     }
 
     private DatabaseReference get_UserAccountInfo_RootRef(String userID) {
-        Log.d(TAG, "get_UserAccountInfo_RootRef: " + userID);
         return db_root_users.child(userID);
     }
 
     private void startPassWordUpdatedActivity() {
+        auth.signOut();
         startActivity(new Intent(this, Activity_ForgetPassword_SuccessfulReset.class)
-                .putExtra(INTENT_KEY_USER_ID, auth.getCurrentUser().getUid()));
+               .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        auth.signOut();
     }
 
 

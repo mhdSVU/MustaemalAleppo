@@ -140,7 +140,7 @@ public class ViewHolder_Item_Display_Edit extends RecyclerView.ViewHolder {
             mItemUserName.setText(userName);
 
         } else {
-            mItemUserName.setText(R.string.default_val_user_name);
+            mItemUserName.setText(R.string.empty);
         }
     }
 

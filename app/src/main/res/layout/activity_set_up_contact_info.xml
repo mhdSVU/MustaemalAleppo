@@ -132,10 +132,10 @@
 
                         <LinearLayout
                             android:id="@+id/ll_location"
-                            android:layout_width="170dp"
+                            android:layout_width="200dp"
                             android:layout_height="100dp"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginStart="32dp"
+                            android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:background="@drawable/background_input"
                             android:gravity="center_vertical"
@@ -254,7 +254,6 @@
                     android:layout_marginStart="70dp"
                     android:layout_marginTop="70dp"
                     android:background="@android:color/transparent"
-                    android:contentDescription="@string/desc_userImage"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/ic_add_user_image_add"
                     app:tint="@color/nice_red" />
@@ -266,7 +265,6 @@
                     android:layout_marginStart="70dp"
                     android:layout_marginTop="70dp"
                     android:background="@android:color/transparent"
-                    android:contentDescription="@string/desc_userImage"
                     android:scaleType="fitCenter"
                     app:tint="@color/nice_red"
                     android:visibility="gone"

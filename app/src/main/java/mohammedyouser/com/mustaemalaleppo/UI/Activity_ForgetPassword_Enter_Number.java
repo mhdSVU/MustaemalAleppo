@@ -22,7 +22,6 @@ import com.hbb20.CountryCodePicker;
 import mohammedyouser.com.mustaemalaleppo.Domain.Fragment_Dialog_VPN_Alert;
 import mohammedyouser.com.mustaemalaleppo.R;
 
-import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_IMAGE_URI;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USERS;
 
 public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity implements View.OnClickListener {
@@ -33,7 +32,7 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
     private DatabaseReference db_root_users;
     private Uri uri_user_img = null;
 
-    private Fragment_Reset_Password_Phone_Number_Verify_and_Create_Account fragment_phone_number_verify;
+    private Fragment_Reset_Password_Verify_Phone_Number fragment_phone_number_verify;
     private Button m_btn_reset_start;
     private EditText m_et_phoneNumber;
 
@@ -52,9 +51,9 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
 
         doFirebaseInitializations();
         if (savedInstanceState != null) {
-            fragment_phone_number_verify = (Fragment_Reset_Password_Phone_Number_Verify_and_Create_Account) getSupportFragmentManager().findFragmentByTag(STR_TAG_FRAGMENT_VERIFY_RESET);
+            fragment_phone_number_verify = (Fragment_Reset_Password_Verify_Phone_Number) getSupportFragmentManager().findFragmentByTag(STR_TAG_FRAGMENT_VERIFY_RESET);
         } else {
-            fragment_phone_number_verify = new Fragment_Reset_Password_Phone_Number_Verify_and_Create_Account();
+            fragment_phone_number_verify = new Fragment_Reset_Password_Verify_Phone_Number();
         }
         confirm_download_VPN();
 
@@ -114,7 +113,7 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
 
         boolean validationState = validateInput_UserAccountInfo();
         if (validationState) {
-            fragment_phone_number_verify = Fragment_Reset_Password_Phone_Number_Verify_and_Create_Account.newInstance(createBundle_UserAccountInfo());
+            fragment_phone_number_verify = Fragment_Reset_Password_Verify_Phone_Number.newInstance(createBundle_UserAccountInfo());
 
             fragment_phone_number_verify.show(getSupportFragmentManager(), STR_TAG_FRAGMENT_VERIFY_RESET);
         } else {

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.collection.ArrayMap;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -24,6 +25,7 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import mohammedyouser.com.mustaemalaleppo.Domain.Activity_Display_Modify_Remove_Item;
 import mohammedyouser.com.mustaemalaleppo.Domain.TimeAgo;
@@ -53,6 +55,7 @@ public class Adapter_ExpandableRecycler__Favorites extends
     private LinearLayout m_ll_no_content;
     private TextView m_tv_label_favorites_ihave;
     private TextView m_tv_label_favorites_ineed;
+
 
 
     public Adapter_ExpandableRecycler__Favorites(String mItemState, ArrayList<FavoriteItem> favoriteItems, List<FavoriteTopic> groups, Context context, View view1, View view2, View view3) {
@@ -96,7 +99,13 @@ public class Adapter_ExpandableRecycler__Favorites extends
 
         });
         viewHolderChild.itemView_child.setOnLongClickListener(view -> {
-            confirmDeleteFavoriteItem(childIndex,((FavoriteTopic) group).getItems(),((Notification) group.getItems().get(childIndex)).getmState(), favorites_list.get(childIndex).getmTopic(), favorites_list.get(childIndex).getID(), groups_favoriteTopicList.size());
+            confirmDeleteFavoriteItem(
+                    childIndex,
+                    ((FavoriteTopic) group).getItems(),
+                    ((FavoriteItem) group.getItems().get(childIndex)).getmState(),
+                    favorites_list.get(childIndex).getmTopic(),
+                    favorites_list.get(childIndex).getID(),
+                    groups_favoriteTopicList.size());
             return false;
         });
 
