@@ -10,7 +10,6 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -45,7 +44,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
 
     public Bundle bundle;
     public ProgressBar mProgress;
-    private LinearLayout m_ll_no_content;
+    private TextView m_tv_no_content;
     private String mNotificationTitle;
     private String mNotificationDateTime;
     private String mNotificationUserName;
@@ -88,7 +87,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
         mProgress.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         //Define recycleview
-        m_ll_no_content = findViewById(R.id.ll_no_content);
+        m_tv_no_content = findViewById(R.id.tv_no_content);
         mRecyclerView_ihave = findViewById(R.id.recycler_Expand_ihave);
         mRecyclerView_ineed = findViewById(R.id.recycler_Expand_ineed);
         mRecyclerView_ihave.setLayoutManager(new LinearLayoutManager(this));
@@ -355,13 +354,13 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
                                     notificationTopicList.add(new NotificationTopic(topicCityCat_[3] + getString(R.string.in) + topicCityCat_[2], notificationList));
 
                                     if (itemState.equals(PATH_INEED)) {
-                                        Adapter_ExpandableRecycler__Notifications adapter_ineed = new Adapter_ExpandableRecycler__Notifications(itemState, notificationList, notificationTopicList, Activity_User_Notifications.this, m_tv_label_notifications_ihave, m_tv_label_notifications_ineed, m_ll_no_content);
+                                        Adapter_ExpandableRecycler__Notifications adapter_ineed = new Adapter_ExpandableRecycler__Notifications(itemState, notificationList, notificationTopicList, Activity_User_Notifications.this, m_tv_label_notifications_ihave, m_tv_label_notifications_ineed, m_tv_no_content);
 
                                         mRecyclerView_ineed.setAdapter(adapter_ineed);
                                         adapter_ineed.notifyDataSetChanged();
 
                                     } else {
-                                        Adapter_ExpandableRecycler__Notifications adapter_ihave = new Adapter_ExpandableRecycler__Notifications(itemState, notificationList, notificationTopicList, Activity_User_Notifications.this, m_tv_label_notifications_ihave, m_tv_label_notifications_ineed, m_ll_no_content);
+                                        Adapter_ExpandableRecycler__Notifications adapter_ihave = new Adapter_ExpandableRecycler__Notifications(itemState, notificationList, notificationTopicList, Activity_User_Notifications.this, m_tv_label_notifications_ihave, m_tv_label_notifications_ineed, m_tv_no_content);
                                         mRecyclerView_ihave.setAdapter(adapter_ihave);
 
                                         adapter_ihave.notifyDataSetChanged();
@@ -371,7 +370,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
                                 }
 
                                 @Override
-                                public void onCancelled(DatabaseError error) {
+                                public void onCancelled(@NonNull DatabaseError error) {
                                     // Failed to read value
                                     Log.d(TAG, "onCancelled: Failed to read value. " + error.toException());
                                 }
@@ -393,7 +392,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
 
     private void setUpToolBar() {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -422,7 +421,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             if (dataSnapshot.hasChildren()) {
 
-                                m_ll_no_content.setVisibility(View.GONE);
+                                m_tv_no_content.setVisibility(View.GONE);
                                 m_tv_label_notifications_ihave.setVisibility(View.VISIBLE);
                                 m_tv_label_notifications_ineed.setVisibility(View.VISIBLE);
                                 mProgress.setVisibility(View.GONE);

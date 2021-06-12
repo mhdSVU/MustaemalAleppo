@@ -1,13 +1,13 @@
 package mohammedyouser.com.mustaemalaleppo.Domain;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -21,10 +21,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -32,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -64,10 +65,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import mohammedyouser.com.mustaemalaleppo.Data.ViewHolder_Item_Display_Edit;
 import mohammedyouser.com.mustaemalaleppo.Device.Activity_Maps_Item_Location;
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.Fragment_Dialog_Report_User;
 
@@ -88,7 +91,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private Bitmap bitmap;
 
     private ViewHolder_Item_Display_Edit viewHolder;
-    private TextView m_TV_ItemLabel;
+    private TextView m_tv_ItemStateLabel;
     private ImageButton img_btn_itemImage;
 
 
@@ -111,10 +114,10 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private DatabaseReference db_root_usersIDs_notifications;
     private DatabaseReference db_root_tokens_notifications;
     private DatabaseReference db_root;
+    private DatabaseReference db_root_users_favorites;
 
 
     private StorageReference storageReference_currentUser;
-    private StorageReference storageReference_item_img;
 
     private ValueEventListener selectedItem_db_ref_listener;
     private ValueEventListener selectedItem_db_ref_listener_img;
@@ -123,33 +126,52 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private ImageButton img_btn_send_sms;
     private ImageButton img_btn_whatsapp;
     private ImageButton img_btn_share;
-    private ImageButton img_btn_share_backgroun;
+    private ImageButton img_btn_report;
+    private ImageButton img_btn_save;
+    private CheckBox cb_favorite;
+
     private Button img_btn_show_on_map;
     private ValueEventListener selectedItem_db_ref_listener_itemImage;
-    private Bundle bundle;
-    private boolean isAvl = true;
-    private BroadcastReceiver receiver;
-    private LocalBroadcastManager broadcaster;
     private boolean mItemFound = true;
     private double itemLat;
     private double itemLong;
     private Uri itemImageUriShare;
     private String itemState;
-    private String itemState_share;
     private TextView mItemUserName;
     private DatabaseReference db_Ref_SelectedItem;
     Long notifications_count = 0L;
+    private String item_topic;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()));
+
         setContentView(R.layout.activity_display_modify_remove_item);
 
         doMainInitializations();
 
     }
+
+    private void adjustLanguage(String lan) {
+        if (!lan.equals("null")) {
+
+/*
+            LocaleHelper.setLocale(this, lan);
+*/
+            Locale locale = new Locale(lan);
+            Locale.setDefault(locale);
+            Configuration config = getBaseContext().getResources().getConfiguration();
+            config.setLayoutDirection(locale);
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
+
+    }
+
 
     private DatabaseReference reactToIntent(Bundle bundle) {
         //check for nullity
@@ -219,7 +241,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private void update_UI_no_content() {
         findViewById(R.id.fl_main_subscription).setVisibility(View.VISIBLE);
         findViewById(R.id.fl_main_subscription).setBackgroundColor(getColor(R.color.grey_100));
-        findViewById(R.id.ll_no_content).setVisibility(View.VISIBLE);
+        findViewById(R.id.tv_no_content).setVisibility(View.VISIBLE);
         Log.d(TAG, "update_UI_no_content: ");
 
     }
@@ -303,7 +325,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                 @NonNull
                 @Override
                 public Transaction.Result doTransaction(@NonNull MutableData currentData) {
-                    Integer notifications_count = 0;
+                    Integer notifications_count;
                     if (currentData.getValue() == null) {
                         return Transaction.success(currentData);
                     }
@@ -328,7 +350,9 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     }
 
-    private void decrementUserNotificationsCount(String state, String topic, String notificationID) {
+    private void
+
+    decrementUserNotificationsCount(String state, String topic, String notificationID) {
         db_root_usersIDs_notifications.child(userID).child(state).child(topic).child(notificationID)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -350,7 +374,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private void populateWithSelectedItem(DatabaseReference selectedItem_db_ref) {
 
         findViewById(R.id.fl_main_subscription).setVisibility(View.GONE);
-        findViewById(R.id.ll_no_content).setVisibility(View.GONE);
+        findViewById(R.id.tv_no_content).setVisibility(View.GONE);
 
         setUpViews();
         str_uri_itemImg = get_ItemImage_finalFilePath();
@@ -359,7 +383,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
             selectedItem_db_ref_listener = selectedItem_db_ref.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     viewHolder.setItemTitle((String) dataSnapshot.child(PATH_ITEM_TITLE).getValue());
                     viewHolder.setItemPrice((String) dataSnapshot.child(PATH_ITEM_PRICE).getValue());
@@ -367,7 +391,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                     viewHolder.setItemCategory((String) dataSnapshot.child(PATH_ITEM_CATEGORY).getValue());
 
                     if (!String.valueOf(dataSnapshot.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue()).equals("null")) {
-                        viewHolder.setItemDateAndTime(TimeAgo.getTimeAgo(-(dataSnapshot.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue(Long.class))));
+                        viewHolder.setItemDateAndTime(TimeAgo.getTimeAgo(-(dataSnapshot.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue(Long.class)), Activity_Display_Modify_Remove_Item.this));
                     }
 
                     if (!String.valueOf(dataSnapshot.child(PATH_ITEM_DETAILS).getValue()).equals("null")) {
@@ -397,7 +421,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
                         item_user_DB_Ref.addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                 viewHolder.setUserName((String) dataSnapshot.child(PATH_USER_NAME).getValue());
                                 viewHolder.setUserImage(getBaseContext(), (String) dataSnapshot.child(PATH_USER_IMAGE).getValue());
@@ -405,7 +429,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                             }
 
                             @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
                             }
                         });
@@ -414,13 +438,13 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
             selectedItem_db_ref_listener_img = selectedItem_db_ref.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.child(PATH_ITEM_IMAGE).getValue() != null) {
                         Uri uri_itemImg = Uri.parse((String) dataSnapshot.child(PATH_ITEM_IMAGE).getValue());
                         Glide.with(getBaseContext())
@@ -431,7 +455,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
@@ -443,14 +467,14 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
             selectedItem_db_ref_listener_itemImage = selectedItem_db_ref.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     openItemImageInGallery(String.valueOf(dataSnapshot.child(PATH_ITEM_IMAGE).getValue()));
                     selectedItem_db_ref.removeEventListener(selectedItem_db_ref_listener_itemImage);
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
@@ -471,24 +495,32 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         initializeDatabaseRefs();
         initializeStorageRef();
         initialize_item_loc_value();
-        initialize_item_state_value();
         setUpToolBar();
         initialize_item_state_label_value(db_Ref_SelectedItem);
+        initialFavoriteCheckBox(cb_favorite, item_ID, itemState);
 
     }
 
     private void initialize_item_state_label_value(DatabaseReference db_Ref_SelectedItem) {
-        mItemUserName = (TextView) findViewById(R.id.textView_username);
-        m_TV_ItemLabel = findViewById(R.id.textView_lable_item);
+        mItemUserName = findViewById(R.id.textView_username);
+        m_tv_ItemStateLabel = findViewById(R.id.tv_item_state_lable);
 
         db_Ref_SelectedItem.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 db_ref_users.child(String.valueOf(dataSnapshot.child(PATH_ITEM_USER_ID).getValue())).child(PATH_USER_NAME).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        m_TV_ItemLabel.setText(String.valueOf(snapshot.getValue()) + getString(R.string.space) + itemState_share);
+                    public void onDataChange(@NonNull DataSnapshot snapshot_userName) {
+                        if (itemState.equals(PATH_IHAVE)) {
+
+                            m_tv_ItemStateLabel.setText(getString(R.string.item_share_state_ihave, String.valueOf(snapshot_userName.getValue())));
+
+
+                        } else {
+                            m_tv_ItemStateLabel.setText(getString(R.string.item_share_state_ineed, String.valueOf(snapshot_userName.getValue())));
+
+                        }
                     }
 
                     @Override
@@ -500,23 +532,13 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
 
     }
 
-    private void initialize_item_state_value() {
-        if (itemState.equals(PATH_IHAVE)) {
-
-            itemState_share = getString(R.string.item_share_state_ihave);
-
-        } else {
-            itemState_share = getString(R.string.item_share_state_ineed);
-        }
-
-    }
 
     private void initialize_item_loc_value() {
         db_Ref_SelectedItem.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -529,7 +551,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                     //  Toast.makeText(getBaseContext(), getString(R.string.message_error_item_no_address), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()) == null) || (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue())) == null) {
+                if ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()).equals("null")) || (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue())).equals("null")) {
                     //  Toast.makeText(getBaseContext(), getString(R.string.message_error_item_no_address), Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -549,11 +571,12 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private void initialize_User_LocalDir() {
 
         String root = String.valueOf(getFilesDir());
-        if (getItemStateFlag())
-            myDir = new File(root + "/Pictures/" + getString(R.string.my_app_name) + getString(R.string.forward_slash) + PATH_INEED);
 
-        else if (!(getItemStateFlag())) {
+        if (is_IHAVE_State())
             myDir = new File(root + "/Pictures/" + getString(R.string.my_app_name) + getString(R.string.forward_slash) + PATH_IHAVE);
+
+        else if (!(is_IHAVE_State())) {
+            myDir = new File(root + "/Pictures/" + getString(R.string.my_app_name) + getString(R.string.forward_slash) + PATH_INEED);
 
 
         }
@@ -566,7 +589,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     private void setUpToolBar() {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -576,7 +599,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     private void setUpViews() {
         View mRootView = findViewById(R.id.rootView);
-        viewHolder = new ViewHolder_Item_Display_Edit(mRootView);
+        viewHolder = new ViewHolder_Item_Display_Edit(mRootView, this);
 
         //setUpLabel(item_State);
 
@@ -590,8 +613,10 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         img_btn_call = findViewById(R.id.imageButton_user_phoneCall);
         img_btn_send_sms = findViewById(R.id.imageButton_user_send_sms);
         img_btn_whatsapp = findViewById(R.id.imageButton_user_whatsapp);
-        img_btn_share = findViewById(R.id.img_btn_itemImage_share);
-        img_btn_share_backgroun = findViewById(R.id.img_btn_itemImage_share_background);
+        img_btn_share = findViewById(R.id.img_btn_item_share);
+        img_btn_report = findViewById(R.id.img_btn_item_report);
+        img_btn_save = findViewById(R.id.img_btn_item_save);
+        cb_favorite = findViewById(R.id.cb_favorite);
         img_btn_itemImage = findViewById(R.id.img_btn_itemImage);
         img_btn_show_on_map = findViewById(R.id.img_btn_show_on_map);
 
@@ -600,7 +625,9 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         img_btn_itemImage.setOnClickListener(this);
         img_btn_whatsapp.setOnClickListener(this);
         img_btn_share.setOnClickListener(this);
-        img_btn_share_backgroun.setOnClickListener(this);
+        img_btn_report.setOnClickListener(this);
+        img_btn_save.setOnClickListener(this);
+        cb_favorite.setOnClickListener(this);
         img_btn_show_on_map.setOnClickListener(this);
 
 
@@ -635,6 +662,8 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
         db_root_usersIDs_notifications = db_root.child(PATH_USERIDS_NOTIFICATIONS);
         db_root_tokens_notifications = db_root.child(PATH_TOKENS_NOTIFICATIONS);
+        db_root_users_favorites = db_root.child(PATH_USERS_FAVORITES);
+
 
         item_ID = getItemID();
 
@@ -653,6 +682,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         }
         itemState = getIntent().getExtras().getString(INTENT_KEY__PATH_STATE);
 
+        item_topic = form_selected_Topic(itemState, item_City, item_Category);
     }
 
 
@@ -671,7 +701,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     }
 
     private String getItemID() {
-        if (getIntent() != null) {
+        if (getIntent() != null && getIntent().getExtras() != null) {
             if (getIntent().getExtras().containsKey(INTENT_KEY_ITEM_ID))
                 Log.d(TAG, "getItemID: " + getIntent().getExtras().getString(INTENT_KEY_ITEM_ID));
             return getIntent().getExtras().getString(INTENT_KEY_ITEM_ID);
@@ -687,13 +717,14 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private DatabaseReference getDB_Ref_selected_Cit_Cat() {
 
 
-        if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
+        if (getIntent() != null && getIntent().getExtras() != null) {
+
+            if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_items.child(PATH_INEED).child(item_city).child(item_category);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
+            } else if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_items.child(PATH_IHAVE).child(item_city).child(item_category);
@@ -706,14 +737,13 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     private DatabaseReference getDB_Ref_AllCities() {
 
-
-        if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_items.child(PATH_INEED).child(PATH_ALL_CITIES).child(item_category);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
+            } else if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_items.child(PATH_IHAVE).child(PATH_ALL_CITIES).child(item_category);
@@ -727,13 +757,13 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private DatabaseReference getDB_Ref_AllCategories() {
 
 
-        if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_items.child(PATH_INEED).child(item_city).child(PATH_ALL_CATEGORIES);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
+            } else if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_items.child(PATH_IHAVE).child(item_city).child(PATH_ALL_CATEGORIES);
@@ -747,15 +777,15 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private DatabaseReference getDB_Ref_AlItems() {
 
 
-        if (getIntent() != null) {
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_INEED)) {
 
-            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_items.child(PATH_INEED).child(PATH_ALL_ITEMS);
                 Log.d(TAG, "getDB_Ref_AlItems 11: " + db_ref_final);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
+            } else if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_items.child(PATH_IHAVE).child(PATH_ALL_ITEMS);
@@ -772,13 +802,13 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private DatabaseReference getDB_Ref_CurrentUser_selected_Cit_Cat() {
 
 
-        if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_INEED).child(item_city).child(item_category).child(PATH_USERS_IDS).child(userID);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
+            } else if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_IHAVE).child(item_city).child(item_category).child(PATH_USERS_IDS).child(userID);
@@ -791,14 +821,13 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     private DatabaseReference getDB_Ref_CurrentUser_AllCities() {
 
-
-        if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_INEED).child(PATH_ALL_CITIES).child(item_category).child(PATH_USERS_IDS).child(userID);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
+            } else if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_IHAVE).child(PATH_ALL_CITIES).child(item_category).child(PATH_USERS_IDS).child(userID);
@@ -812,13 +841,13 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private DatabaseReference getDB_Ref_CurrentUser_AllCategories() {
 
 
-        if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_INEED).child(item_city).child(PATH_ALL_CATEGORIES).child(PATH_USERS_IDS).child(userID);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
+            } else if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_IHAVE).child(item_city).child(PATH_ALL_CATEGORIES).child(PATH_USERS_IDS).child(userID);
@@ -832,13 +861,13 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     private DatabaseReference getDB_Ref_CurrentUser_AllItems() {
 
 
-        if (getIntent() != null) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_INEED)) {
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_INEED)) {
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_INEED).child(PATH_ALL_ITEMS).child(PATH_USERS_IDS).child(userID);
 
 
-            } else if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
+            } else if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_currentUser_items.child(PATH_IHAVE).child(PATH_ALL_ITEMS).child(PATH_USERS_IDS).child(userID);
@@ -855,7 +884,6 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         db_ref_items = db_root.child(PATH_ITEMS);
         db_root_usersIDs_notifications = db_root.child(PATH_USERIDS_NOTIFICATIONS);
 
-
         return item_DB_Ref = db_ref_items.child(item_State).child(PATH_ALL_ITEMS).child(item_ID);
 
     }
@@ -868,7 +896,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     private StorageReference getImgStorageRef() {
 
-        return storageReference_currentUser.child(PATH_STORAGE_USERS_PICTURES).child(userID).child(getItemID());
+        return storageReference_currentUser.child(PATH_STORAGE_USERS_PICTURES).child(userID).child(Objects.requireNonNull(getItemID()));
     }
 
     //...getting Storage references end
@@ -911,7 +939,21 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                 grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             Log.d("perms", "perms granted");
 
-            shareItemImage(get_Item_Description_for_Share(itemState_share));
+            shareItemImage(get_Item_Description_for_Share(itemState));
+
+        } else if (requestCode == REQUEST_LOCATION &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            Log.d("perms", "perms granted");
+
+            showItemOnMap();
+
+        } else if (requestCode == REQUEST_LOCATION &&
+                grantResults[0] != PackageManager.PERMISSION_GRANTED ||
+                grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+            Log.d("perms", "perms granted");
+
+            Toast.makeText(this, "Location permission needed!", Toast.LENGTH_SHORT).show();
 
         }
        /* else {
@@ -929,10 +971,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
             showProgressDialog(this, getString(R.string.message_info_MODIFYING), getString(R.string.message_info_PLEASE_WAIT));
 
             getImgStorageRef().putFile(uri_itemImg)
-                    .addOnSuccessListener(taskSnapshot -> {
-                        getImgStorageRef().getDownloadUrl().addOnSuccessListener(this::manage_modifyItem_state);
-
-                    })
+                    .addOnSuccessListener(taskSnapshot -> getImgStorageRef().getDownloadUrl().addOnSuccessListener(this::manage_modifyItem_state))
                     .addOnFailureListener(e ->
                             Toast.makeText(Activity_Display_Modify_Remove_Item.this, getResources().getString(R.string.message_info_modifing_error) + getString(R.string.new_line) + e.toString(), Toast.LENGTH_LONG).show())
                     .addOnCompleteListener(task -> hideProgressDialog());
@@ -992,8 +1031,6 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     }
 
     public void modifyItem_in_all_DB_Refs(Uri uri_itemImg_download) {
-        ;
-
         //Removing Item from "ALL Cities and ALL Categories"
         modifyItem_in_single_DB_Ref(getDB_Ref_AlItems().child(item_ID), uri_itemImg_download);
 
@@ -1055,9 +1092,6 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         showProgressDialog(this, getString(R.string.message_info_DELETING), getString(R.string.message_info_PLEASE_WAIT));
         // Remove item from  needed  database references
 
-
-        ;
-
         //Removing Item from "ALL Cities and ALL Categories"
         removeItem_from_single_DB_Ref(getDB_Ref_AlItems().child(item_ID));
 
@@ -1072,9 +1106,6 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     }
 
     public void removeItem_from_all_DB_Ref() {
-
-        ;
-
         //Removing Item from "ALL Cities and ALL Categories"
         removeItem_from_single_DB_Ref(getDB_Ref_AlItems().child(item_ID));
 
@@ -1206,8 +1237,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
                 String subject = String.valueOf(((EditText) viewHolder.itemView.findViewById(R.id.et_item_title)).getText());
                 String content = getString(R.string.default_val_content_email_to_item_user, subject);
-                String str_msg_sms = getString(R.string.title_email_to_item_user, subject)+content;
-
+                String str_msg_sms = getString(R.string.title_email_to_item_user) + content;
 
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + get_selectedItem_userPhoneNumber(item_user_DB_Ref)));
@@ -1218,20 +1248,30 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
             break;
             case R.id.imageButton_user_whatsapp: {
 
-                String subject = ((EditText) viewHolder.itemView.findViewById(R.id.et_item_title)).getText().toString();
-                String str_msg_watsapp_ = getString(R.string.title_email_to_item_user, subject) + getString(R.string.default_val_content_email_to_item_user, subject);
+                String subject = String.valueOf(((EditText) viewHolder.itemView.findViewById(R.id.et_item_title)).getText());
+                String str_msg_watsapp_ = getString(R.string.title_email_to_item_user) + getString(R.string.default_val_content_email_to_item_user, subject);
                 contact_via_Whatsapp(get_selectedItem_userPhoneNumber(item_user_DB_Ref), str_msg_watsapp_);
 
             }
             break;
-            case R.id.img_btn_itemImage_share: {
+            case R.id.img_btn_item_share: {
 
                 manageShareItemImagePerm();
             }
             break;
-            case R.id.img_btn_itemImage_share_background: {
+            case R.id.cb_favorite: {
 
-                manageShareItemImagePerm();
+                add_to_favorite(v, item_ID, itemState);
+            }
+            break;
+            case R.id.img_btn_item_report: {
+
+                confirm_report_user(item_userID);
+            }
+            break;
+            case R.id.img_btn_item_save: {
+
+                saveItem();
             }
             break;
 
@@ -1270,36 +1310,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
                 break;
             case R.id.img_btn_show_on_map:
-                Technique.PULSE.playOn(img_btn_show_on_map);
-                item_DB_Ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Intent intent = new Intent(Activity_Display_Modify_Remove_Item.this, Activity_Maps_Item_Location.class);
-                        if ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()).equals("0")) ||
-                                (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()).equals("0"))
-                                || ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()).equals("null")) ||
-                                (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()).equals("null")))) {
-                            Toast.makeText(getBaseContext(), getString(R.string.message_error_item_no_address), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        if ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()) == null) || (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue())) == null) {
-                            Toast.makeText(getBaseContext(), getString(R.string.message_error_item_no_address), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        itemLat = Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()));
-                        itemLong = Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()));
-
-                        intent.putExtra(INTENT_KEY_ITEM_LAT, Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue())));
-                        intent.putExtra(INTENT_KEY_ITEM_LONG, Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue())));
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                manage_ShowMap_Perm();
 
                 break;
 
@@ -1308,24 +1319,143 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     }
 
+    private void showItemOnMap() {
+        Technique.PULSE.playOn(img_btn_show_on_map);
+        item_DB_Ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Intent intent = new Intent(Activity_Display_Modify_Remove_Item.this, Activity_Maps_Item_Location.class);
+                if ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()).equals("0")) ||
+                        (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()).equals("0"))
+                        || ((String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()).equals("null")) ||
+                        (String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()).equals("null")))) {
+                    Toast.makeText(getBaseContext(), getString(R.string.message_error_item_no_address), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (Objects.equals(String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()), ("null")) || (Objects.equals(String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()), ("null")))) {
+                    Toast.makeText(getBaseContext(), getString(R.string.message_error_item_no_address), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                itemLat = Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue()));
+                itemLong = Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue()));
+
+                intent.putExtra(INTENT_KEY_ITEM_LAT, Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LAT).getValue())));
+                intent.putExtra(INTENT_KEY_ITEM_LONG, Double.parseDouble(String.valueOf(snapshot.child(PATH_ITEM_LONG).getValue())));
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void saveItem() {
+        saveItemImageToGallery(
+                get_ScaledBitmap_from_drawable(img_btn_itemImage.getDrawable()),
+                viewHolder.getItemTitle() + getString(R.string.underScore) + viewHolder.getItemPrice(),
+                viewHolder.getItemDetails());
+    }
+
+    private void initialFavoriteCheckBox(View view, String item_ID, String itemState) {
+
+        getFavoriteItemRef(item_ID, itemState).runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                if (currentData.getValue() == null) {
+                    ((CheckBox) view).setChecked(false);
+                    Log.d(TAG, "doTransaction: null");
+                    return Transaction.success(currentData);
+                }
+
+                ((CheckBox) view).setChecked(true);
+                Log.d(TAG, "doTransaction:not null");
+
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                if (committed) {
+                    // unique key saved
+                    Log.d(TAG, "onComplete: " + "unique key saved");
+                } else {
+                    // unique key already exists
+                }
+            }
+        });
+
+    }
+
+    private void add_to_favorite(View view, String item_ID, String itemState) {
+
+        getFavoriteItemRef(item_ID, itemState).runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                if (currentData.getValue() == null) {
+                    currentData.setValue(true);
+                    ((CheckBox) view).setChecked(true);
+                    Log.d(TAG, "doTransaction: set");
+                    return Transaction.success(currentData);
+                }
+
+                ((CheckBox) view).setChecked(false);
+                getFavoriteItemRef(item_ID, itemState).removeValue();
+                Log.d(TAG, "doTransaction: remove");
+
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                if (committed) {
+                    // unique key saved
+                    Log.d(TAG, "onComplete: " + "unique key saved");
+                } else {
+                    // unique key already exists
+                }
+            }
+        });
+
+    }
+
+    private DatabaseReference getFavoriteItemRef(String item_ID, String itemState) {
+        return db_root_users_favorites.child(userID).child(itemState).child(item_topic).child(item_ID);
+    }
+
+    private String form_selected_Topic(String itemState, String itemCity, String itemCategory) {
+
+        // In cloud: topic="Items"+"_"+itemKind+"_"+itemCity+"_"+itemCategory;
+        String topic = "Items" + "_" + itemState + "_" + itemCity + "_" + itemCategory;
+        Log.d("TAG", "generatedTopic: " + topic);
+        return topic;
+    }
+
+    private String form_item_fileName(String itemState, String itemTitle, String itemPrice) {
+        return itemState + "_" + itemTitle + "_" + itemPrice;
+    }
+
+
     private String get_Item_Description_for_Share(String itemState) {
-        String[] s = String.valueOf(m_TV_ItemLabel.getText()).split(itemState_share);
-
+        String[] s = String.valueOf(m_tv_ItemStateLabel.getText()).split(itemState);
         String uri_loc = "http://maps.google.com/maps?saddr=Current%20Location&daddr=" + itemLat + "," + itemLong;
-        String subject = getString(R.string.item_share_intro) +
+        return getString(R.string.item_share_intro) + " " +
 
-                s[0] + getString(R.string.space) +
-                itemState + getString(R.string.new_line) + ((EditText) viewHolder.itemView.findViewById(R.id.et_item_title))
-                .getText() +
-                getString(R.string.new_line) +
-                getString(R.string.in) + getString(R.string.space) + item_city + getString(R.string.new_line) +
-                getString(R.string.item_share_price) + ((EditText) viewHolder.itemView.findViewById(R.id.et_item_price)).getText() +
-                getString(R.string.new_line) +
-                getString(R.string.item_share_loc) + getString(R.string.space) + uri_loc +
-                getString(R.string.new_line) +
+                s[0] + " " +
 
-                getString(R.string.item_share_call) + item_user_PhoneNumber;
-        return subject;
+                "\n" +
+                getString(R.string.in) + " " + item_city + ": " +
+                "\n" + ((EditText) viewHolder.itemView.findViewById(R.id.et_item_title)).getText() +
+                "\n" +
+                getString(R.string.item_share_price) + " " + ((EditText) viewHolder.itemView.findViewById(R.id.et_item_price)).getText() +
+                "\n" +
+                getString(R.string.item_share_loc) + " " + uri_loc +
+                "\n\n" +
+                getString(R.string.item_share_call) + "\n" + item_user_PhoneNumber;
     }
 
 
@@ -1362,9 +1492,9 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri();
-                uri_itemImg = resultUri;
+                uri_itemImg = result.getUri();
                 setItemImage(uri_itemImg);
+                img_btn_itemImage.layout(0, 0, 0, 0);
                 Glide.with(this)
                         .load(uri_itemImg)
                         .into(img_btn_itemImage);
@@ -1413,18 +1543,6 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                 finish();
                 break;
 
-            case R.id.action_save_item:
-
-                saveItemImageToGallery(
-                        get_ScaledBitmap_from_drawable(img_btn_itemImage.getDrawable()),
-                        viewHolder.getItemTitle() + getString(R.string.underScore) + viewHolder.getItemPrice(),
-                        viewHolder.getItemDetails());
-
-                break;
-            case R.id.action_report_item:
-                confirm_report_user(item_userID);
-
-                break;
 
         }
 
@@ -1462,6 +1580,8 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     private void saveItemImageToGallery(Bitmap scaledBitmap, String itemImage_fileName, String description) {
         MediaStore.Images.Media.insertImage(getContentResolver(), scaledBitmap, itemImage_fileName, description);
+        Toast.makeText(this, getString(R.string.message_info_item_saved_ok), Toast.LENGTH_LONG).show();
+        Log.d(TAG, "saveItemImageToGallery: ");
 
     }
 
@@ -1475,7 +1595,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
   /*      if (savedInstanceState.containsKey(INTENT_KEY_ITEM_IMG_URI)) {
             uri_itemImg = Uri.parse(savedInstanceState.getString(INTENT_KEY_ITEM_IMG_URI));
@@ -1507,6 +1627,21 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         }
     }
 
+    private void manage_ShowMap_Perm() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                    checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            } else {
+
+                showItemOnMap();
+
+            }
+        }
+    }
+
     private void manageShareItemImagePerm() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -1515,7 +1650,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
             ) {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION_ITEM_SHARE);
             } else {
-                shareItemImage(get_Item_Description_for_Share(itemState_share));
+                shareItemImage(get_Item_Description_for_Share(itemState));
             }
         }
     }
@@ -1619,8 +1754,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
         }
         if (bitmap != null) {
-            Bitmap smallBitmap = Bitmap.createScaledBitmap(bitmap, 640, 480, true);
-            return smallBitmap;
+            return Bitmap.createScaledBitmap(bitmap, 640, 480, true);
 
         }
         return bitmap;
@@ -1737,12 +1871,12 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         viewHolder.itemView.findViewById(R.id.et_item_title).setEnabled(true);
         viewHolder.itemView.findViewById(R.id.et_item_details).setEnabled(true);
 
-        viewHolder.itemView.findViewById(R.id.et_item_price).setBackground(getDrawable(R.drawable.background_edit_text_enabled));
-        viewHolder.itemView.findViewById(R.id.et_item_title).setBackground(getDrawable(R.drawable.background_edit_text_enabled));
-        viewHolder.itemView.findViewById(R.id.et_item_details).setBackground(getDrawable(R.drawable.background_edit_text_enabled));
+        viewHolder.itemView.findViewById(R.id.et_item_price).setBackground(ContextCompat.getDrawable(Activity_Display_Modify_Remove_Item.this, R.drawable.background_edit_text_enabled));
+        viewHolder.itemView.findViewById(R.id.et_item_title).setBackground(ContextCompat.getDrawable(Activity_Display_Modify_Remove_Item.this, R.drawable.background_edit_text_enabled));
+        viewHolder.itemView.findViewById(R.id.et_item_details).setBackground(ContextCompat.getDrawable(Activity_Display_Modify_Remove_Item.this, R.drawable.background_edit_text_enabled));
 
         viewHolder.itemView.findViewById(R.id.tv_item_update_img).setVisibility(View.VISIBLE);
-        viewHolder.itemView.findViewById(R.id.tv_item_update_img).setBackground(getDrawable(R.drawable.background_edit_text_enabled));
+        viewHolder.itemView.findViewById(R.id.tv_item_update_img).setBackground(ContextCompat.getDrawable(Activity_Display_Modify_Remove_Item.this, R.drawable.background_edit_text_enabled));
 
 
     }
@@ -1756,17 +1890,15 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         viewHolder.itemView.findViewById(R.id.et_item_title).setEnabled(false);
         viewHolder.itemView.findViewById(R.id.et_item_details).setEnabled(false);
 
-        viewHolder.itemView.findViewById(R.id.et_item_price).setBackground(getDrawable(R.drawable.background_edit_text_disabled));
-        viewHolder.itemView.findViewById(R.id.et_item_title).setBackground(getDrawable(R.drawable.background_edit_text_disabled));
-        viewHolder.itemView.findViewById(R.id.et_item_details).setBackground(getDrawable(R.drawable.background_edit_text_disabled));
-        img_btn_itemImage.setBackground(getDrawable(R.drawable.background_edit_text_disabled));
+        viewHolder.itemView.findViewById(R.id.et_item_price).setBackground(ContextCompat.getDrawable(Activity_Display_Modify_Remove_Item.this, R.drawable.background_tv));
+        viewHolder.itemView.findViewById(R.id.et_item_title).setBackground(ContextCompat.getDrawable(Activity_Display_Modify_Remove_Item.this, R.drawable.background_tv));
+        viewHolder.itemView.findViewById(R.id.et_item_details).setBackground(ContextCompat.getDrawable(Activity_Display_Modify_Remove_Item.this, R.drawable.background_input));
+        img_btn_itemImage.setBackground(ContextCompat.getDrawable(Activity_Display_Modify_Remove_Item.this, R.drawable.background_edit_text_disabled));
 
         viewHolder.itemView.findViewById(R.id.tv_item_update_img).setVisibility(View.INVISIBLE);
 
 
     }
-
-
 
 
     public String getCurrentDate() {
@@ -1786,16 +1918,10 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     }
 
-    public boolean getItemStateFlag() {
-        if (getIntent().getExtras().containsKey(INTENT_KEY__STATE)) {
-            if (getIntent().getExtras().getString(INTENT_KEY__STATE).equals(INTENT_VALUE__STATE_IHAVE)) {
-
-                return false;
-
-
-            }
+    public boolean is_IHAVE_State() {
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(INTENT_KEY__STATE)) {
+            return Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE),INTENT_VALUE__STATE_IHAVE);
         }
-
 
         return true;
     }
@@ -1814,7 +1940,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         }
         selectedItem_User_DB_Ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 item_user_PhoneNumber = (String) dataSnapshot.child(PATH_USER_PHONE_NUMBER).getValue();
 
@@ -1822,7 +1948,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -1836,14 +1962,14 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
         }
         selectedItem_User_DB_Ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 item_userEmail = (String) dataSnapshot.child(PATH_USER_EMAIL).getValue();
 
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

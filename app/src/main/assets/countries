@@ -1,0 +1,14 @@
+[
+  { "name": "Syria", "code": 0 },
+  { "name": "Egypt", "code": 1 },
+  { "name": "Jordan", "code": 2 },
+  { "name": "Qatar", "code": 3 },
+  { "name": "Iraq", "code": 4 },
+  { "name": "UAE", "code": 5 },
+  { "name": "Lebanon", "code": 6 },
+  { "name": "Algeria", "code": 7 },
+  { "name": "Turkey", "code": 8 },
+  { "name": "Morocco", "code": 9 },
+  { "name": "Sudan", "code": 10 },
+  { "name": "Palestine", "code": 11 }
+]

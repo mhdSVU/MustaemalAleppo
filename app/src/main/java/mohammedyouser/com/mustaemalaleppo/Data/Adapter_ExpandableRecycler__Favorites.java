@@ -50,8 +50,8 @@ public class Adapter_ExpandableRecycler__Favorites extends
     private Context mContext;
     private String mItemState;
     private String notification_timeAgo = "";
-    private ArrayList<FavoriteItem> favorites_list = new ArrayList<>();
-    private List<FavoriteTopic> groups_favoriteTopicList = new ArrayList<>();
+    private ArrayList<FavoriteItem> favorites_list;
+    private List<FavoriteTopic> groups_favoriteTopicList;
     private LinearLayout m_ll_no_content;
     private TextView m_tv_label_favorites_ihave;
     private TextView m_tv_label_favorites_ineed;
@@ -94,10 +94,7 @@ public class Adapter_ExpandableRecycler__Favorites extends
         final FavoriteItem favoriteItem = ((FavoriteTopic) group).getItems().get(childIndex);
         viewHolderChild.onBind(favoriteItem.getmTitle());
 
-        viewHolderChild.itemView_child.setOnClickListener(view -> {
-            mContext.startActivity(getFavoriteItemIntent((FavoriteItem) group.getItems().get(childIndex)));
-
-        });
+        viewHolderChild.itemView_child.setOnClickListener(view -> mContext.startActivity(getFavoriteItemIntent((FavoriteItem) group.getItems().get(childIndex))));
         viewHolderChild.itemView_child.setOnLongClickListener(view -> {
             confirmDeleteFavoriteItem(
                     childIndex,
@@ -154,9 +151,7 @@ public class Adapter_ExpandableRecycler__Favorites extends
 
         if (favoriteItem.getmDateTime() != null) {
             if (!favoriteItem.getmDateTime().equals("null")) {
-                notification_timeAgo = TimeAgo.getTimeAgo(-Long.parseLong(favoriteItem.getmDateTime()));
-            } else {
-
+                notification_timeAgo = TimeAgo.getTimeAgo(-Long.parseLong(favoriteItem.getmDateTime()),mContext);
             }
         }
         viewHolderChild.m_tv_timeAgo.setText(notification_timeAgo);
@@ -213,7 +208,7 @@ public class Adapter_ExpandableRecycler__Favorites extends
         ((AppCompatActivity) mContext).getSupportFragmentManager().executePendingTransactions();
 
         ((AppCompatActivity) mContext).getSupportFragmentManager().setFragmentResultListener(REQUEST_KEY_REMOVE_FAVORITE, ((AppCompatActivity) mContext), (requestKey, result) -> {
-            if(result.getBoolean(BUNDLE_KEY_REMOVE_FAVORITE)==true){
+            if(result.getBoolean(BUNDLE_KEY_REMOVE_FAVORITE)){
                 favoriteItems.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, favoriteItems.size());

@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,7 +56,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
     public ProgressBar mProgress;
 
     private ViewModel_Item viewModel;
-    private LinearLayout m_ll_no_content;
+    private TextView m_tv_no_content;
     private FloatingActionButton m_fab_add_alert;
 
 
@@ -85,7 +86,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
         create_userID_tokens_notifications_list(PATH_IHAVE);
 
         m_fab_add_alert = findViewById(R.id.fab_add_alert);
-        m_ll_no_content = findViewById(R.id.ll_no_content);
+        m_tv_no_content = findViewById(R.id.tv_no_content);
         mRecyclerView = findViewById(R.id.recycler_Expand_ineed);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         m_fab_add_alert.setOnClickListener(this);
@@ -147,7 +148,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
                         }
 
                         @Override
-                        public void onCancelled(DatabaseError error) {
+                        public void onCancelled(@NonNull DatabaseError error) {
                             // Failed to read value
                             Log.d(TAG, "onCancelled: Failed to read value. " + error.toException());
                         }
@@ -157,7 +158,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.d(TAG, "onCancelled: Failed to read value. " + databaseError.getMessage());
 
 
@@ -291,7 +292,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
 
     private void setUpToolBar() {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -303,11 +304,8 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.fab_add_alert:
-                show_Add_Alert_Dialog();
-
-
+        if (v.getId() == R.id.fab_add_alert) {
+            show_Add_Alert_Dialog();
         }
     }
     private void show_Add_Alert_Dialog() {
@@ -351,11 +349,11 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
     private void updateUI_If_No_Content(long topicsCount) {
         if (topicsCount == 0) {
             Log.d(TAG, "updateUI_If_No_Content: topicsCount == 0");
-            m_ll_no_content.setVisibility(View.VISIBLE);
+            m_tv_no_content.setVisibility(View.VISIBLE);
         } else {
             Log.d(TAG, "updateUI_If_No_Content: topicsCount != 0  " + topicsCount);
 
-            m_ll_no_content.setVisibility(View.GONE);
+            m_tv_no_content.setVisibility(View.GONE);
 
         }
 

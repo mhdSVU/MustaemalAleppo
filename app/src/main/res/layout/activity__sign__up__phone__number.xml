@@ -2,7 +2,6 @@
 
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal|center_vertical"
@@ -24,7 +23,6 @@
             android:layout_marginBottom="32dp"
 
             android:background="@android:color/transparent"
-            android:drawableTop="@drawable/logo_green"
             android:fontFamily="@font/font__logo"
             android:text="@string/my_app_name"
             android:textAlignment="center"
@@ -34,7 +32,8 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:drawableTopCompat="@drawable/logo_green" />
 
         <ImageButton
             android:id="@+id/img_btn_developer_image"
@@ -70,6 +69,7 @@
             android:id="@+id/til_et_userName"
             android:layout_width="match_parent"
             android:layout_height="80dp"
+            app:boxBackgroundMode="none"
 
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
@@ -113,46 +113,13 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- <com.google.android.material.textfield.TextInputLayout
-             android:id="@+id/til_et_phoneNumber"
-             android:layout_width="wrap_content"
-             android:layout_height="80dp"
-
-             android:gravity="bottom"
-             android:hint="@string/hint_phone_number"
-
-             android:textColorHint="@color/colorPrimaryDark"
-             app:counterEnabled="true"
-             app:counterMaxLength="10"
-             app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
-
-             app:counterTextColor="@color/colorPrimaryDark"
-             app:errorEnabled="true"
-             app:hintTextAppearance="@style/hintStyle"
-
-             app:layout_constraintEnd_toEndOf="@id/til_et_userName"
-             app:layout_constraintStart_toEndOf="@id/ccp"
-             app:layout_constraintTop_toBottomOf="@+id/til_et_userName"
-
-             app:startIconDrawable="@android:drawable/stat_sys_phone_call"
-             app:startIconTint="@color/colorPrimaryDark">
-
-             <com.google.android.material.textfield.TextInputEditText
-                 android:id="@+id/et_phoneNumber"
-                 android:layout_width="175dp"
-                 android:layout_height="40dp"
-                 android:background="@drawable/et_background_2"
-                 android:inputType="phone"
-                 android:paddingTop="10dp"
-                 android:paddingBottom="8dp"
-                 android:textColor="@color/colorPrimaryDark" />
-
-         </com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_password"
             android:layout_width="match_parent"
             android:layout_height="80dp"
+
+            app:boxBackgroundMode="none"
 
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
@@ -160,6 +127,7 @@
 
             android:hint="@string/hint_user_password"
             android:paddingEnd="6dp"
+            android:paddingStart="6dp"
 
             android:textColorHint="@color/colorPrimaryDark"
             app:counterEnabled="true"
@@ -210,12 +178,15 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
 
+            app:boxBackgroundMode="none"
+
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:gravity="bottom"
 
             android:hint="@string/hint_user_password_confirm"
             android:paddingEnd="6dp"
+            android:paddingStart="6dp"
             android:textColorHint="@color/colorPrimaryDark"
             app:counterEnabled="true"
 
@@ -260,100 +231,6 @@
                 app:hintTextAppearance="@style/hintStyle" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- <com.google.android.material.textfield.TextInputLayout
-             android:id="@+id/til_et_phoneNumber_prefix"
-             android:layout_width="match_parent"
-             android:layout_height="80dp"
-             android:gravity="bottom"
-
-             android:hint="@string/hint_phone_number"
-
-             android:textColorHint="@color/colorPrimaryDark"
-             app:counterEnabled="true"
-             app:counterMaxLength="15"
-
-
-             app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
-             app:counterTextColor="@color/colorPrimaryDark"
-             app:errorEnabled="true"
-             app:hintTextAppearance="@style/hintStyle"
-             app:layout_constraintEnd_toEndOf="parent"
-
-
-             app:layout_constraintHorizontal_bias="0.497"
-
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintTop_toBottomOf="@+id/til_et_userName"
-
-             app:startIconDrawable="@android:drawable/stat_sys_phone_call"
-             app:startIconTint="@color/colorPrimaryDark"
-
-             >
-
-
-             <com.google.android.material.textfield.TextInputEditText
-                 android:id="@+id/et_phoneNumber_prefix"
-                 android:layout_width="96dp"
-                 android:layout_height="40dp"
-                 android:layout_marginStart="24dp"
-                 android:layout_marginTop="32dp"
-                 android:layout_marginEnd="24dp"
-                 android:background="@drawable/et_background_2"
-                 android:drawablePadding="8dp"
-                 android:inputType="phone"
-                 android:paddingStart="12dp"
-                 android:paddingTop="10dp"
-                 android:paddingEnd="12dp"
-                 android:paddingBottom="5dp"
-                 android:textColor="@color/colorPrimaryDark"
-                 android:layout_gravity="start"
-                 />
-
-         </com.google.android.material.textfield.TextInputLayout>-->
-
-
-        <!--      <com.hbb20.CountryCodePicker
-                  android:id="@+id/ccp"
-                  android:layout_width="wrap_content"
-                  android:layout_height="40dp"
-
-                  android:background="@drawable/et_background_2"
-
-                  app:ccpDialog_allowSearch="true"
-                  app:ccpDialog_initialScrollToSelection="true"
-                  app:ccpDialog_keyboardAutoPopup="false"
-                  app:ccpDialog_showCloseIcon="true"
-                  app:ccpDialog_showFastScroller="false"
-                  app:ccpDialog_showFlag="false"
-                  app:ccpDialog_showPhoneCode="true"
-
-                  app:ccpDialog_showTitle="true"
-                  app:ccp_arrowSize="20dp"
-                  app:ccp_autoDetectCountry="true"
-                  app:ccp_autoDetectLanguage="true"
-                  app:ccp_autoFormatNumber="false"
-                  app:ccp_clickable="true"
-                  app:ccp_contentColor="@color/colorPrimaryDark"
-                  app:ccp_countryAutoDetectionPref="SIM_ONLY"
-                  app:ccp_countryPreference="TR,SYR"
-                  app:ccp_defaultLanguage="ENGLISH"
-
-                  app:ccp_defaultNameCode="US"
-                  app:ccp_rememberLastSelection="true"
-                  app:ccp_selectionMemoryTag="signupCCP"
-                  app:ccp_showArrow="true"
-                  app:ccp_showFlag="false"
-                  app:ccp_showFullName="false"
-                  app:ccp_showNameCode="true"
-                  app:ccp_showPhoneCode="true"
-                  app:ccp_textGravity="CENTER"
-                  app:ccp_textSize="16sp"
-
-                  app:layout_constraintBottom_toBottomOf="@+id/til_et_phoneNumber"
-                  app:layout_constraintTop_toTopOf="@id/til_et_phoneNumber"
-                  app:layout_constraintEnd_toStartOf="@id/til_et_phoneNumber"
-                  app:layout_constraintStart_toStartOf="@id/til_et_userName"
-               />-->
         <com.hbb20.CountryCodePicker
             android:id="@+id/ccp"
             android:layout_width="wrap_content"
@@ -402,10 +279,14 @@
             android:id="@+id/til_et_phoneNumber"
             android:layout_width="0dp"
             android:layout_height="80dp"
+
+            app:boxBackgroundMode="none"
+
             android:layout_marginEnd="32dp"
             android:gravity="bottom"
             android:hint="@string/hint_phone_number"
             android:paddingEnd="6dp"
+            android:paddingStart="6dp"
             android:textColorHint="@color/colorPrimaryDark"
 
             app:counterEnabled="true"
@@ -431,6 +312,7 @@
                 android:maxLength="10"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
+                android:paddingStart="10dp"
                 android:paddingBottom="8dp"
                 android:textColor="@color/colorPrimaryDark" />
 
@@ -451,53 +333,61 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/til_password_confirm">
 
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="24dp"
-    android:layout_marginStart="24dp"
-    android:layout_marginLeft="24dp"
-    android:layout_marginEnd="24dp"
-    android:layout_marginRight="24dp"
-    >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:orientation="horizontal">
 
-    <CheckBox
-        android:id="@+id/cb_agree_ts_and_cs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
+                <CheckBox
+                    android:id="@+id/cb_agree_ts_and_cs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
 
-    <TextView
-        android:id="@+id/tv_iagree"
+                <TextView
+                    android:id="@+id/tv_iagree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_iagree"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:layout_gravity="center_horizontal"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
 
-    >
-    <TextView
-        android:id="@+id/tv_terms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+                >
 
-    <TextView
-        android:id="@+id/tv_and"
-        android:layout_marginStart="6dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_terms"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tv_privacy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+                <TextView
+                    android:id="@+id/tv_and"
+                    android:textStyle="bold"
+                    android:text="@string/and"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="6dp" />
+
+                <TextView
+                    android:id="@+id/tv_privacy"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
 
         </LinearLayout>
@@ -508,6 +398,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            android:layout_marginTop="12dp"
             android:text="@string/btn_sign_up"
             android:textAllCaps="true"
             android:textColor="@android:color/white"

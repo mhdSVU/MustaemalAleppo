@@ -17,16 +17,5 @@
         app:showAsAction="ifRoom"
         android:icon="@mipmap/ic_delete_forever_white_24dp"
        />
-    <item
-        android:id="@+id/action_save_item"
-        android:title="@string/action_save"
-        app:showAsAction="ifRoom"
-        android:icon="@mipmap/ic_save_white_24dp"
-       />
-    <item
-        android:id="@+id/action_report_item"
-        android:title="@string/action_report"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_report"
-       />
+  
 </menu>

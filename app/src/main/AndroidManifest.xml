@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="mohammedyouser.com.mustaemalaleppo">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,7 +14,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -26,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:windowSoftInputMode="stateHidden">
-
+        <activity android:name=".UI.ActivityCountrySelector" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -41,7 +39,7 @@
 
         <activity
             android:name=".Device.Activity_Maps_Item_Location"
-            android:label="@string/title_activity__maps__item__location"></activity>
+            android:label="@string/title_activity__maps__item__location" />
         <activity
             android:name=".Data.Activity_User_Favorites"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
@@ -70,8 +68,6 @@
         <activity
             android:name=".Domain.Activity_About_App"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
-
-
         <activity
             android:name=".UI.Activity_Sign_In_Phone_Number"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
@@ -91,21 +87,16 @@
         </activity>
         <activity
             android:name=".Domain.Activity_Add_Item"
-            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:configChanges="screenSize|keyboardHidden"
             android:label=""
             android:windowSoftInputMode="stateHidden" />
-
-
         <activity
             android:name=".Domain.Activity_Display_Modify_Remove_Item"
             android:allowEmbedded="true"
-            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:configChanges="screenSize|keyboardHidden"
             android:label=""
-            android:resizeableActivity="true"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".UI.Activity_Ineed_Ihave"
             android:configChanges="screenSize|keyboardHidden"
@@ -172,7 +163,7 @@
         <service
             android:name=".Domain.Service_FirebaseMessagingService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

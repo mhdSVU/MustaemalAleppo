@@ -17,7 +17,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/green1"
-        android:gravity="left"
+        android:gravity="start"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintBottom_toTopOf="@id/ns_scroll"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,29 +25,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/title_item_details" />
 
-    <TextView
-        android:id="@+id/textView_lable_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="left"
-        android:padding="10dp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolBar"
-        tools:text="@string/message_info_ADDING_ITEM" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/ns_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:fillViewport="true"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,8 +44,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/tv_item_state_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="start"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:textDirection="anyRtl"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/cardView_item_data"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:background="@color/nice_red" />
+
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView_phone_auth"
+                android:id="@+id/cardView_item_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
@@ -87,31 +89,68 @@
                     <ImageButton
                         android:id="@+id/img_btn_itemImage"
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
-                        android:layout_marginStart="-11dp"
-                        android:layout_marginTop="-11dp"
-                        android:layout_marginEnd="-11dp"
-                        android:layout_marginBottom="-11dp"
-                        android:scaleType="centerCrop"
+                        android:layout_height="320dp"
+                        android:layout_marginStart="-12dp"
+                        android:layout_marginTop="-12dp"
+                        android:layout_marginEnd="-12dp"
+                        android:layout_marginBottom="-12dp"
                         app:layout_constraintBottom_toTopOf="@id/tv_details_lable"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
 
                         tools:background="@drawable/ic_baseline_person_24" />
 
-                    <EditText
-                        android:id="@+id/et_item_title"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/background_tv"
-                        android:enabled="false"
-                        android:inputType="text"
-                        android:padding="8dp"
-                        android:text="itemTitle"
-                        android:textColor="@android:color/white"
+                        app:boxBackgroundMode="none"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:errorEnabled="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.98"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.03"
+                        app:suffixText="@string/symbol_syrian_pound_2">
 
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_item_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/background_tv"
+                            android:ellipsize="end"
+                            android:enabled="false"
+                            android:gravity="end"
+                            android:inputType="numberDecimal"
+                            android:maxLength="10"
+                            android:maxLines="1"
+                            android:padding="12dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <EditText
+                        android:id="@+id/et_item_title"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:background="@drawable/background_tv"
+                        android:ellipsize="end"
+                        android:enabled="false"
+                        android:inputType="textMultiLine"
+                        android:lines="2"
+                        android:maxLength="50"
+                        android:padding="12dp"
+                        android:textColor="@android:color/white"
 
                         android:textSize="20sp"
                         android:textStyle="bold"
@@ -122,52 +161,16 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.029" />
 
-                    <EditText
-                        android:id="@+id/et_item_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/background_tv"
-                        android:padding="8dp"                        android:enabled="false"
-                        android:gravity="right"
-                        android:inputType="numberDecimal"
-                        android:text="Item Price"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"
-
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.95"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.03" />
-
-                    <TextView
-                        android:id="@+id/currency_lable"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/symbol_syrian_pound"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"
-                        android:background="@drawable/background_tv"
-                        android:padding="8dp"
-                        android:textStyle="bold"
-                        android:layout_marginEnd="4dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/et_item_price"
-                        app:layout_constraintEnd_toStartOf="@+id/et_item_price"
-                        app:layout_constraintTop_toTopOf="@+id/et_item_price"
-                        app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
                         android:id="@+id/tv_item_city"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="100dp"
-                        android:text="item_city"
+                        android:background="@drawable/background_tv"
+                        android:padding="12dp"
                         android:textColor="@android:color/white"
                         android:textSize="17sp"
-                        android:background="@drawable/background_tv"
-                        android:padding="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.05"
@@ -180,14 +183,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="100dp"
+                        android:background="@drawable/background_tv"
                         android:gravity="end"
-                        android:text="item_date"
+                        android:padding="12dp"
                         android:textColor="@android:color/white"
+
                         android:textSize="17sp"
                         android:textStyle="bold"
-
-                        android:background="@drawable/background_tv"
-                        android:padding="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.95"
@@ -196,13 +198,11 @@
                         app:layout_constraintVertical_bias="0.601" />
 
 
-
-
                     <TextView
                         android:id="@+id/tv_item_update_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Click to update image"
+                        android:text="@string/label_item_img_modify"
                         android:textColor="@color/item_price"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -217,10 +217,12 @@
                         android:id="@+id/tv_details_lable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="4dp"
                         android:text="@string/title_extra_info"
-
                         android:textColor="@android:color/black"
-                        android:textSize="17sp"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/et_item_details"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.116"
@@ -229,12 +231,11 @@
 
                     <EditText
                         android:id="@+id/et_item_details"
-                        android:layout_width="190dp"
+                        android:layout_width="0dp"
                         android:layout_height="120dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="32dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginBottom="90dp"
 
                         android:background="@drawable/background_input"
@@ -249,8 +250,7 @@
 
                         android:textColor="@color/colorPrimary"
                         android:textSize="17sp"
-
-                        app:layout_constraintBottom_toTopOf="@+id/imageView_userImage"
+                        app:layout_constraintEnd_toStartOf="@id/img_btn_show_on_map"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_details_lable" />
 
@@ -259,13 +259,13 @@
                         android:layout_width="128dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:background="@drawable/background_button"
-                        android:drawableLeft="@drawable/ic_location"
+                        android:drawableStart="@drawable/ic_location"
                         android:elevation="8dp"
                         android:insetLeft="0dp"
                         android:insetTop="0dp"
                         android:insetRight="0dp"
-
                         android:insetBottom="0dp"
                         android:padding="4dp"
                         android:text="@string/btn_location_show"
@@ -275,151 +275,167 @@
                         android:textStyle="bold"
 
                         android:tint="@color/colorPrimaryDark"
-
-                        app:layout_constraintBottom_toTopOf="@+id/imageView_userImage"
-                        app:layout_constraintEnd_toEndOf="@id/tv_item_date"
-                        app:layout_constraintStart_toEndOf="@id/et_item_details"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_details_lable" />
-
-                    <ImageView
-                        android:id="@+id/imageView_userImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="20dp"
-                        android:scaleType="centerInside"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/textView_username"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:srcCompat="@mipmap/avatar_default" />
-
-                    <TextView
-                        android:id="@+id/textView_username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView_userImage"
-                        app:layout_constraintEnd_toStartOf="@id/imageButton_user_phoneCall"
-                        app:layout_constraintHorizontal_bias="0.36"
-                        app:layout_constraintStart_toEndOf="@id/imageView_userImage"
-                        app:layout_constraintTop_toTopOf="@+id/imageView_userImage" />
-
-                    <ImageButton
-                        android:id="@+id/imageButton_user_phoneCall"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_marginStart="16dp"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitCenter"
-                        android:src="@mipmap/ic_call_black_24dp"
-                        android:stateListAnimator="@android:animator/fade_out"
-                        android:tint="@color/colorAccent"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView_username"
-                        app:layout_constraintStart_toEndOf="@+id/textView_username"
-                        app:layout_constraintTop_toTopOf="@+id/textView_username"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <ImageButton
-                        android:id="@+id/imageButton_user_send_sms"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="16dp"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitCenter"
-                        android:src="@mipmap/ic_email_black_24dp"
-                        android:stateListAnimator="@android:animator/fade_out"
-                        android:tint="@color/colorAccent"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageButton_user_phoneCall"
-                        app:layout_constraintEnd_toStartOf="@id/imageButton_user_whatsapp"
-                        app:layout_constraintHorizontal_bias="0.102"
-                        app:layout_constraintStart_toEndOf="@+id/imageButton_user_phoneCall"
-                        app:layout_constraintTop_toTopOf="@+id/imageButton_user_phoneCall"
-
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <ImageButton
-                        android:id="@+id/imageButton_user_whatsapp"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="21dp"
-                        android:background="@android:color/transparent"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/whatsapp"
-                        android:stateListAnimator="@android:animator/fade_out"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageButton_user_phoneCall"
+                        app:layout_constraintBottom_toBottomOf="@+id/et_item_details"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.102"
-                        app:layout_constraintStart_toEndOf="@+id/imageButton_user_send_sms"
-                        app:layout_constraintTop_toTopOf="@+id/imageButton_user_phoneCall"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintStart_toEndOf="@id/et_item_details"
+                        app:layout_constraintTop_toTopOf="@id/et_item_details" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_user_item_contact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="24dp"
+                        android:gravity="center_vertical|fill_horizontal|start"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/et_item_details"
+                        tools:background="@color/nice_red">
+
+                        <ImageView
+                            android:id="@+id/imageView_userImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerInside"
+                            app:srcCompat="@mipmap/avatar_default" />
+
+                        <TextView
+                            android:id="@+id/textView_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="12dp"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/imageButton_user_phoneCall"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitCenter"
+                            android:src="@mipmap/ic_call_black_24dp"
+                            android:stateListAnimator="@android:animator/fade_out"
+                            android:tint="@color/colorAccent" />
+
+                        <ImageButton
+                            android:id="@+id/imageButton_user_send_sms"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitCenter"
+                            android:src="@mipmap/ic_email_black_24dp"
+                            android:stateListAnimator="@android:animator/fade_out"
+                            android:tint="@color/colorAccent" />
+
+                        <ImageButton
+                            android:id="@+id/imageButton_user_whatsapp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@android:color/transparent"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/whatsapp"
+                            android:stateListAnimator="@android:animator/fade_out" />
+                    </LinearLayout>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
-
-            <ImageButton
-                android:id="@+id/img_btn_itemImage_share_background"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="500dp"
-                android:background="@drawable/background_share"
-                android:elevation="0dp"
-                android:foregroundGravity="center"
-                android:stateListAnimator="@android:animator/fade_out"
-
-
-                android:theme="@style/ThemeOverlay.MyButton"
-                android:translationZ="16dp"
+            <LinearLayout
+                android:id="@+id/ll_item_react"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="80dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cardView_phone_auth" />
+                app:layout_constraintTop_toBottomOf="@id/cardView_item_data">
 
-            <ImageButton
-                android:id="@+id/img_btn_itemImage_share"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="500dp"
-                android:background="@drawable/ic_baseline_share_24"
-                android:elevation="16dp"
-                android:theme="@style/ThemeOverlay.MyButton"
 
-                android:translationZ="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cardView_phone_auth" />
+                <ImageButton
+                    android:id="@+id/img_btn_item_share"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/background_share"
+                    android:elevation="16dp"
+                    android:translationZ="24dp" />
+
+                <CheckBox
+                    android:id="@+id/cb_favorite"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/sl_favorite_display"
+                    android:elevation="16dp"
+                    android:button="@null"
+                    android:translationZ="24dp" />
+
+                <ImageButton
+                    android:id="@+id/img_btn_item_save"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/background_save"
+                    android:elevation="16dp"
+                    android:translationZ="24dp" />
+
+                <ImageButton
+                    android:id="@+id/img_btn_item_report"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/background_report"
+                    android:elevation="16dp"
+                    android:translationZ="24dp" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
+
+
     <LinearLayout
         android:id="@+id/ll_item_modify"
+        android:background="@android:color/darker_gray"
+        android:visibility="gone"
+        android:weightSum="2.0"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="160dp"
-        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="80dp"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:visibility="invisible"
-        android:weightSum="2.0"
+        android:paddingTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/ns_scroll"
         app:layout_constraintStart_toStartOf="@id/ns_scroll"
-        app:layout_constraintTop_toBottomOf="@id/ns_scroll">
+        app:layout_constraintTop_toBottomOf="@id/ns_scroll"
+
+        >
 
         <Button
             android:id="@+id/button_dismiss_modifications"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center"
+            android:layout_gravity="end|center"
             android:layout_marginStart="16dp"
             android:layout_weight="1.0"
             android:text="@string/ignore"
@@ -429,7 +445,7 @@
             android:id="@+id/button_confirm_modifications"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center"
+            android:layout_gravity="end|center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1.0"
@@ -455,34 +471,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolBar">
 
-        <LinearLayout
-            android:id="@+id/ll_no_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginTop="200dp"
-                android:src="@drawable/ic_removed_item"
-                app:tint="@color/colorPrimary" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="24dp"
-                android:lines="2"
-                android:text="@string/message_error_item_not_found"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_no_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="24dp"
+            app:tint="@color/colorPrimary"
+            android:layout_gravity="center_vertical|center_horizontal"
+            app:drawableTopCompat="@drawable/no_item_200"
+            android:layout_marginEnd="24dp"
+            android:text="@string/message_error_item_not_found"
+            android:textSize="16sp" />
 
     </FrameLayout>
 

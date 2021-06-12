@@ -184,10 +184,9 @@
     <string name="default_val_user_address">No address available</string>
     <string name="btn_save">SAVE</string>
     <string name="btn_location_show">Location</string>
-    <string name="empty"  translatable="false"/>
+    <string name="empty" translatable="false" />
     <string name="title_account_ifo">Getting Account Information</string>
     <string name="underScore">_</string>
-
 
 
     <string name="in">" in "</string>
@@ -196,7 +195,7 @@
     <string name="notification_des_added">"Added "</string>
     <string name="notification_des_on">\n On </string>
     <string name="space">" "</string>
-    <string translatable="false" name="tag_fragment_remove">removeDialogFragment</string>
+    <string name="tag_fragment_remove" translatable="false">removeDialogFragment</string>
     <string name="forward_slash">/</string>
     <string name="new_line">\n</string>
     <string name="scheme" translatable="false">tel</string>
@@ -209,6 +208,12 @@
     <string name="message_info_loc_preserved">Your location preserved!</string>
     <string name="item_notification_state_hint_ihave">Item for sale</string>
     <string name="item_notification_state_hint_ineed">Item needed</string>
+
+    <string name="notification_state_header_ihave">Notifications about items for sale:</string>
+    <string name="notification_state_header_ineed">Notifications about ordered items:</string>
+    <string name="favorite_state_header_ihave">Favorites about items for sale:</string>
+    <string name="favorite_state_header_ineed">Favorites about ordered items:</string>
+
     <string name="item_notification_extra_ineed">New needed items added!</string>
     <string name="item_notification_style_title">New items</string>
     <string name="item_notification_extra_ihave">New available items added!</string>
@@ -221,7 +226,8 @@
     <string name="message_error_password">Invalid Password</string>
     <string name="message_error_sign_out">Unable to sign out.Please check network and/or VPN!</string>
     <string name="message_info_loc_updated">Location Updated!</string>
-    <string name="symbol_syrian_pound">S.P.</string>
+    <string name="symbol_syrian_pound">" S.P. %1$s"</string>
+    <string name="symbol_syrian_pound_2">" S.P. "</string>
 
     <string name="add_alert_as_following">as the following:</string>
     <string name="label_verification_status">Verification Status:</string>
@@ -242,15 +248,15 @@
     <string name="btn_confirm_reset_password">Confirm Reset Password</string>
     <string name="tv_remembered_Password">Just remembered your old password?</string>
     <string name="btn_cancel_reset_password">Cancel Reset Password</string>
-    <string name="tv_forgot_password_lable">Forgot Password</string>
+    <string name="tv_forgot_password_lable">Forgot Password?</string>
     <string name="tv_forgot_password_details">Please enter your phone number. An OTP SMS will be sent to this number.:</string>
     <string name="btn_password_reset_start">Start Reset Password</string>
     <string name="title_nav_my_items">My Items</string>
     <string name="desc_img_user">User Image</string>
     <string name="item_share_call">\n Feel free to call:  </string>
     <string name="item_share_loc">You can find location here:</string>
-    <string name="item_share_state_ineed">needs the following item:</string>
-    <string name="item_share_state_ihave">has the following item:</string>
+    <string name="item_share_state_ineed">%1$s " needs the following item:"</string>
+    <string name="item_share_state_ihave">%1$s " has the following item:"</string>
     <string name="message_error_loc_cuurent">Unable to get current location!</string>
     <string name="btn_retry">Retry</string>
     <string name="btn_start_verify_phone_auth">Start Verification</string>
@@ -264,6 +270,7 @@
     <string name="notification_add_state_ineed">needs</string>
     <string name="action_title_notifications">Notifications</string>
     <string name="message_info_no_notifications">You don\'t have any notifications yet!</string>
+    <string name="message_info_no_favorites">You haven\'t added any items to favorites  yet!</string>
     <string name="title_fragment_delete_notification">Delete Notification</string>
     <string name="title_fragment_delete_favorite">Delete Favorite Item</string>
     <string name="messag_info_fragment_notification_delete">This notification will be deleted permanently</string>
@@ -303,7 +310,7 @@
     <string name="message_info_no_report">No Report Submitted</string>
     <string name="action_report">Report Item</string>
     <string name="message_error_sign_in_reported_user">Your account has been locked for inappropriate content.</string>
-    <string name="message_error_reported_already">You have aready reported this user!</string>
+    <string name="message_error_reported_already">You have already reported this user!</string>
     <string name="tv_report_feedbac">Please select a reason for reporting :</string>
     <string name="message_error_reached_max">You have reached the maximum allowed number of reports!</string>
     <string name="title_nav_my_favorites">My Favorites</string>
@@ -328,7 +335,7 @@
     <string name="add_alert_not_less_than">Equal or more than:</string>
     <string name="add_alert_not_more_far">Not more far of my location than:</string>
     <string name="default_notification_channel_id" translatable="false">default_notification_channel_id</string>
-    <string name="title_add_item" >Adding New Item</string>
+    <string name="title_add_item">Adding New Item</string>
     <string name="title_notification_place_holders" translatable="false">&lt;b> %1$s &lt;/b> %2$s %3$s &lt;b> %4$s &lt;/b></string>
 
     <string name="chooser_title_email">Send E-mail via:</string>
@@ -338,7 +345,24 @@
     <string name="title_email_to_item_user">From Ineed Ihave App: As to the item %s\n</string>
     <string name="title_nav_language_en" translatable="false">Use English</string>
     <string name="title_nav_language_ar" translatable="false">استخدم العربية</string>
-
+    <string name="and">and</string>
+    <string name="tv_iagree">I have read and agree to:</string>
+    <string name="terms">"<a href="https://drive.google.com/file/d/1xd4bnCruesMuj73Wfh91Tf06rEkLGb8B/view?usp=sharing">Terms of Use</a>"</string>
+    <string name="privacy">"<a href="https://drive.google.com/file/d/1qg7K8LFaEBYtKX6MFf-WKJbgEnsWRMDf/view?usp=sharing">Privacy Policy</a>"</string>
+    <string name="tv_create_new_account">Create New Account</string>
+    <string name="no_account">Don\'t have an Account?</string>
+    <string name="no_title">No Title</string>
+    <string name="no_price">No Price</string>
+    <string name="title_nav_change_country">Change Country</string>
+    <string name="message_error_change_country_app">Sorry, changing country is currently unavailable!</string>
+    <string name="time_ago_just_now">just now</string>
+    <string name="time_ago_miute">a minute ago</string>
+    <string name="time_ago_hour">an hour ago</string>
+    <string name="time_ago_hours">%1$d\" hours ago\"</string>
+    <string name="time_ago_minutes">%1$d\" minutes ago\"</string>
+    <string name="time_ago_yesterday">yesterday</string>
+    <string name="time_ago_days">%1$d\" days ago\"</string>
+    <string name="label_item_img_modify">Click to update image</string>
 
 
 </resources>

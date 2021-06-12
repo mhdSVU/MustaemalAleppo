@@ -55,29 +55,19 @@ public class ViewHolder_Item extends RecyclerView.ViewHolder {
 
     public ViewHolder_Item(View itemView, Context context) {
         super(itemView);
-        this.mItemView = itemView;
-        mTitle = (EditText) mItemView.findViewById(R.id.et_item_title);
-        mItemPrice = (EditText) mItemView.findViewById(R.id.et_item_price);
-        mDate = (TextView) mItemView.findViewById(R.id.tv_item_date);
-        mItemDetails = (EditText) mItemView.findViewById(R.id.et_item_details);
-        mItemUserName = (TextView) mItemView.findViewById(R.id.textView_username);
-        m_cb_favorite = (CheckBox) mItemView.findViewById(R.id.cb_favorite);
-        m_img_btn_itemImage = (ImageButton) mItemView.findViewById(R.id.img_btn_itemImage);
         this.context = context;
+        this.mItemView = itemView;
+        mTitle =  mItemView.findViewById(R.id.et_item_title);
+        mItemPrice =  mItemView.findViewById(R.id.et_item_price);
+        mDate =  mItemView.findViewById(R.id.tv_item_date);
+        mItemDetails =  mItemView.findViewById(R.id.et_item_details);
+        mItemUserName =  mItemView.findViewById(R.id.textView_username);
+        m_cb_favorite = mItemView.findViewById(R.id.cb_favorite);
+        m_img_btn_itemImage = mItemView.findViewById(R.id.img_btn_itemImage);
 
 
     }
-    public void bind(int position){
 
-        if(sparseBooleanArray.get(position,false)){
-            //set_button_checkBox_Favorite(false);
-            m_cb_favorite.setChecked(false);
-        }
-        else {
-            m_cb_favorite.setChecked(true);
-
-        }
-    }
 
     public View getMyItemView() {
         return mItemView;
@@ -87,27 +77,27 @@ public class ViewHolder_Item extends RecyclerView.ViewHolder {
         return m_cb_favorite;
     }
 
-    public void set_button_checkBox_Favorite(boolean isAddedToFavorites) {
-        if(isAddedToFavorites) {
-            m_cb_favorite.setButtonDrawable(ContextCompat.getDrawable(context, R.drawable.ic_add_to_favorite_filled));
-        }
-        else{
-            m_cb_favorite.setButtonDrawable(ContextCompat.getDrawable(context, R.drawable.ic_add_to_favorite));
+
+
+
+
+    public void setItemTitle(String title)
+    {
+        if(String.valueOf(title).equals("")){
+            mTitle.setText(context.getString(R.string.no_title));
+            return;
 
         }
-    }
-
-    public View get_imgButton_itemImage() {
-        return m_img_btn_itemImage;
-    }
-
-
-    public void setItemTitle(String title) {
         mTitle.setText(title);
     }
 
 
     public void setItemPrice(String itemPrice) {
+        if(String.valueOf(itemPrice).equals("")){
+            mItemPrice.setText(context.getString(R.string.no_price));
+            return;
+
+        }
         mItemPrice.setText(itemPrice);
         Log.d(TAG, "setItemImage: Price ");
 
@@ -159,31 +149,7 @@ public class ViewHolder_Item extends RecyclerView.ViewHolder {
 
     }
 
-    public void setItemDetails(String itemDetails) {
-        mItemDetails.setText(itemDetails);
-    }
 
-    public void setUserImage(final Context ctx, final String userImageURL) {
-
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView_userImage);
-        if (userImageURL != null) {
-            setImage_circle(ctx, Uri.parse(userImageURL), 1, imageView);
-
-        } else {
-            imageView.setImageDrawable(ctx.getDrawable(R.drawable.ic_account_circle_white_24dp));
-        }
-
-    }
-
-    public void setUserName(String userName) {
-
-        if (userName != null) {
-            mItemUserName.setText(userName);
-
-        } else {
-            mItemUserName.setText(R.string.empty);
-        }
-    }
 
 
     private void setImage_circle(Context context, Uri imageURL, float thumbnail, ImageView imageView) {

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="#902AE809" />
-
-
-    <corners android:radius="70dp" />
-    <size
-        android:width="60dp"
-        android:height="60dp" />
-    <!--<stroke
-        android:width="2dp"
-        android:color="@color/colorPrimaryDark" />-->
-</shape>
-
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#902AE809"/>
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/ic_baseline_share_40"
+        android:gravity="center"
+        android:bottom="2dp"
+        android:left="4dp"
+        android:right="4dp"
+        android:top="2dp"
+     />
+</layer-list>

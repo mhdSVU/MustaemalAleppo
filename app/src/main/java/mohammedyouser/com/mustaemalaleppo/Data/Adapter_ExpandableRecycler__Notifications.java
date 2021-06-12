@@ -52,8 +52,8 @@ public class Adapter_ExpandableRecycler__Notifications extends
     private String mItemState;
     private Notification notification;
     private String notification_timeAgo = "";
-    private ArrayList<Notification> notifications_list = new ArrayList<>();
-    private List<NotificationTopic> groups_notificationTopicList = new ArrayList<>();
+    private ArrayList<Notification> notifications_list ;
+    private List<NotificationTopic> groups_notificationTopicList ;
     private LinearLayout m_ll_no_content;
     private TextView m_tv_label_notifications_ihave;
     private TextView m_tv_label_notifications_ineed;
@@ -95,10 +95,7 @@ public class Adapter_ExpandableRecycler__Notifications extends
         final Notification notification = ((NotificationTopic) group).getItems().get(childIndex);
         viewHolderChild.onBind(notification.getmTitle());
 
-        viewHolderChild.itemView_child.setOnClickListener(view -> {
-            mContext.startActivity(getNotificationIntent((Notification) group.getItems().get(childIndex)));
-
-        });
+        viewHolderChild.itemView_child.setOnClickListener(view -> mContext.startActivity(getNotificationIntent((Notification) group.getItems().get(childIndex))));
         viewHolderChild.itemView_child.setOnLongClickListener(view -> {
             confirmDeleteNotification(childIndex,((NotificationTopic) group).getItems(),((Notification) group.getItems().get(childIndex)).getmState(), notifications_list.get(childIndex).getmTopic(), notifications_list.get(childIndex).getID(), groups_notificationTopicList.size());
             return false;
@@ -149,9 +146,7 @@ public class Adapter_ExpandableRecycler__Notifications extends
 
         if (notification.getmDateTime() != null) {
             if (!notification.getmDateTime().equals("null")) {
-                notification_timeAgo = TimeAgo.getTimeAgo(-Long.parseLong(notification.getmDateTime()));
-            } else {
-
+                notification_timeAgo = TimeAgo.getTimeAgo(-Long.parseLong(notification.getmDateTime()),mContext);
             }
         }
         viewHolderChild.m_tv_timeAgo.setText(notification_timeAgo);
@@ -208,7 +203,7 @@ public class Adapter_ExpandableRecycler__Notifications extends
         ((AppCompatActivity) mContext).getSupportFragmentManager().executePendingTransactions();
 
         ((AppCompatActivity) mContext).getSupportFragmentManager().setFragmentResultListener(REQUEST_KEY_REMOVE_NOTIFICATION, ((AppCompatActivity) mContext), (requestKey, result) -> {
-            if(result.getBoolean(BUNDLE_KEY_REMOVE_NOTIFICATION)==true){
+            if(result.getBoolean(BUNDLE_KEY_REMOVE_NOTIFICATION)){
                 notifications.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, notifications.size());

@@ -1,0 +1,18 @@
+[
+
+
+
+  { "name": "All-Categories", "code": "ALL" },
+  { "name": "Real-Estates", "code": "RE" },
+  { "name": "Cars", "code": "CR" },
+    { "name": "Mobile-Phones", "code": "MB" },
+    { "name": "Services-Jobs", "code": "MB" },
+    { "name": "Clothes", "code": "CL" },
+  { "name": "Books", "code": "BK" },
+  { "name": "Foods", "code": "FD" },
+  { "name": "Furniture", "code": "FR" },
+  { "name": "Laptops-PCs", "code": "PT" },
+  { "name": "Electronic-Devices", "code": "EL" },
+  { "name": "Miscellaneous", "code": "DR" }
+
+]

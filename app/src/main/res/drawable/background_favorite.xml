@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="60dp" android:height="60dp">
+        <shape android:shape="oval">
+            <solid android:color="#F8F752"/>
+        </shape>
+    </item>
+    <item
+        android:id="@+id/bkgr_fav_item_drawable"
+        android:drawable="@drawable/ic_baseline_favorite_border_50"
+        android:gravity="center"
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="6dp"
+        />
+
+</layer-list>

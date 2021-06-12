@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="@string/title_nav_home">
 
         <menu>
@@ -10,6 +8,11 @@
                 android:icon="@drawable/ic_nav_home"
                 android:title="@string/title_nav_home" />
             <item
+                android:id="@+id/nav_change_country"
+                android:icon="@drawable/ic_nav_change_country"
+                android:title="@string/title_nav_change_country" />
+
+            <item
                 android:id="@+id/nav_change_language_ar"
                 android:icon="@drawable/ic_nav_language"
                 android:title="@string/title_nav_language_ar" />
@@ -17,6 +20,7 @@
                 android:id="@+id/nav_change_language_en"
                 android:icon="@drawable/ic_nav_language"
                 android:title="@string/title_nav_language_en" />
+
 
             <item
                 android:id="@+id/nav_download_vpn"
@@ -60,21 +64,18 @@
             <item
                 android:id="@+id/nav_my_notifications"
                 android:icon="@drawable/ic_nav_drawer_notifications"
-                android:iconTint="@android:color/black"
                 android:title="@string/title_nav_my_notifications"
 
                 />
             <item
                 android:id="@+id/nav_my_subscriptions"
                 android:icon="@drawable/ic_nav_drawer_subscriptions"
-                android:iconTint="@android:color/black"
                 android:title="@string/title_nav_my_subscriptions"
 
                 />
             <item
                 android:id="@+id/nav_add_alert"
                 android:icon="@drawable/ic_nav_add_alert"
-                android:iconTint="@android:color/black"
                 android:title="@string/title_nav_add_alert"
 
                 />

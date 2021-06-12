@@ -38,7 +38,6 @@ import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstant
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_USER_NAME;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_TOKENS;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_TOKENS_FAVORITES;
-import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_TOKENS_NOTIFICATIONS;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USERS;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USERSIDs_TOKENS;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USERS_FAVORITES;
@@ -61,7 +60,7 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
 
     public Bundle bundle;
     public ProgressBar mProgress;
-    private LinearLayout m_ll_no_content;
+    private TextView m_tv_no_content;
     private String mFavoriteTitle;
     private String mFavoriteDateTime;
     private String mFavoriteUserName;
@@ -104,7 +103,7 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
         mProgress.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         //Define recycleview
-        m_ll_no_content = findViewById(R.id.ll_no_content);
+        m_tv_no_content = findViewById(R.id.tv_no_content);
         mRecyclerView_ihave = findViewById(R.id.recycler_Expand_ihave);
         mRecyclerView_ineed = findViewById(R.id.recycler_Expand_ineed);
         mRecyclerView_ihave.setLayoutManager(new LinearLayoutManager(this));
@@ -371,13 +370,13 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
                                     favoriteTopicList.add(new FavoriteTopic(topicCityCat_[3] + getString(R.string.in) + topicCityCat_[2], favoriteItemsList));
 
                                     if (itemState.equals(PATH_INEED)) {
-                                        Adapter_ExpandableRecycler__Favorites adapter_ineed = new Adapter_ExpandableRecycler__Favorites(itemState, favoriteItemsList, favoriteTopicList, Activity_User_Favorites.this, m_tv_label_favorites_ihave, m_tv_label_favorites_ineed, m_ll_no_content);
+                                        Adapter_ExpandableRecycler__Favorites adapter_ineed = new Adapter_ExpandableRecycler__Favorites(itemState, favoriteItemsList, favoriteTopicList, Activity_User_Favorites.this, m_tv_label_favorites_ihave, m_tv_label_favorites_ineed, m_tv_no_content);
 
                                         mRecyclerView_ineed.setAdapter(adapter_ineed);
                                         adapter_ineed.notifyDataSetChanged();
 
                                     } else {
-                                        Adapter_ExpandableRecycler__Favorites adapter_ihave = new Adapter_ExpandableRecycler__Favorites(itemState, favoriteItemsList, favoriteTopicList, Activity_User_Favorites.this, m_tv_label_favorites_ihave, m_tv_label_favorites_ineed, m_ll_no_content);
+                                        Adapter_ExpandableRecycler__Favorites adapter_ihave = new Adapter_ExpandableRecycler__Favorites(itemState, favoriteItemsList, favoriteTopicList, Activity_User_Favorites.this, m_tv_label_favorites_ihave, m_tv_label_favorites_ineed, m_tv_no_content);
                                         mRecyclerView_ihave.setAdapter(adapter_ihave);
 
                                         adapter_ihave.notifyDataSetChanged();
@@ -387,7 +386,7 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
                                 }
 
                                 @Override
-                                public void onCancelled(DatabaseError error) {
+                                public void onCancelled(@NonNull DatabaseError error) {
                                     // Failed to read value
                                     Log.d(TAG, "onCancelled: Failed to read value. " + error.toException());
                                 }
@@ -409,7 +408,7 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
 
     private void setUpToolBar() {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        Toolbar toolbar =  findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -438,7 +437,7 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             if (dataSnapshot.hasChildren()) {
 
-                                m_ll_no_content.setVisibility(View.GONE);
+                                m_tv_no_content.setVisibility(View.GONE);
                                 m_tv_label_favorites_ihave.setVisibility(View.VISIBLE);
                                 m_tv_label_favorites_ineed.setVisibility(View.VISIBLE);
                                 mProgress.setVisibility(View.GONE);

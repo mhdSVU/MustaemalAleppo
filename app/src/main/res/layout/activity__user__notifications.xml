@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Notifications about items for sale:"
+                android:text="@string/notification_state_header_ihave"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Notifications about ordered items:"
+                android:text="@string/notification_state_header_ineed"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -83,34 +83,18 @@
             android:visibility="invisible" />
 
 
-        <LinearLayout
-            android:id="@+id/ll_no_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginTop="200dp"
-                android:src="@drawable/ic_removed_item"
-                app:tint="@color/colorPrimary" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="24dp"
-                android:lines="2"
-                android:text="@string/message_info_no_notifications"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_no_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="24dp"
+            app:tint="@color/colorPrimary"
+            android:layout_gravity="center_vertical|center_horizontal"
+            app:drawableTopCompat="@drawable/no_item_200"
+            android:layout_marginEnd="24dp"
+            android:lines="2"
+            android:text="@string/message_info_no_favorites"
+            android:textSize="16sp" />
 
     </FrameLayout>
 

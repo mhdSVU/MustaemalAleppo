@@ -9,6 +9,7 @@ public class City {
     @SerializedName("name")
     @Expose
     private String name;
+
     @SerializedName("code")
     @Expose
     private int code;

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -30,21 +31,24 @@ public class ViewHolder_Item_Display_Edit extends RecyclerView.ViewHolder {
     private final TextView mCity;
     private final TextView mDate;
     private final EditText mItemDetails;
+    private final Context context;
+
 
 
     private View mItemView;
     ProgressBar progressBar = itemView.findViewById(R.id.progressBar1);
     ImageButton imageButton = itemView.findViewById(R.id.img_btn_itemImage);
 
-    public ViewHolder_Item_Display_Edit(View itemView) {
+    public ViewHolder_Item_Display_Edit(View itemView,Context context) {
         super(itemView);
+        this.context = context;
         this.mItemView = itemView;
-        mTitle = (EditText) mItemView.findViewById(R.id.et_item_title);
-        mItemPrice = (EditText) mItemView.findViewById(R.id.et_item_price);
-        mCity = (TextView) mItemView.findViewById(R.id.tv_item_city);
-        mDate = (TextView) mItemView.findViewById(R.id.tv_item_date);
-        mItemDetails = (EditText) mItemView.findViewById(R.id.et_item_details);
-        mItemUserName = (TextView) mItemView.findViewById(R.id.textView_username);
+        mTitle =  mItemView.findViewById(R.id.et_item_title);
+        mItemPrice =  mItemView.findViewById(R.id.et_item_price);
+        mCity =  mItemView.findViewById(R.id.tv_item_city);
+        mDate =  mItemView.findViewById(R.id.tv_item_date);
+        mItemDetails =mItemView.findViewById(R.id.et_item_details);
+        mItemUserName = mItemView.findViewById(R.id.textView_username);
 
 
     }
@@ -56,10 +60,20 @@ public class ViewHolder_Item_Display_Edit extends RecyclerView.ViewHolder {
 
 
     public void setItemTitle(String title) {
+        if(String.valueOf(title).equals("")){
+            mTitle.setText(context.getString(R.string.no_title));
+            return;
+
+        }
         mTitle.setText(title);
     }
 
     public void setItemPrice(String itemPrice) {
+        if(String.valueOf(itemPrice).equals("")){
+            mItemPrice.setText(context.getString(R.string.no_price));
+            return;
+
+        }
         mItemPrice.setText(itemPrice);
         Log.d(TAG, "setItemImage: Price ");
 
@@ -124,12 +138,12 @@ public class ViewHolder_Item_Display_Edit extends RecyclerView.ViewHolder {
 
     public void setUserImage(final Context ctx, final String userImageURL) {
 
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView_userImage);
+        ImageView imageView = itemView.findViewById(R.id.imageView_userImage);
         if (userImageURL != null) {
             setImage_circle(ctx, Uri.parse(userImageURL), 1, imageView);
 
         } else {
-            imageView.setImageDrawable(ctx.getDrawable(R.drawable.ic_account_circle_white_24dp));
+            imageView.setImageDrawable(ContextCompat.getDrawable(ctx,R.drawable.ic_account_circle_white_24dp));
         }
 
     }

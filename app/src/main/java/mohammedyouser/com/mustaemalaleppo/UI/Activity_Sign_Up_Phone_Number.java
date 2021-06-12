@@ -68,6 +68,7 @@ import mohammedyouser.com.mustaemalaleppo.Domain.Fragment_Dialog_VPN_Alert;
 import mohammedyouser.com.mustaemalaleppo.Device.GpsUtils;
 import mohammedyouser.com.mustaemalaleppo.R;
 
+import static android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_IMAGE_URI;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_NAME;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_PASSWORD;
@@ -127,14 +128,14 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__sign__up__phone__number);
 
-        m_et_userName = (EditText) findViewById(R.id.et_userName);
-        m_et_phoneNumber = (EditText) findViewById(R.id.et_phoneNumber);
-        m_et_password = (EditText) findViewById(R.id.et_password);
-        m_et_password_confirm = (EditText) findViewById(R.id.et_password_confirm);
-        m_img_btn_user_image = (ImageButton) findViewById(R.id.img_btn_developer_image);
-        m_btn_sign_up = (Button) findViewById(R.id.btn_sign_up);
-        m_tv_sign_in = (TextView) findViewById(R.id.tv_sign_in);
-        m_cpp = (CountryCodePicker) findViewById(R.id.ccp);
+        m_et_userName =  findViewById(R.id.et_userName);
+        m_et_phoneNumber = findViewById(R.id.et_phoneNumber);
+        m_et_password = findViewById(R.id.et_password);
+        m_et_password_confirm =  findViewById(R.id.et_password_confirm);
+        m_img_btn_user_image =  findViewById(R.id.img_btn_developer_image);
+        m_btn_sign_up = findViewById(R.id.btn_sign_up);
+        m_tv_sign_in = findViewById(R.id.tv_sign_in);
+        m_cpp =  findViewById(R.id.ccp);
         m_til_password = findViewById(R.id.til_password);
         m_til_password_confirm = findViewById(R.id.til_password_confirm);
         m_til_phone_number = findViewById(R.id.til_et_phoneNumber);
@@ -145,14 +146,10 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         m_tv_and = findViewById(R.id.tv_and);
         m_tv_privacy = findViewById(R.id.tv_privacy);
 
-        iagree = Html.fromHtml("<h4>I have read and agree to:</h4>");
-        terms = Html.fromHtml("<a href=\"https://drive.google.com/file/d/1xd4bnCruesMuj73Wfh91Tf06rEkLGb8B/view?usp=sharing\">Terms of Use</a>");
-        and = Html.fromHtml("<h4> and </h4>");
-        privacy = Html.fromHtml("<a href=\"https://drive.google.com/file/d/1qg7K8LFaEBYtKX6MFf-WKJbgEnsWRMDf/view?usp=sharing\">Privacy Policy</a>");
+        terms = Html.fromHtml("<a href=\"https://drive.google.com/file/d/1xd4bnCruesMuj73Wfh91Tf06rEkLGb8B/view?usp=sharing\">"+getString(R.string.terms)+"</a>");
+        privacy = Html.fromHtml("<a href=\"https://drive.google.com/file/d/1qg7K8LFaEBYtKX6MFf-WKJbgEnsWRMDf/view?usp=sharing\">"+getString(R.string.privacy)+"</a>");
 
-        m_tv_iagree.setText(iagree);
         m_tv_terms.setText(terms);
-        m_tv_and.setText(and);
         m_tv_privacy.setText(privacy);
 
         m_tv_terms.setMovementMethod(LinkMovementMethod.getInstance());
@@ -172,13 +169,10 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
             m_til_password_confirm.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
             return true;
         });
-        m_et_password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                m_til_password.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
+        m_et_password.setOnEditorActionListener((v, actionId, event) -> {
+            m_til_password.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
 
-                return false;
-            }
+            return false;
         });
 
 
@@ -209,26 +203,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
     protected void onStart() {
         super.onStart();
     }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState.containsKey(INTENT_KEY_USER_IMAGE_URI)) {
-            if (savedInstanceState.getString(INTENT_KEY_USER_IMAGE_URI).equals(null)) {
-                uri_user_img = Uri.parse(savedInstanceState.getString(INTENT_KEY_USER_IMAGE_URI));
-                if (!uri_user_img.equals(null)) {
-                    Log.d("TAG", "onRestoreInstanceState: " + uri_user_img);
-
-                    setImage_circle(this, uri_user_img, 0.3f, m_img_btn_user_image);
-                }
-            }
-
-        }
-
-    }
-
-
+    
     private void doFirebaseInitializations() {
 
         if (!calledAlready) {
@@ -275,7 +250,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         if (view.getId() == R.id.et_phoneNumber) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
                 (m_til_phone_number).setError(getString(R.string.message_error_empty_field));
-                ((EditText) view).requestFocus();
+                ( view).requestFocus();
                 validationState = false;
             }
 
@@ -283,20 +258,20 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         if (view.getId() == R.id.et_password) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
                 m_til_password.setError(getString(R.string.message_error_empty_field));
-                ((EditText) view).requestFocus();
+                ( view).requestFocus();
 
                 validationState = false;
             }
             if (TextUtils.getTrimmedLength(getContentOfView(view)) < 6 && TextUtils.getTrimmedLength(getContentOfView(view)) > 0) {
                 (m_til_password).setError(getString(R.string.message_error_password_too_short));
-                ((EditText) view).requestFocus();
+                ( view).requestFocus();
 
                 validationState = false;
             }
 
             if (!getContentOfView(view).equals(getContentOfView(m_et_password_confirm))) {
                 (m_til_password_confirm).setError(getString(R.string.message_error_password_doesnt_match));
-                ((EditText) view).requestFocus();
+                ( view).requestFocus();
 
                 validationState = false;
             }
@@ -305,14 +280,14 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         if (view.getId() == R.id.et_password_confirm) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
                 (m_til_password_confirm).setError(getString(R.string.message_error_empty_field));
-                ((EditText) view).requestFocus();
+                ( view).requestFocus();
 
                 validationState = false;
 
             }
             if (!getContentOfView(view).equals(getContentOfView(m_et_password_confirm))) {
                 (m_til_password_confirm).setError(getString(R.string.message_error_password_doesnt_match));
-                ((EditText) view).requestFocus();
+                ( view).requestFocus();
 
                 validationState = false;
 
@@ -322,7 +297,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         if (view.getId() == R.id.et_userName) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
                 (m_til_et_userName).setError(getString(R.string.message_error_empty_field));
-                ((EditText) view).requestFocus();
+                ( view).requestFocus();
                 validationState = false;
             }
 
@@ -389,7 +364,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
 
     private void setUserImage(Uri uri) {
         try {
-            bitmap = BitmapFactory.decodeStream(Objects.requireNonNull(this).getContentResolver().openInputStream(uri));
+            bitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(uri));
             m_img_btn_user_image.setImageBitmap(bitmap);//TODO
             setImage_circle(this, uri, 0.3f, m_img_btn_user_image);
 
@@ -473,7 +448,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
 
 
     private void startSignInActivity() {
-        startActivity(new Intent(this, Activity_Sign_In_Phone_Number.class));
+        startActivity(new Intent(this, Activity_Sign_In_Phone_Number.class).addFlags(FLAG_ACTIVITY_REORDER_TO_FRONT ));
     }
 
     private void manage_Adding_UserImg_Perm() {
@@ -603,22 +578,16 @@ if (!enabled) {
 }
     * */
 
-    private class GeoCoderHandler extends Handler {
+    private static class  GeoCoderHandler extends Handler {
         @Override
         public void handleMessage(Message message) {
             String locationAddress;
-            switch (message.what) {
-                case 1:
-                    Bundle bundle = message.getData();
-                    locationAddress = bundle.getString("address");
-                    current_User_Lat = bundle.getDouble("lat");
-                    current_User_Long = bundle.getDouble("long");
-                    break;
-                default:
-                    locationAddress = null;
+            if (message.what == 1) {
+                Bundle bundle = message.getData();
+                locationAddress = bundle.getString("address");
+                current_User_Lat = bundle.getDouble("lat");
+                current_User_Long = bundle.getDouble("long");
             }
-            Log.e("location Address=", locationAddress);
-            // update_UI_with_Location(locationAddress);
         }
     }
 
@@ -649,7 +618,7 @@ if (!enabled) {
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 super.onLocationResult(locationResult);
                 LocationServices.getFusedLocationProviderClient(Activity_Sign_Up_Phone_Number.this).removeLocationUpdates(this);
-                if (locationResult == null || locationResult.getLocations().size() == 0) {
+                if (locationResult.getLocations().size() == 0) {
                     return;
                 }
                 int latestLocationIndex = locationResult.getLocations().size() - 1;

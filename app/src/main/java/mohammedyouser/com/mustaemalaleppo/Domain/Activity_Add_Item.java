@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -71,16 +72,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import mohammedyouser.com.mustaemalaleppo.Data.Category;
 import mohammedyouser.com.mustaemalaleppo.Data.City;
 import mohammedyouser.com.mustaemalaleppo.Device.GpsUtils;
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.Activity_Ineed_Ihave;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
 
-public class Activity_Add_Item extends AppCompatActivity implements View.OnClickListener {
+public class Activity_Add_Item extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     public static final String TAG = "Empty Uri";
     private static final int REQUEST_PERMISSION_IMG_READ = 786;
@@ -129,6 +132,10 @@ public class Activity_Add_Item extends AppCompatActivity implements View.OnClick
     private String userAddress;
     private RadioButton m_rb_current_location;
     private RadioButton m_rb_default_location;
+    private String[] CitiesNames;
+    private String[] CategoriesNames;
+    private String[] CitiesNames_locale;
+    private String[] CategoriesNames_locale;
 
 
     @Override
@@ -173,7 +180,7 @@ public class Activity_Add_Item extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     /*    if (savedInstanceState.containsKey("INTENT_KEY_ITEM_IMG_URI")) {
             uri_itemImg = Uri.parse(savedInstanceState.getString("INTENT_KEY_ITEM_IMG_URI"));
@@ -213,7 +220,7 @@ public class Activity_Add_Item extends AppCompatActivity implements View.OnClick
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 super.onLocationResult(locationResult);
                 LocationServices.getFusedLocationProviderClient(Activity_Add_Item.this).removeLocationUpdates(this);
-                if (locationResult == null || locationResult.getLocations().size() == 0) {
+                if (locationResult.getLocations().size() == 0) {
                     return;
                 }
                 int latestLocationIndex = locationResult.getLocations().size() - 1;
@@ -275,28 +282,24 @@ if (!enabled) {
         @Override
         public void handleMessage(Message message) {
             String locationAddress;
-            switch (message.what) {
-                case 1:
-                    Bundle bundle = message.getData();
-                    locationAddress = bundle.getString("address");
-                    itemLat = bundle.getDouble("lat");
-                    itemLong = bundle.getDouble("long");
-                    Toast.makeText(Activity_Add_Item.this, itemLat + "\n" + itemLong, Toast.LENGTH_SHORT).show();
-                    if (locationAddress.equals(getString(R.string.message_error_no_address))) {
-                        showSnackBar(Activity_Add_Item.this, getString(R.string.message_error_loc_cuurent)).
-                                setAction(getString(R.string.btn_retry), v -> {
-                                    m_tv_location.setText("");
-                                    m_pb_location.setVisibility(View.VISIBLE);
-                                    prepareGPS();
-                                    setUpLocation();
+            if (message.what == 1) {
+                Bundle bundle = message.getData();
+                locationAddress = bundle.getString("address");
+                itemLat = bundle.getDouble("lat");
+                itemLong = bundle.getDouble("long");
+                if (Objects.equals(locationAddress, getString(R.string.message_error_no_address))) {
+                    showSnackBar(Activity_Add_Item.this, getString(R.string.message_error_loc_cuurent)).
+                            setAction(getString(R.string.btn_retry), v -> {
+                                m_tv_location.setText("");
+                                m_pb_location.setVisibility(View.VISIBLE);
+                                prepareGPS();
+                                setUpLocation();
 
-                                }).show();
-                    }
-                    break;
-                default:
-                    locationAddress = null;
+                            }).show();
+                }
+            } else {
+                locationAddress = null;
             }
-            Log.e("location Address=", locationAddress);
             m_pb_location.setVisibility(View.GONE);
             m_tv_location.setText(locationAddress);
 
@@ -403,8 +406,7 @@ if (!enabled) {
     }
 
     private void initializeMyViews() {
-        TextView mAddNewLabel = (TextView) findViewById(R.id.tv_userPhoneNumber);
-        mAddNewLabel.setText(getIntent().getExtras().getString(INTENT_KEY__STATELABEL));
+        TextView mAddNewLabel = findViewById(R.id.tv_userPhoneNumber);
         mTitle = findViewById(R.id.item_title);
         mPrice = findViewById(R.id.item_price);
         mDetails = findViewById(R.id.item_details);
@@ -417,6 +419,9 @@ if (!enabled) {
         spinner_categories = findViewById(R.id.spinner_categories);
         spinner_cities = findViewById(R.id.spinner_cities);
 
+        spinner_cities.setOnItemSelectedListener(this);
+        spinner_categories.setOnItemSelectedListener(this);
+
         img_btn_itemImage = findViewById(R.id.img_btn_itemImage);
 
 
@@ -427,7 +432,7 @@ if (!enabled) {
         initialCities();
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -436,97 +441,11 @@ if (!enabled) {
 
     }
 
-    private void initialCategories() {
-        // Reading json file from assets dir
-        String json = null;
-        try {
-            InputStream is = getAssets().open(ASSETS_FILE_NAME_CATEGORIES);
-            byte[] buffer = new byte[getAssets().open(ASSETS_FILE_NAME_CATEGORIES).available()];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, CODE_ENCODE_SYSTEM_UTF_8);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-
-        }
-        //from json String to  Categories object
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
-        categories = gson.fromJson(json, Category[].class);
-
-        //creating the CountryNames array from cities array
-        String[] CategoriesNames = new String[categories.length];
-        for (int i = 0; i < categories.length; i++) {
-            CategoriesNames[i] = categories[i].getName();
-        }
-
-        //creating arrayAdapter_categories for the spinner_cities
-        ArrayAdapter<String> arrayAdapter_categories = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, CategoriesNames);
-        spinner_categories.setAdapter(arrayAdapter_categories);
-
-        // set listener for the spinner_cities...Done!
-        spinner_categories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                item_category = categories[adapterView.getSelectedItemPosition()].getName();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
-
     public static Snackbar showSnackBar(Activity activity, String message) {
         View rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
         Snackbar snackbar = Snackbar.make(rootView, message, BaseTransientBottomBar.LENGTH_LONG);
         snackbar.show();
         return snackbar;
-    }
-
-    private void initialCities() {
-
-        // Reading json file from assets dir
-        String json = null;
-        try {
-            InputStream is = getAssets().open(ASSETS_FILE_NAME_CITIES);
-            byte[] buffer = new byte[getAssets().open(ASSETS_FILE_NAME_CITIES).available()];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, CODE_ENCODE_SYSTEM_UTF_8);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-
-        }
-        //from json String to cities object
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
-        cities = gson.fromJson(json, City[].class);
-
-        //creating the CountryNames array from cities array
-        String[] CitiesNames = new String[cities.length];
-        for (int i = 0; i < cities.length; i++) {
-            CitiesNames[i] = cities[i].getName();
-        }
-
-        //creating arrayAdapter_cities for the spinner_cities
-        ArrayAdapter<String> arrayAdapter_cities = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, CitiesNames);
-        spinner_cities.setAdapter(arrayAdapter_cities);
-
-        // set listener for the spinner_cities...Done!
-        spinner_cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                item_city = cities[adapterView.getSelectedItemPosition()].getName();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
     }
 
     private void initialListeners() {
@@ -555,6 +474,183 @@ if (!enabled) {
             }
         });
 
+
+    }
+
+    private void initialCities() {
+
+        build_spinnerCities_array_data();
+
+        build_spinnerCities_array_locale();
+
+        build_spinnerCities_view();
+
+
+    }
+
+    private void build_spinnerCities_view() {
+        //creating arrayAdapter_cities for the spinner_cities
+        ArrayAdapter<String> arrayAdapter_cities = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, CitiesNames_locale);
+        arrayAdapter_cities.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinner_cities.setAdapter(arrayAdapter_cities);
+    }
+
+    private void build_spinnerCities_array_data() {
+        //build data citiesNames
+        // Reading json file from assets dir
+        String json = null;
+        try {
+            InputStream inputStream = getAssets().open(ASSETS_FILE_NAME_CITIES);
+            byte[] buffer = new byte[getAssets().open(ASSETS_FILE_NAME_CITIES).available()];
+            inputStream.read(buffer);
+            inputStream.close();
+            json = new String(buffer, CODE_ENCODE_SYSTEM_UTF_8);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+
+        }
+        //from json String to cities object
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        cities = gson.fromJson(json, City[].class);
+
+        //creating the CountryNames array from cities array
+        CitiesNames = new String[cities.length];
+        for (int i = 0; i < cities.length; i++) {
+            CitiesNames[i] = cities[i].getName();
+        }
+    }
+
+    private void build_spinnerCities_array_locale() {
+        if (LocaleHelper.getLocale(this, "en").equals("ar")) {
+            // Reading json file from assets dir
+            String json_ar = null;
+            try {
+                InputStream inputStream = getAssets().open("my_cities_ar");
+                byte[] buffer = new byte[getAssets().open("my_cities_ar").available()];
+                inputStream.read(buffer);
+                inputStream.close();
+                json_ar = new String(buffer, CODE_ENCODE_SYSTEM_UTF_8);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+
+            }
+            //from json String to cities object
+            GsonBuilder gsonBuilder_ar = new GsonBuilder();
+            Gson gson_ar = gsonBuilder_ar.create();
+            cities = gson_ar.fromJson(json_ar, City[].class);
+
+            //creating the CountryNames array from cities array
+            CitiesNames_locale = new String[cities.length];
+            for (int i = 0; i < cities.length; i++) {
+                CitiesNames_locale[i] = cities[i].getName();
+            }
+
+
+        } else if (LocaleHelper.getLocale(this, "en").equals("en")) {
+            CitiesNames_locale = new String[cities.length];
+            System.arraycopy(CitiesNames, 0, CitiesNames_locale, 0, cities.length);
+        }
+
+    }
+
+    private void initialCategories() {
+
+        build_spinnerCategories_array_data();
+
+        build_spinnerCategories_array_locale();
+
+        build_spinnerCategories_view();
+
+
+    }
+
+    private void build_spinnerCategories_array_data() {
+        // Reading json file from assets dir
+        String json = null;
+        try {
+            InputStream is = getAssets().open("my_categories");
+            byte[] buffer = new byte[getAssets().open("my_categories").available()];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, CODE_ENCODE_SYSTEM_UTF_8);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+
+        }
+        //from json String to  Categories object
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        categories = gson.fromJson(json, Category[].class);
+
+        //creating the CountryNames array from cities array
+        CategoriesNames = new String[categories.length];
+        for (int i = 0; i < categories.length; i++) {
+            CategoriesNames[i] = categories[i].getName();
+        }
+
+    }
+
+    private void build_spinnerCategories_array_locale() {
+        if (LocaleHelper.getLocale(this, "en").equals("ar")) {
+            // Reading json file from assets dir
+            String json_ar = null;
+            try {
+                InputStream inputStream = getAssets().open("my_categories_ar");
+                byte[] buffer = new byte[getAssets().open("my_categories_ar").available()];
+                inputStream.read(buffer);
+                inputStream.close();
+                json_ar = new String(buffer, CODE_ENCODE_SYSTEM_UTF_8);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+
+            }
+            //from json String to cities object
+            GsonBuilder gsonBuilder_ar = new GsonBuilder();
+            Gson gson_ar = gsonBuilder_ar.create();
+            categories = gson_ar.fromJson(json_ar, Category[].class);
+
+            //creating the CountryNames array from cities array
+            CategoriesNames_locale = new String[categories.length];
+            for (int i = 0; i < categories.length; i++) {
+                CategoriesNames_locale[i] = categories[i].getName();
+            }
+
+
+        } else if (LocaleHelper.getLocale(this, "en").equals("en")) {
+            CategoriesNames_locale = new String[categories.length];
+            System.arraycopy(CategoriesNames, 0, CategoriesNames_locale, 0, categories.length);
+        }
+
+
+    }
+
+    private void build_spinnerCategories_view() {
+        //creating arrayAdapter_categories for the spinner_cities
+        ArrayAdapter<String> arrayAdapter_categories = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, CategoriesNames_locale);
+        arrayAdapter_categories.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        spinner_categories.setAdapter(arrayAdapter_categories);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        if (parent.getId() == R.id.spinner_cities) {
+            if ((view) != null)
+                //   selectedCity = String.valueOf(((TextView) view).getText());
+                item_city = CitiesNames[position];
+
+        }
+        if (parent.getId() == R.id.spinner_categories) {
+            if ((view) != null)
+                //   selectedCategory = String.valueOf(((TextView) view).getText());
+                item_category = CategoriesNames[position];
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
@@ -633,7 +729,7 @@ if (!enabled) {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot_currentUser) {
                 custom_newItem_DB_Ref.child(PATH_ITEM_USER_NAME).setValue(String.valueOf(snapshot_currentUser.child(PATH_USER_NAME).getValue()));
-                Log.d(TAG, "onDataChange: " + String.valueOf(snapshot_currentUser.child(PATH_USER_NAME).getValue()));
+                Log.d(TAG, "onDataChange: " + snapshot_currentUser.child(PATH_USER_NAME).getValue());
 
 
             }
@@ -649,7 +745,7 @@ if (!enabled) {
         custom_newItem_DB_Ref.child(PATH_ITEM_DATE_AND_TIME_REVERSE).setValue(ServerValue.TIMESTAMP);
         custom_newItem_DB_Ref.child(PATH_ITEM_DATE_AND_TIME_REVERSE).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     if (!(Long.parseLong(String.valueOf(dataSnapshot.getValue())) < 0)) {
                         custom_newItem_DB_Ref.child(PATH_ITEM_DATE_AND_TIME_REVERSE).
@@ -665,16 +761,15 @@ if (!enabled) {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("", databaseError.getMessage());
             }
         });
 
-        if(String.valueOf(mDetails.getText()).equals("null")){
+        if (String.valueOf(mDetails.getText()).equals("null")) {
             custom_newItem_DB_Ref.child(PATH_ITEM_DETAILS).setValue(getString(R.string.tv_details_default_val));
 
-        }
-        else {
+        } else {
             custom_newItem_DB_Ref.child(PATH_ITEM_DETAILS).setValue(String.valueOf(mDetails.getText()));
 
         }
@@ -768,9 +863,9 @@ if (!enabled) {
             addItem_To_All_DB_Refs(uri_itemImg_download, state);
 
             Toast.makeText(Activity_Add_Item.this, getResources().getString(R.string.message_info_added_ok), Toast.LENGTH_SHORT).show();
-            Intent intent_item_added= new Intent(this, Activity_Ineed_Ihave.class);
-            intent_item_added.putExtra(INTENT_KEY_USER_ID,userID);
-            intent_item_added.putExtra(INTENT_KEY__STATE,state);
+            Intent intent_item_added = new Intent(this, Activity_Ineed_Ihave.class);
+            intent_item_added.putExtra(INTENT_KEY_USER_ID, userID);
+            intent_item_added.putExtra(INTENT_KEY__STATE, state);
             startActivity(intent_item_added);
             finish();
         } else {
@@ -790,9 +885,9 @@ if (!enabled) {
 
             //Adding Item to "ALL Cities and ALL Categories belong to current user"
             addItem_to_single_DB_Ref(get_DB_Ref_CurrentUser_AllItems(state).child(itemKey_all_CityCat_state), uri_itemImg_download);
-            Intent intent_item_added= new Intent(this, Activity_Ineed_Ihave.class);
-            intent_item_added.putExtra(INTENT_KEY_USER_ID,userID);
-            intent_item_added.putExtra(INTENT_KEY__STATE,state);
+            Intent intent_item_added = new Intent(this, Activity_Ineed_Ihave.class);
+            intent_item_added.putExtra(INTENT_KEY_USER_ID, userID);
+            intent_item_added.putExtra(INTENT_KEY__STATE, state);
             startActivity(intent_item_added);
 
             finish();
@@ -897,10 +992,7 @@ if (!enabled) {
             showProgressDialog(this, getString(R.string.message_info_ADDING_ITEM), getString(R.string.message_info_PLEASE_WAIT));
 
             getImgStorageRef().putFile(uri_itemImg)
-                    .addOnSuccessListener(taskSnapshot -> {
-                        getImgStorageRef().getDownloadUrl().addOnSuccessListener(uri -> manage_addItem_state(uri, state));
-
-                    })
+                    .addOnSuccessListener(taskSnapshot -> getImgStorageRef().getDownloadUrl().addOnSuccessListener(uri -> manage_addItem_state(uri, state)))
                     .addOnFailureListener(e ->
                             Toast.makeText(Activity_Add_Item.this, getResources().getString(R.string.message_info_modifing_error) + "\n" + e.toString(), Toast.LENGTH_LONG).show())
                     .addOnCompleteListener(task -> hideProgressDialog());
@@ -1010,13 +1102,15 @@ if (!enabled) {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot_userAddress) {
                 userAddress = String.valueOf(snapshot_userAddress.getValue());
-                if (userAddress != null) {
-                    m_tv_location.setText(userAddress);
-
-                } else {
+                if (Objects.equals(userAddress, "null")) {
                     m_tv_location.setText(getString(R.string.default_val_user_address));
+
+                }
+                else{
+                    m_tv_location.setText(userAddress);
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

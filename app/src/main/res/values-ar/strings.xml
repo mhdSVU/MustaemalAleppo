@@ -55,14 +55,14 @@
 
     <string name="title_activity_my_items">عناصري المضافة</string>
     <string name="title_item_details">تفاصيل العنصر</string>
-    <string name="title_extra_info">تفاصيل</string>
+    <string name="title_extra_info">التفاصيل:</string>
     <string name="title_my_items">عناصري المضافة</string>
     <string name="title_nav_manage_items">إدارة العناصر</string>
     <string name="title_nav_add_items">إضافة عناصر</string>
     <string name="title_nav_sort_items">ترتيب العناصر</string>
 
     <!--messages-->
-    <string name="message_info_PLEASE_WAIT">الرجاء الانتظار ، فقد يستغرق الأمر بعض الوقت حسب سرعة اتصال الشبكة ...</string>
+    <string name="message_info_PLEASE_WAIT">الرجاء الانتظار ، فقد يستغرق الأمر بعض الوقت حسب سرعة اتصال الشبكة …</string>
     <string name="message_info_network_con_check">يرجى التحقق من اتصال الشبكة و / أو تطبيق كاسر البروكسي</string>
     <string name="message_info_error_auth_failed">فشل المصادقة</string>
     <string name="message_info_error_no_image">عذرا!هذا العنصر ليس لديه صورة للعرض!</string>
@@ -137,8 +137,8 @@
     <!--default_val-->
 
     <string name="tv_details_default_val">لا توجد تفاصيل متاحة</string>
-    <string name = "default_val_content_email_to_item_user">  شكرًا لإضافة العنصر  . كيف يمكننا أن نجتمع لمناقشة المزيد.
-    %1$s
+    <string name = "default_val_content_email_to_item_user">  شكرًا لإضافة العنصر %1$s . كيف يمكننا أن نجتمع لمناقشة المزيد.
+
     </string>
     <string name = "sign_in"> تسجيل الدخول </string>
     <string name = "sign_up"> الاشتراك </string>
@@ -152,7 +152,7 @@
     <string name = "title_fragment_sign_up"> التحقق من رقم الهاتف </string>
     <string name = "message_error_password_doesnt_match"> كلمات المرور غير متطابقة </string>
     <string name = "hint_user_password_confirm"> إعادة كتابة كلمة المرور </string>
-    <string name = "message_info_SIGNING_IN"> تسجيل الدخول ... </string>
+    <string name = "message_info_SIGNING_IN"> تسجيل الدخول … </string>
     <string name = "message_error_too_short"> قصيرة جدًا! يجب أن تتكون كلمة المرور من ستة أحرف على الأقل. </string>
     <string name = "label_remember_me" />
     <string name = "label_remember_mere"> تذكرني </string>
@@ -186,7 +186,7 @@
     <string name = "underScore"> _ </string>
 
     <string name="label_ask_for_resend_code">لم يصلك الكود؟</string>
-    <string name="label_item_details">تفاصيل:</string>
+    <string name="label_item_details">التفاصيل:</string>
 
 
     <string name = "in"> " في " </string>
@@ -194,10 +194,9 @@
     <string name = "title_subscribtion_ihave"> اشتراكاتي للعناصر المتاحة: </string>
     <string name = "space"> "" </string>
     <string name = "forward_slash"> / </string>
-    <string name = "new_line"> \ n </string>
     <string name = "message_error_item_no_address"> عذرًا ، لم يتم توفير عنوان لهذا العنصر! </string>
-    <string name = "item_share_intro"> من تطبيق Ineed Ihave: \ n لقد وجدت هذا العنصر ، يمكنك إلقاء نظرة عليه: \ n </string>
-    <string name = "item_share_price"> "سعره هو:" </string>
+    <string name = "item_share_intro"> من تطبيق Ineed Ihave: لقد وجدت هذا العنصر ، يمكنك إلقاء نظرة عليه: </string>
+    <string name = "item_share_price"> " السعر:" </string>
     <string name = "item_share_chooser_title"> مشاركة العنصر عبر </string>
     <string name = "title_position_current"> الموقع الحالي </string>
     <string name = "message_error_no_address"> لا يوجد عنوان متاح. </string>
@@ -216,7 +215,8 @@
     <string name = "message_error_password"> كلمة مرور غير صالحة </string>
     <string name = "message_error_sign_out"> تعذر تسجيل الخروج. الرجاء التحقق من الشبكة و / أو كاسر البروكسي </string>
     <string name = "message_info_loc_updated"> تم تحديث الموقع! </string>
-    <string name = "symbol_syrian_pound">ل.س.</string>
+    <string name = "symbol_syrian_pound">"%1$s ل.س. "</string>
+    <string name = "symbol_syrian_pound_2">" ل.س. "</string>
 
     <string name = "add_alert_as_following"> على النحو التالي: </string>
     <string name = "label_verification_status"> حالة التحقق: </string>
@@ -237,15 +237,15 @@
     <string name = "btn_confirm_reset_password"> تأكيد إعادة تعيين كلمة المرور </string>
     <string name = "tv_remembered_Password"> هل تذكرت للتو كلمة المرور القديمة؟ </string>
     <string name = "btn_cancel_reset_password"> إلغاء إعادة تعيين كلمة المرور </string>
-    <string name = "tv_forgot_password_lable">؟ نسيت كلمة المرور </string>
+    <string name = "tv_forgot_password_lable">نسيت كلمة المرور؟ </string>
     <string name = "tv_forgot_password_details"> الرجاء إدخال رقم هاتفك. سيتم إرسال رسالة نصية للتحقق إلى هذا الرقم: </string>
     <string name = "btn_password_reset_start"> ابدأ إعادة تعيين كلمة المرور </string>
     <string name = "title_nav_my_items">العناصر التي أضفتها</string>
     <string name = "desc_img_user"> صورة المستخدم </string>
-    <string name = "item_share_call"> \ n لا تتردد في الاتصال: </string>
-    <string name = "item_share_loc"> يمكنك العثور على الموقع هنا: </string>
-    <string name = "item_share_state_ineed"> " يطلب العنصر التالي ": </string>
-    <string name = "item_share_state_ihave"> " لديه العنصر التالي ": </string>
+    <string name = "item_share_call"> للتفاهم أو الاستفسار بإمكانك الاتصال على الرقم:   </string>
+    <string name = "item_share_loc"> يمكنك الاطلاع على المكان على الخريطة هنا: </string>
+    <string name = "item_share_state_ineed"> %1$s "يطلب العنصر التالي":  </string>
+    <string name = "item_share_state_ihave"> %1$s "لديه العنصر التالي":  </string>
     <string name = "message_error_loc_cuurent"> تعذر الحصول على الموقع الحالي! </string>
     <string name = "btn_retry"> إعادة المحاولة </string>
     <string name = "btn_start_verify_phone_auth"> بدء التحقق </string>
@@ -259,6 +259,11 @@
     <string name="notification_add_state_ineed">يطلب</string>
     <string name = "action_title_notifications"> الإشعارات</string>
     <string name = "message_info_no_notifications"> ليس لديك أية إشعارات بعد! </string>
+    <string name="message_info_no_favorites"> ليس لديك أية عناصر مفضلة بعد!</string>
+    <string name="notification_state_header_ihave"> الإشعارات حول العناصر المعروضة:</string>
+    <string name="notification_state_header_ineed">الإشعارات حول العناصر المطلوبة:</string>
+    <string name="favorite_state_header_ihave">االمفضلات من العناصر المعروضة:</string>
+    <string name="favorite_state_header_ineed">االمفضلات من العناصر المطلوبة:</string>
     <string name = "title_fragment_delete_notification">حذف الإشعار </string>
     <string name = "title_fragment_delete_favorite"> حذف العنصر المفضل </string>
     <string name = "messag_info_fragment_notification_delete"> سيتم حذف هذا الإشعار نهائيًا </string>
@@ -267,7 +272,7 @@
     <string name = "message_info_adding_alert"> يُرجى الانتظار ، فقد يستغرق الأمر بعض الوقت اعتمادًا على سرعة اتصالك بالشبكة… </string>
     <string name = "message_info_removing_alert"> الرجاء الانتظار ، فقد يستغرق الأمر بعض الوقت اعتمادًا على سرعة اتصالك بالشبكة… </string>
     <string name = "title_nav_adding_alert"> إضافة تنبيه </string>
-    <string name = "message_info_error_no_location_click_to_update_loc"> لا يوجد موقع متاح! \ n انقر لتحديث الموقع </string>
+    <string name = "message_info_error_no_location_click_to_update_loc"> لا يوجد موقع متاح! انقر لتحديث الموقع </string>
     <string name = "title_nav_download_vpn"> تنزيل كاسر بروكسي </string>
     <string name = "title_nav_forget_me"> مسح معلومات حسابي من الجهاز </string>
     <string name = "message_info_fragment_forget_me"> ستتم إزالة رقم هاتفك وكلمة المرور من هذا الجهاز. لن يتم إدخالها تلقائيًا عند تسجيل الدخول مرة أخرى لاحقًا. </string>
@@ -311,7 +316,7 @@
     <string name = "title_nav_about_developer"> حول المطور </string>
     <string name = "title_nav_rate_app"> تقييم التطبيق </string>
     <string name = "title_nav_contact_us"> اتصل بنا </string>
-    <string name = "message_error_rate_app"> آسف! تطبيق التقييم غير متاح الآن! </string>
+    <string name = "message_error_rate_app"> عذرا! تقييم التطبيق غير متاح الآن! </string>
     <string name = "developer_name"> "المهندس محمد يسر سواس" </string>
     <string name = "tv_all_rights"> جميع الحقوق محفوظة لـ: </string>
     <string name = "app_version"> الإصدار 1.1 تجريبي </string>
@@ -323,15 +328,39 @@
     <string name = "add_alert_not_more_far"> لا يبعد عن موقعي أكثر من: </string>
 
     <string name="notification_des_added">"تم إضافته "</string>
-    <string name="notification_des_on">\n في </string>
+    <string name="notification_des_on"> في </string>
     <string name="title_add_item" >إضافة عنصر جديد</string>
 
     <string name="chooser_title_email">إرسال بريد إلكتروني عبر</string>
     <string name="navigation_drawer_open">فتح</string>
     <string name="navigation_drawer_close">إغلاق</string>
     <string name="title_network_con_not_found">لا يوجد اتصال بالأنترنت</string>
-    <string name="title_email_to_item_user">من تطبيق مطلوب-يوجد %s\n</string>
+    <string name="title_email_to_item_user"> من تطبيق مطلوب-يوجد</string>
     <string name="title_nav_language_ar" translatable="false">استخدم العربية</string>
+    <string name="and">" و "</string>
+    <string name="tv_iagree">لقد قرأت ما يلي و أوافق عليه: </string>
+    <string name="terms" >"<a href="https://drive.google.com/file/d/1xd4bnCruesMuj73Wfh91Tf06rEkLGb8B/view?usp=sharing">شروط الاستخدام</a>"</string>
+    <string name="privacy" >"<a href="https://drive.google.com/file/d/1qg7K8LFaEBYtKX6MFf-WKJbgEnsWRMDf/view?usp=sharing">سياسية الخصوصية</a>"</string>
+    <string name="tv_create_new_account">أنشأ حسابا جديدا</string>
+    <string name="no_account">ليس لديك حساب؟</string>
+    <string name="no_title">بدون عنوان</string>
+    <string name="no_price">بدون سعر</string>
+    <string name="title_nav_change_country">تبديل الدولة</string>
+    <string name="message_error_change_country_app">عذرا تبديل الدولة غير متاح حاليا</string>
+    <string name="time_ago_just_now">الآن</string>
+    <string name="time_ago_miute">منذ دقيقة</string>
+    <string name="time_ago_hour">منذ ساعة</string>
+    <string name="time_ago_hours"> منذ %1$d ساعات</string>
+    <string name="time_ago_minutes"> منذ %1$d دقائق\</string>
+    <string name="time_ago_yesterday">أمس</string>
+    <string name="time_ago_days"> منذ %1$d  يوم</string>
+    <string name="new_line">\n</string>
+    <string name="label_item_img_modify">انقر لتبديل الصورة</string>
+
+
+
+
+
 
 
 

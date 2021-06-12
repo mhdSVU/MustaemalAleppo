@@ -39,6 +39,7 @@ import java.util.Objects;
 import mohammedyouser.com.mustaemalaleppo.Domain.Fragment_Dialog_VPN_Alert;
 import mohammedyouser.com.mustaemalaleppo.R;
 
+import static android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
 
 
@@ -90,13 +91,13 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
 
         m_til_password = findViewById(R.id.til_password);
         m_til_phone_number = findViewById(R.id.til_et_phoneNumber);
-        m_et_phoneNumber = (EditText) findViewById(R.id.et_phoneNumber);
-        m_et_password = (EditText) findViewById(R.id.et_password);
-        m_btn_sign_in = (Button) findViewById(R.id.btn_sign_in);
-        m_tv_sign_up = (TextView) findViewById(R.id.tv_choose_city_cat);
-        m_tv_forget_password = (TextView) findViewById(R.id.tv_forget_password);
-        m_cpp = (CountryCodePicker) findViewById(R.id.ccp);
-        m_chb_remember_me = (CheckBox) findViewById(R.id.chb_remember_me);
+        m_et_phoneNumber =  findViewById(R.id.et_phoneNumber);
+        m_et_password = findViewById(R.id.et_password);
+        m_btn_sign_in =  findViewById(R.id.btn_sign_in);
+        m_tv_sign_up = findViewById(R.id.btn_create_new_account);
+        m_tv_forget_password =  findViewById(R.id.tv_forget_password);
+        m_cpp =  findViewById(R.id.ccp);
+        m_chb_remember_me =  findViewById(R.id.chb_remember_me);
 
         m_btn_sign_in.setOnClickListener(this);
         m_tv_sign_up.setOnClickListener(this);
@@ -147,13 +148,13 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
     }
 
     private void initializeUserInfo() {
-        m_et_phoneNumber.setText(getValuefromIntent(INTENT_KEY_USER_PHONE_NUMBER));
+        m_et_phoneNumber.setText(getValueFromIntent(INTENT_KEY_USER_PHONE_NUMBER));
     }
 
-    private String getValuefromIntent(String key) {
+    private String getValueFromIntent(String key) {
         if (getIntent() != null) {
             if (getIntent().hasExtra(key)) {
-                return getIntent().getExtras().getString(key);
+                return Objects.requireNonNull(getIntent().getExtras()).getString(key);
             }
         }
         return null;
@@ -176,7 +177,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_choose_city_cat:
+            case R.id.btn_create_new_account:
                 startSignUpActivity();
                 break;
             case R.id.btn_sign_in:
@@ -231,14 +232,10 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
                             handleSignInSuccess(FirebaseAuth.getInstance().getUid());
                         } else {
                             handleSignInFailed(task);
-                            Log.d(TAG, "signInWithPhoneNumberAndPassword: unsuccessful " + String.valueOf(task.getException()));
+                            Log.d(TAG, "signInWithPhoneNumberAndPassword: unsuccessful " +task.getException());
                         }
                     })
-                    .addOnFailureListener(e -> {
-                        Log.d(TAG, "signInWithPhoneNumberAndPassword: failure  " + String.valueOf(e.getMessage()));
-
-
-                    });
+                    .addOnFailureListener(e -> Log.d(TAG, "signInWithPhoneNumberAndPassword: failure  " + e.getMessage()));
         }
     }
 
@@ -272,7 +269,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
                 showSnackBar_with_action(this, getString(R.string.message_error_network_connection),getString(R.string.title_nav_download_vpn));
 
             } catch (Exception e) {
-                Log.e(LOG_TAG, e.getMessage());
+                Log.e(LOG_TAG, Objects.requireNonNull(e.getMessage()));
                 showSnackBar_with_action(this, getString(R.string.message_error_network_connection),getString(R.string.title_nav_download_vpn));
 
 
@@ -289,7 +286,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
 
 
     private void startSignUpActivity() {
-        startActivity(new Intent(this, Activity_Sign_Up_Phone_Number.class));
+        startActivity(new Intent(this, Activity_Sign_Up_Phone_Number.class).addFlags(FLAG_ACTIVITY_REORDER_TO_FRONT ));
 
     }
 
@@ -345,7 +342,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
         if (view.getId() == R.id.et_phoneNumber) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
                 (m_til_phone_number).setError(getString(R.string.message_error_empty_field));
-                ((EditText) view).requestFocus();
+                (view).requestFocus();
                 validationState = false;
             }
 
@@ -353,7 +350,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
         if (view.getId() == R.id.et_password) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
                 m_til_password.setError(getString(R.string.message_error_empty_field));
-                ((EditText) view).requestFocus();
+                (view).requestFocus();
 
                 validationState = false;
             }
@@ -374,14 +371,6 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
             }
         }).show();
     }
-    private void confirmDownloadVPN() {
-        showDialogFragment(new Fragment_Dialog_VPN_Alert(), "frg_vpn");
-        getSupportFragmentManager().setFragmentResultListener(REQUEST_KEY_DOWNLOAD_VPN, this, (requestKey, bundle) -> {
-            if (bundle.getBoolean(BUNDLE_KEY_DOWNLOAD_VPN)) {
-                //download vpn
-            }
-        });
 
-    }
 
 }
