@@ -54,7 +54,7 @@ public class Adapter_ExpandableRecycler__Notifications extends
     private String notification_timeAgo = "";
     private ArrayList<Notification> notifications_list ;
     private List<NotificationTopic> groups_notificationTopicList ;
-    private LinearLayout m_ll_no_content;
+    private TextView m_ll_no_content;
     private TextView m_tv_label_notifications_ihave;
     private TextView m_tv_label_notifications_ineed;
 
@@ -67,7 +67,7 @@ public class Adapter_ExpandableRecycler__Notifications extends
         this.groups_notificationTopicList = groups;
         this.m_tv_label_notifications_ihave = (TextView) view1;
         this.m_tv_label_notifications_ineed = (TextView) view2;
-        this.m_ll_no_content = (LinearLayout) view3;
+        this.m_ll_no_content = (TextView) view3;
 
 
     }

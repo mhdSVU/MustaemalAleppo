@@ -78,17 +78,11 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
         setUpToolBar();
         setUpViews();
 
-
-
-
         setUpAuthentication();
 
         initialDatabaseRefs();
 
-      /*  create_userID_notifications_list(PATH_INEED);
-        create_userID_notifications_list(PATH_IHAVE);*/
-
-        fetchUserFavoriteItems(PATH_IHAVE);
+          fetchUserFavoriteItems(PATH_IHAVE);
         fetchUserFavoriteItems(PATH_INEED);
 
         updateUI_If_No_Content();
@@ -96,8 +90,6 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
 
     private void setUpViews() {
         mProgress = findViewById(R.id.progressBar1);
-       // mProgress.setVisibility(View.VISIBLE);
-
 
         mProgress.setIndeterminate(true);
         mProgress.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
@@ -213,7 +205,6 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
                                                     public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
                                                         if (committed) {
                                                             // unique key saved
-                                                            Log.d(TAG, "onComplete: " + "unique key saved3");
                                                         } else {
                                                             // unique key already exists
                                                             snapshot_topic.getRef().addListenerForSingleValueEvent(new ValueEventListener() {

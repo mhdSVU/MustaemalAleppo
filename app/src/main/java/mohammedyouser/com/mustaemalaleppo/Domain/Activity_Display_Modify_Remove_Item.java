@@ -240,7 +240,6 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     private void update_UI_no_content() {
         findViewById(R.id.fl_main_subscription).setVisibility(View.VISIBLE);
-        findViewById(R.id.fl_main_subscription).setBackgroundColor(getColor(R.color.grey_100));
         findViewById(R.id.tv_no_content).setVisibility(View.VISIBLE);
         Log.d(TAG, "update_UI_no_content: ");
 

@@ -52,7 +52,7 @@ public class Adapter_ExpandableRecycler__Favorites extends
     private String notification_timeAgo = "";
     private ArrayList<FavoriteItem> favorites_list;
     private List<FavoriteTopic> groups_favoriteTopicList;
-    private LinearLayout m_ll_no_content;
+    private TextView m_ll_no_content;
     private TextView m_tv_label_favorites_ihave;
     private TextView m_tv_label_favorites_ineed;
 
@@ -66,7 +66,7 @@ public class Adapter_ExpandableRecycler__Favorites extends
         this.groups_favoriteTopicList = groups;
         this.m_tv_label_favorites_ihave = (TextView) view1;
         this.m_tv_label_favorites_ineed = (TextView) view2;
-        this.m_ll_no_content = (LinearLayout) view3;
+        this.m_ll_no_content = (TextView) view3;
 
 
     }
