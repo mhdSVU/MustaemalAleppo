@@ -1,10 +1,12 @@
 package mohammedyouser.com.mustaemalaleppo.Device;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,9 +26,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.*;
 
 public class Activity_Maps_Item_Location extends FragmentActivity implements OnMapReadyCallback,
         LocationListener, GoogleApiClient.ConnectionCallbacks,
@@ -41,6 +45,7 @@ public class Activity_Maps_Item_Location extends FragmentActivity implements OnM
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
         setContentView(R.layout.activity__maps__item__location);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -96,7 +101,7 @@ public class Activity_Maps_Item_Location extends FragmentActivity implements OnM
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(@NonNull Location location) {
 
         mLastLocation = location;
         if (mCurrLocationMarker != null) {
@@ -129,7 +134,7 @@ public class Activity_Maps_Item_Location extends FragmentActivity implements OnM
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 

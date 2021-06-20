@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
@@ -141,6 +143,8 @@ public class Activity_Add_Item extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
+
         setContentView(R.layout.activity_add_new_item);
 
         updateValuesFromBundle(savedInstanceState);
@@ -198,7 +202,6 @@ public class Activity_Add_Item extends AppCompatActivity implements View.OnClick
 
 
     }
-
 
     private void updateUI_address(String userAddress) {
         m_tv_location.setText(userAddress);

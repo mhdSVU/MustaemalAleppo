@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
@@ -66,6 +67,7 @@ import java.util.Objects;
 import mohammedyouser.com.mustaemalaleppo.Domain.Fragment_Dialog_Must_Agree_Ts_and_Cs_Alert;
 import mohammedyouser.com.mustaemalaleppo.Domain.Fragment_Dialog_VPN_Alert;
 import mohammedyouser.com.mustaemalaleppo.Device.GpsUtils;
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
@@ -78,6 +80,7 @@ import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstant
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USER_LOCATION_LONG;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.REQUEST_READ_PERMISSION_ITEM_MODIFY;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.TAG;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.adjustLanguage;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.calledAlready;
 
 public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements View.OnClickListener {
@@ -126,6 +129,8 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
+
         setContentView(R.layout.activity__sign__up__phone__number);
 
         m_et_userName =  findViewById(R.id.et_userName);

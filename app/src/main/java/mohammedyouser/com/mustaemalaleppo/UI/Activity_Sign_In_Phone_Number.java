@@ -3,6 +3,7 @@ package mohammedyouser.com.mustaemalaleppo.UI;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -37,6 +38,7 @@ import com.hbb20.CountryCodePicker;
 import java.util.Objects;
 
 import mohammedyouser.com.mustaemalaleppo.Domain.Fragment_Dialog_VPN_Alert;
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
@@ -72,6 +74,7 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
     @Override
     protected void onStart() {
         super.onStart();
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
         sessionManager = new SessionManager(this, SessionManager.SESSION_NAME_REMEMBER_ME);
         restore_RememberMe_Session();
 
@@ -87,6 +90,8 @@ public class Activity_Sign_In_Phone_Number extends AppCompatActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
+
         setContentView(R.layout.activity__sign__in__phone__number);
 
         m_til_password = findViewById(R.id.til_password);

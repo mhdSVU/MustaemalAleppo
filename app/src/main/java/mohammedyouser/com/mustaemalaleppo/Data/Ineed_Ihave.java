@@ -18,10 +18,9 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import mohammedyouser.com.mustaemalaleppo.Device.ConnectivityChangeReceiverListener;
 import mohammedyouser.com.mustaemalaleppo.Device.ConnectivityChangeReceiver;
-import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.Activity_Ineed_Ihave;
-import mohammedyouser.com.mustaemalaleppo.UI.SplashActivity;
+import mohammedyouser.com.mustaemalaleppo.UI.Activity_Splash;
 
 import static mohammedyouser.com.mustaemalaleppo.Device.ConnectivityUtility.CheckConnectivity;
 import static mohammedyouser.com.mustaemalaleppo.Device.ConnectivityUtility.isConnected;
@@ -56,7 +55,7 @@ public class Ineed_Ihave extends MultiDexApplication implements ConnectivityChan
         }
 
         Intent splashActivityIntent;
-        splashActivityIntent = new Intent(Ineed_Ihave.this, SplashActivity.class);
+        splashActivityIntent = new Intent(Ineed_Ihave.this, Activity_Splash.class);
         startActivity(splashActivityIntent);
 
         Picasso.Builder builder = new Picasso.Builder(this);

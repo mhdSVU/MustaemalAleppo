@@ -48,7 +48,7 @@
     <string name="title_ineed">مطلوب</string>
     <string name="title_ihave">يوجد</string>
     <string name="title_fragment_confirm_delete">حذف عنصر</string>
-    <string name="title_fragment_VPN_alert">يلزم كاسر بروكسي لاستخدام التطبيق </string>
+    <string name="title_fragment_VPN_alert">يلزم كاسر بروكسي </string>
     <string name="title_fragment_add_alert">يرجى إرسال أشعار كلما:</string>
     <string name="title_subscribe">إنشاء منبه مخصص</string>
 
@@ -103,7 +103,7 @@
 
 
     <!--hints-->
-    <string name = "hint_user_name_contact_info"> اسم المستخدم </string>
+    <string name = "hint_user_name_contact_info"> اسم المستخدم… </string>
     <string name = "hint_user_email_contact_info"> بريدك الإلكتروني … </string>
     <string name = "hint_phone_number_contact_info"> رقم هاتف للاتصال بك… </string>
     <string name = "hint_search_item"> بحث… </string>
@@ -201,8 +201,8 @@
     <string name = "title_position_current"> الموقع الحالي </string>
     <string name = "message_error_no_address"> لا يوجد عنوان متاح. </string>
     <string name = "message_info_loc_preserved"> تم الاحتفاظ بموقعك! </string>
-    <string name = "item_notification_state_hint_ihave"> عنصر للبيع </string>
-    <string name = "item_notification_state_hint_ineed">  مطلوب عنصر </string>
+    <string name = "item_notification_state_hint_ihave"> عنصر للبيع في %1$s </string>
+    <string name = "item_notification_state_hint_ineed">  مطلوب عنصر في %1$s </string>
     <string name = "item_notification_extra_ineed"> تمت إضافة عناصر مطلوبة جديدة! </string>
     <string name = "item_notification_style_title"> عناصر جديدة </string>
     <string name = "item_notification_extra_ihave"> تمت إضافة عناصر متاحة جديدة ! </string>
@@ -234,12 +234,12 @@
     <string name = "btn_sign_up"> إنشاء حساب </string>
     <string name = "tv_have_account"> هل لديك حساب مسبقا؟ </string>
     <string name = "btn_sign_in"> تسجيل الدخول </string>
-    <string name = "btn_confirm_reset_password"> تأكيد إعادة تعيين كلمة المرور </string>
+    <string name = "btn_confirm_reset_password"> تأكيد طلب إعادة تعيين كلمة المرور </string>
     <string name = "tv_remembered_Password"> هل تذكرت للتو كلمة المرور القديمة؟ </string>
-    <string name = "btn_cancel_reset_password"> إلغاء إعادة تعيين كلمة المرور </string>
+    <string name = "btn_cancel_reset_password"> إلغاء عملية إعادة تعيين كلمة المرور </string>
     <string name = "tv_forgot_password_lable">نسيت كلمة المرور؟ </string>
     <string name = "tv_forgot_password_details"> الرجاء إدخال رقم هاتفك. سيتم إرسال رسالة نصية للتحقق إلى هذا الرقم: </string>
-    <string name = "btn_password_reset_start"> ابدأ إعادة تعيين كلمة المرور </string>
+    <string name = "btn_password_reset_start"> ابدأ عملية إعادة تعيين كلمة المرور </string>
     <string name = "title_nav_my_items">العناصر التي أضفتها</string>
     <string name = "desc_img_user"> صورة المستخدم </string>
     <string name = "item_share_call"> للتفاهم أو الاستفسار بإمكانك الاتصال على الرقم:   </string>
@@ -262,8 +262,8 @@
     <string name="message_info_no_favorites"> ليس لديك أية عناصر مفضلة بعد!</string>
     <string name="notification_state_header_ihave"> الإشعارات حول العناصر المعروضة:</string>
     <string name="notification_state_header_ineed">الإشعارات حول العناصر المطلوبة:</string>
-    <string name="favorite_state_header_ihave">االمفضلات من العناصر المعروضة:</string>
-    <string name="favorite_state_header_ineed">االمفضلات من العناصر المطلوبة:</string>
+    <string name="favorite_state_header_ihave">المفضلات من العناصر المعروضة:</string>
+    <string name="favorite_state_header_ineed">المفضلات من العناصر المطلوبة:</string>
     <string name = "title_fragment_delete_notification">حذف الإشعار </string>
     <string name = "title_fragment_delete_favorite"> حذف العنصر المفضل </string>
     <string name = "messag_info_fragment_notification_delete"> سيتم حذف هذا الإشعار نهائيًا </string>
@@ -278,6 +278,7 @@
     <string name = "message_info_fragment_forget_me"> ستتم إزالة رقم هاتفك وكلمة المرور من هذا الجهاز. لن يتم إدخالها تلقائيًا عند تسجيل الدخول مرة أخرى لاحقًا. </string>
     <string name = "title_fragment_forget_me"> لا تحتفظ بمعلومات حسابي </string>
     <string name = "btn_forget_me"> لا تحتفظ بمعلومات حسابي </string>
+    <string name="message_info_not_forget_me">تم الإبقاء على معلومات حسابك</string>
 
     <string name = "btn_keep_remember_me"> الإبقاء على معلومات حسابي </string>
     <string name = "message_info_forget_me"> تمت إزالة رقم هاتفك وكلمة المرور من هذا الجهاز. عليك أن تدخل يدويًا ثم في المرة القادمة. </string>
@@ -321,7 +322,7 @@
     <string name = "tv_all_rights"> جميع الحقوق محفوظة لـ: </string>
     <string name = "app_version"> الإصدار 1.1 تجريبي </string>
     <string name = "add_alert_in"> في المدينة: </string>
-    <string name = "add_alert_of"> للفئة: </string>
+    <string name = "add_alert_of"> من الفئة: </string>
     <string name = "add_alert_less_than"> يساوي أو أقل من: </string>
     <string name = "add_alert_with_price"> بالسعر: </string>
     <string name = "add_alert_not_less_than"> يساوي أو أكثر من: </string>
@@ -356,6 +357,11 @@
     <string name="time_ago_days"> منذ %1$d  يوم</string>
     <string name="new_line">\n</string>
     <string name="label_item_img_modify">انقر لتبديل الصورة</string>
+    <string name="message_ifo_add_alert_added">تم إنشاء التنبيه المخصص</string>
+    <string name="hint_max_price">الحد الأعلى للسعر</string>
+    <string name="hint_min_price">الحد الأدنى للسعر</string>
+    <string name="hint_max_distance">المسافة القصوى لبعد العنصر عني بالكيلومتر</string>
+
 
 
 

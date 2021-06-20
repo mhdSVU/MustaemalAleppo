@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,13 +34,15 @@ import com.google.firebase.database.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.Fragment_AddAlert_Dialog;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
 
-public class Activity_User_Subscriptions extends AppCompatActivity implements View.OnClickListener,Fragment_AddAlert_Dialog.OnFragmentInteractionListener {
+public class Activity_User_Subscriptions extends AppCompatActivity implements View.OnClickListener, Fragment_AddAlert_Dialog.OnFragmentInteractionListener {
 
 
     private RecyclerView mRecyclerView;
@@ -59,11 +63,17 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
     private TextView m_tv_no_content;
     private FloatingActionButton m_fab_add_alert;
 
+    private String[] categoriesData;
+    private String[] citiesData;
+    private String[] categoriesLocale;
+    private String[] citiesLocale;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()));
+
         setContentView(R.layout.activity__user__subscriptions);
         setUpToolBar();
 
@@ -82,6 +92,8 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
 
         initialDatabaseRefs();
 
+        initialDataArrays();
+
         create_userID_tokens_notifications_list(PATH_INEED);
         create_userID_tokens_notifications_list(PATH_IHAVE);
 
@@ -95,7 +107,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
         db_root_user_topics.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showProgressDialog(getBaseContext(),getString(R.string.title_nav_adding_alert),getString(R.string.message_info_adding_alert));
+                showProgressDialog(getBaseContext(), getString(R.string.title_nav_adding_alert), getString(R.string.message_info_adding_alert));
 
                 final List<TopicMainCategory> topicMainCategoryList = new ArrayList<>();
                 for (final DataSnapshot topicCategory_snapshot : dataSnapshot.getChildren()) {
@@ -113,7 +125,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
 
                                 String[] topicCityCat_ = topicTitle.split(getString(R.string.underScore));
 
-                                topicList.add(new Topic(topicCityCat_[3] + getString(R.string.in) + topicCityCat_[2], topicCategory_key));
+                                topicList.add(new Topic(getCategory_locale(topicCityCat_[3]) + getString(R.string.in) + getCity_locale(topicCityCat_[2]), topicCategory_key));
                                 Log.d(TAG, "onDataChange: " + topicCategory_key);
 
                             }
@@ -166,6 +178,23 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
         });
         hideProgressBar(mProgress);
         mProgress.setVisibility(View.GONE);
+
+    }
+
+    private void adjustLanguage(String lan) {
+        if (!lan.equals("null")) {
+
+/*
+            LocaleHelper.setLocale(this, lan);
+*/
+            Locale locale = new Locale(lan);
+            Locale.setDefault(locale);
+            Configuration config = getBaseContext().getResources().getConfiguration();
+            config.setLayoutDirection(locale);
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
 
     }
 
@@ -308,9 +337,10 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
             show_Add_Alert_Dialog();
         }
     }
+
     private void show_Add_Alert_Dialog() {
 
-        showDialogFragment(new  Fragment_AddAlert_Dialog(),"AddAlertDialog");
+        showDialogFragment(new Fragment_AddAlert_Dialog(), "AddAlertDialog");
 /*
         getSupportFragmentManager().setFragmentResultListener(BUNDLE_KEY_ADD_ALERT, this, (requestKey, bundle) -> {
             if (bundle.getBoolean(BUNDLE_KEY_ADD_ALERT)) {
@@ -323,6 +353,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
         });
 */
     }
+
     public void showDialogFragment(DialogFragment newFragment, String tag) {
         // DialogFragment.show() will take care of adding the fragment
         // in a transaction. We also want to remove any currently showing
@@ -364,5 +395,32 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    private String getCategory_locale(String category) {
+
+        for (int i = 0; i < categoriesData.length; i++) {
+            if (categoriesData[i].equals(category))
+                return categoriesLocale[i];
+        }
+
+        return "";
+    }
+
+    private String getCity_locale(String city) {
+
+        for (int i = 0; i < citiesData.length; i++) {
+            if (citiesData[i].equals(city))
+                return citiesLocale[i];
+        }
+
+        return "";
+    }
+
+    private void initialDataArrays() {
+        categoriesData = get_Categories_array_data(this);
+        citiesData = get_Cities_array_data(this);
+        categoriesLocale = get_Categories_array_locale(this);
+        citiesLocale = get_Cities_array_locale(this);
     }
 }

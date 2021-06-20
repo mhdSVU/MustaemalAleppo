@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
@@ -26,11 +27,12 @@ public class Fragment_Dialog_Forget_Me extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         setRetainInstance(true);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())
@@ -49,7 +51,8 @@ public class Fragment_Dialog_Forget_Me extends DialogFragment {
                     result.putBoolean(BUNDLE_KEY_FORGET_ME, false);
                     // The child fragment needs to still set the result on its parent fragment manager
                     getParentFragmentManager().setFragmentResult(REQUEST_KEY_FORGET_ME, result);
-                    Toast.makeText(getActivity(), getActivity().getString(R.string.message_info_forget_me), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getActivity().getString(R.string.message_info_not_forget_me), Toast.LENGTH_SHORT).show();
+
                 })
                 .create();
 
@@ -66,6 +69,8 @@ public class Fragment_Dialog_Forget_Me extends DialogFragment {
         editor.putBoolean(SHP_KEY_ISREMEMBERME, true);
         editor.putString(SHP_KEY_PHONE_NUMBER, "");
         editor.putString(SHP_KEY_PASSWORD, "");
-        editor.commit();
+        editor.apply();
+        Toast.makeText(getActivity(), getActivity().getString(R.string.message_info_forget_me), Toast.LENGTH_SHORT).show();
+
     }
 }

@@ -75,6 +75,7 @@ import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.Fragment_Dialog_Report_User;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.adjustLanguage;
 
 
 public class
@@ -147,7 +148,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()));
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
 
         setContentView(R.layout.activity_display_modify_remove_item);
 
@@ -155,22 +156,6 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     }
 
-    private void adjustLanguage(String lan) {
-        if (!lan.equals("null")) {
-
-/*
-            LocaleHelper.setLocale(this, lan);
-*/
-            Locale locale = new Locale(lan);
-            Locale.setDefault(locale);
-            Configuration config = getBaseContext().getResources().getConfiguration();
-            config.setLayoutDirection(locale);
-            config.locale = locale;
-            getBaseContext().getResources().updateConfiguration(config,
-                    getBaseContext().getResources().getDisplayMetrics());
-        }
-
-    }
 
 
     private DatabaseReference reactToIntent(Bundle bundle) {

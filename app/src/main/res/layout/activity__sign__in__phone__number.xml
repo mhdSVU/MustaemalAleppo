@@ -28,10 +28,10 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="24sp"
             android:textStyle="bold"
+            app:drawableTopCompat="@drawable/logo_green"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:drawableTopCompat="@drawable/logo_green" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/img_btn_developer_image"
@@ -66,22 +66,18 @@
             android:layout_height="40dp"
             android:layout_marginStart="32dp"
             android:background="@drawable/et_background_2"
-            app:layout_constraintBottom_toBottomOf="@+id/til_et_phoneNumber"
-            app:layout_constraintEnd_toStartOf="@id/til_et_phoneNumber"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/til_et_phoneNumber"
-            app:layout_constraintVertical_bias="0.55"
-
+            android:layoutDirection="ltr"
             app:ccpDialog_allowSearch="true"
             app:ccpDialog_initialScrollToSelection="true"
             app:ccpDialog_keyboardAutoPopup="false"
+
             app:ccpDialog_showCloseIcon="true"
             app:ccpDialog_showFastScroller="false"
             app:ccpDialog_showFlag="false"
-
             app:ccpDialog_showPhoneCode="true"
             app:ccpDialog_showTitle="true"
             app:ccp_arrowSize="20dp"
+
             app:ccp_autoDetectCountry="true"
             app:ccp_autoDetectLanguage="true"
             app:ccp_autoFormatNumber="false"
@@ -89,10 +85,10 @@
             app:ccp_contentColor="@color/colorPrimaryDark"
             app:ccp_countryAutoDetectionPref="SIM_ONLY"
             app:ccp_countryPreference="TR,SYR"
-
             app:ccp_defaultLanguage="ENGLISH"
             app:ccp_defaultNameCode="US"
             app:ccp_rememberLastSelection="true"
+
             app:ccp_selectionMemoryTag="signupCCP"
             app:ccp_showArrow="true"
             app:ccp_showFlag="false"
@@ -101,35 +97,40 @@
             app:ccp_showPhoneCode="true"
             app:ccp_textGravity="CENTER"
 
-            app:ccp_textSize="16sp" />
+            app:ccp_textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/til_et_phoneNumber"
+            app:layout_constraintEnd_toStartOf="@id/til_et_phoneNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/til_et_phoneNumber"
+
+            app:layout_constraintVertical_bias="0.55" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_et_phoneNumber"
             android:layout_width="0dp"
             android:layout_height="80dp"
-            app:boxBackgroundMode="none"
             android:layout_marginStart="4dp"
-            android:layout_marginEnd="32dp"
             android:layout_marginTop="48dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+            android:layout_marginEnd="32dp"
             android:gravity="bottom"
             android:hint="@string/hint_phone_number"
-            app:hintTextAppearance="@style/hintStyle"
+            android:layoutDirection="ltr"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:textColorHint="@color/colorPrimaryDark"
+            app:boxBackgroundMode="none"
             app:counterEnabled="true"
             app:counterMaxLength="10"
 
             app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
             app:counterTextColor="@color/colorPrimaryDark"
             app:errorEnabled="true"
-            app:startIconDrawable="@android:drawable/stat_sys_phone_call"
-            app:startIconTint="@color/colorPrimaryDark"
-
+            app:hintTextAppearance="@style/hintStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ccp"
             app:layout_constraintTop_toBottomOf="@+id/tv_logo_"
-            >
+            app:startIconDrawable="@android:drawable/stat_sys_phone_call"
+            app:startIconTint="@color/colorPrimaryDark">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_phoneNumber"
@@ -138,10 +139,10 @@
                 android:background="@drawable/et_background_2"
                 android:inputType="phone"
                 android:maxLength="10"
-                android:paddingTop="10dp"
-                android:paddingBottom="8dp"
                 android:paddingStart="10dp"
+                android:paddingTop="10dp"
                 android:paddingEnd="10dp"
+                android:paddingBottom="8dp"
                 android:textColor="@color/colorPrimaryDark" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -166,21 +167,21 @@
             android:id="@+id/til_password"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            app:boxBackgroundMode="none"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:gravity="bottom"
             android:hint="@string/hint_user_password"
-            android:textColorHint="@color/colorPrimaryDark"
 
+            android:textColorHint="@color/colorPrimaryDark"
+            app:boxBackgroundMode="none"
             app:counterEnabled="true"
             app:counterMaxLength="11"
             app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
+
             app:counterTextColor="@color/colorPrimaryDark"
             app:endIconMode="password_toggle"
-
             app:errorEnabled="true"
             app:hintTextAppearance="@style/hintStyle"
-            android:layout_marginEnd="32dp"
-            android:layout_marginStart="32dp"
             app:layout_constraintEnd_toEndOf="@id/til_et_phoneNumber"
             app:layout_constraintStart_toStartOf="@id/ccp"
             app:layout_constraintTop_toBottomOf="@+id/til_et_phoneNumber">
@@ -189,7 +190,6 @@
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                app:boxBackgroundMode="none"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/et_background_2"
@@ -202,9 +202,10 @@
                 android:padding="10dp"
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
-
                 android:textColor="@color/colorPrimaryDark"
+
                 android:textColorHint="@color/colorPrimaryDark"
+                app:boxBackgroundMode="none"
                 app:counterEnabled="true"
                 app:counterMaxLength="25"
                 app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
@@ -248,8 +249,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_create_new_account"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_sign_in"
-             />
+            app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
 
         <TextView
             android:id="@+id/btn_create_new_account"
@@ -263,8 +263,8 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tv_haveAnAccount"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_haveAnAccount"
             app:layout_constraintStart_toEndOf="@id/tv_haveAnAccount"
+            app:layout_constraintTop_toTopOf="@+id/tv_haveAnAccount"
             app:layout_constraintVertical_bias="1.0" />
 
         <TextView
@@ -282,6 +282,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="68dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/label_remember_mere"
             android:textSize="16sp"
 
@@ -294,16 +295,18 @@
             android:id="@+id/tv_forget_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:paddingTop="4dp"
             android:text="@string/tv_forgot_password_lable"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/til_password"
-            app:layout_constraintStart_toEndOf="@id/chb_remember_me"
+            app:layout_constraintEnd_toEndOf="@id/chb_remember_me"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/chb_remember_me"
             app:layout_constraintTop_toBottomOf="@+id/til_password" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

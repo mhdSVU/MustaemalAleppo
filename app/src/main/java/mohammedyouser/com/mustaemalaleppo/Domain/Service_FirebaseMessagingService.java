@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.media.RingtoneManager;
@@ -31,6 +33,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import mohammedyouser.com.mustaemalaleppo.Data.ItemNotification;
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
@@ -65,12 +68,20 @@ public class Service_FirebaseMessagingService extends FirebaseMessagingService {
 
     long notifications_count = 0L;
 
+    private String[] categoriesData;
+    private String[] citiesData;
+    private String[] categoriesLocale;
+    private String[] citiesLocale;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
-        itemStateHint = getString(R.string.item_notification_state_hint_ihave);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()), this);
+
+        //  itemStateHint = getString(R.string.item_notification_state_hint_ihave);
         initialDatabaseRefs();
+        initialDataArrays(Service_FirebaseMessagingService.this);
         setUpAuthentication();
     }
 
@@ -177,6 +188,10 @@ public class Service_FirebaseMessagingService extends FirebaseMessagingService {
         itemState = getTopicDataFromMessage_itemState(remoteMessage);
         if (itemState.equals(PATH_INEED)) {
             itemStateHint = getString(R.string.item_notification_state_hint_ineed);
+        } else {
+            itemStateHint = getString(R.string.item_notification_state_hint_ihave);
+
+
         }
     }
 
@@ -190,8 +205,8 @@ public class Service_FirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void checkMessageDataWithPreferences(String message_itemPrice, String message_itemTitle, RemoteMessage remoteMessage) {
-        if(message_itemTitle.equals("null")){
-            Log.d(TAG, "checkMessageDataWithPreferences: null message_itemTitle "+message_itemTitle);
+        if (message_itemTitle.equals("null")) {
+            Log.d(TAG, "checkMessageDataWithPreferences: null message_itemTitle " + message_itemTitle);
             return;
         }
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
@@ -371,9 +386,56 @@ public class Service_FirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(ItemNotification itemNotification, RemoteMessage remoteMessage) {
         increaseUserNotificationsCount();
+
         long[] vib = new long[]{500, 2000, 500, 2000};
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+        createNotificationChanel(remoteMessage, notificationManager, vib);
 
+        NotificationCompat.Builder notificationBuilder = buildNotification(remoteMessage, itemNotification, vib);
+
+
+        group_and_notify_Notifications(remoteMessage, notificationManager, notificationBuilder);
+
+
+    }
+
+    private NotificationCompat.Builder buildNotification(RemoteMessage remoteMessage, ItemNotification itemNotification, long[] vib) {
+        // Uri defaultSoundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pushnotify);
+        String contentTitle;
+        itemState = getTopicDataFromMessage_itemState(remoteMessage);
+        if (itemState.equals(PATH_INEED)) {
+            contentTitle = getString(R.string.item_notification_state_hint_ineed, getCity_locale(itemNotification.getItemCity()));
+            Log.d(TAG, "buildNotification: " + contentTitle);
+        } else {
+            contentTitle = getString(R.string.item_notification_state_hint_ihave, getCity_locale(itemNotification.getItemCity()));
+            Log.d(TAG, "buildNotification: " + contentTitle);
+        }
+
+        return new NotificationCompat.Builder(getApplicationContext(), getTopicDataFromMessage_itemState(remoteMessage))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(contentTitle)
+                .setContentText(getCategory_locale(itemNotification.getItemCategory()) + ": " + itemNotification.getItemTitle())
+                .setVibrate(vib)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setChannelId(getTopicDataFromMessage_itemState(remoteMessage))
+                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                .setContentIntent(getPendingIntent(itemNotification, remoteMessage));
+    }
+
+    private String getItemStateHint(RemoteMessage remoteMessage) {
+        itemState = getTopicDataFromMessage_itemState(remoteMessage);
+        if (itemState.equals(PATH_INEED)) {
+            itemStateHint = getString(R.string.item_notification_state_hint_ineed);
+        } else {
+            itemStateHint = getString(R.string.item_notification_state_hint_ihave);
+
+        }
+        return itemStateHint;
+    }
+
+    private void createNotificationChanel(RemoteMessage remoteMessage, NotificationManagerCompat notificationManager, long[] vib) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             @SuppressLint("WrongConstant")
             NotificationChannel notificationChannel = new NotificationChannel(getTopicDataFromMessage_itemState(remoteMessage), "n_channel", NotificationManager.IMPORTANCE_MAX);
@@ -389,28 +451,14 @@ public class Service_FirebaseMessagingService extends FirebaseMessagingService {
             notificationChannel.enableVibration(true);
             notificationChannel.setVibrationPattern(vib);
 
-
             notificationManager.createNotificationChannel(notificationChannel);
         }
+    }
 
-
-        // Uri defaultSoundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pushnotify);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), getTopicDataFromMessage_itemState(remoteMessage))
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(itemStateHint + getString(R.string.in) + itemNotification.getItemCity())
-                .setContentText(itemNotification.getItemCategory() + ": " + itemNotification.getItemTitle())
-                .setVibrate(vib)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setChannelId(getTopicDataFromMessage_itemState(remoteMessage))
-                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                .setContentIntent(getPendingIntent(itemNotification, remoteMessage));
-
-
+    private void group_and_notify_Notifications(RemoteMessage remoteMessage, NotificationManagerCompat notificationManager, NotificationCompat.Builder notificationBuilder) {
         NotificationCompat.Builder notificationSummaryIneedBuilder = new NotificationCompat.Builder(getApplicationContext(), getTopicDataFromMessage_itemState(remoteMessage))
 
-                .setContentTitle(itemStateHint)
+                .setContentTitle(getItemStateHint(remoteMessage))
                 //set content text to support devices running API level < 24
                 .setContentText(getString(R.string.item_notification_extra_ineed))
                 .setSmallIcon(R.drawable.ic_ineed)
@@ -429,7 +477,7 @@ public class Service_FirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.Builder notificationSummaryIhaveBuilder = new NotificationCompat.Builder(getApplicationContext(), getTopicDataFromMessage_itemState(remoteMessage))
 
-                .setContentTitle(itemStateHint)
+                .setContentTitle(getItemStateHint(remoteMessage))
                 //set content text to support devices running API level < 24
                 .setContentText(getString(R.string.item_notification_extra_ihave))
                 .setSmallIcon(R.drawable.ic_ihave)
@@ -456,8 +504,6 @@ public class Service_FirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.notify(hCode, notificationBuilder.build());
             notificationManager.notify(SUMMARY_ID_IHAVE, notificationSummaryIhaveBuilder.build());
         }
-
-
     }
 
     private PendingIntent getPendingIntent(ItemNotification itemNotification, RemoteMessage remoteMessage) {
@@ -472,9 +518,8 @@ public class Service_FirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra(INTENT_KEY_ITEM_CAT, itemNotification.getItemCategory());
         intent.putExtra(INTENT_KEY_ITEM_CITY, itemNotification.getItemCity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
+        return PendingIntent.getActivity(getApplicationContext(),
                 hCode /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
-        return pendingIntent;
     }
 
     private float getDistanceBetweenTwoPoints(double lat1, double lon1, double lat2, double lon2) {
@@ -513,13 +558,13 @@ public class Service_FirebaseMessagingService extends FirebaseMessagingService {
             @NonNull
             @Override
             public Transaction.Result doTransaction(@NonNull MutableData currentData) {
-                Integer notifications_count=0;
+                Integer notifications_count = 0;
                 if (currentData.getValue() == null) {
                     currentData.setValue(++notifications_count);
                     return Transaction.success(currentData);
                 }
 
-                 notifications_count = currentData.getValue(Integer.class);
+                notifications_count = currentData.getValue(Integer.class);
                 currentData.setValue(++notifications_count);
 
                 return Transaction.success(currentData);
@@ -541,22 +586,19 @@ public class Service_FirebaseMessagingService extends FirebaseMessagingService {
 
     private DatabaseReference form_AddedItem_Ref(RemoteMessage remoteMessage) {
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+        return FirebaseDatabase.getInstance().getReference()
                 .child(PATH_ITEMS)
                 .child(String.valueOf(remoteMessage.getData().get(MESSAGE_BODY_ITEM_KIND)))
                 .child(String.valueOf(remoteMessage.getData().get(MESSAGE_BODY_ITEM_CITY)))
                 .child(String.valueOf(remoteMessage.getData().get(MESSAGE_BODY_ITEM_CATEGORY)))
                 .child(String.valueOf(remoteMessage.getData().get(MESSAGE_BODY_ITEM_ID)));
-
-        return databaseReference;
     }
 
 
     private String getTopicValueFromMessage(RemoteMessage remoteMessage) {
-        String topic = "Items" + "_" + String.valueOf(remoteMessage.getData().get(MESSAGE_BODY_ITEM_KIND)) +
-                "_" + String.valueOf(remoteMessage.getData().get(MESSAGE_BODY_ITEM_CITY)) +
-                "_" + String.valueOf(remoteMessage.getData().get(MESSAGE_BODY_ITEM_CATEGORY));
-        return topic;
+        return "Items" + "_" + remoteMessage.getData().get(MESSAGE_BODY_ITEM_KIND) +
+                "_" + remoteMessage.getData().get(MESSAGE_BODY_ITEM_CITY) +
+                "_" + remoteMessage.getData().get(MESSAGE_BODY_ITEM_CATEGORY);
     }
 
     private String getTopicDataFromMessage_itemID(RemoteMessage remoteMessage) {
@@ -588,6 +630,37 @@ public class Service_FirebaseMessagingService extends FirebaseMessagingService {
 
         return String.valueOf(remoteMessage.getData().get(MESSAGE_BODY_ITEM_TITLE));
     }
+
+    private void initialDataArrays(Context context) {
+        categoriesData = get_Categories_array_data(context);
+        citiesData = get_Cities_array_data(context);
+        categoriesLocale = get_Categories_array_locale(context);
+        citiesLocale = get_Cities_array_locale(context);
+    }
+
+    private String getCategory_locale(String category) {
+
+        for (int i = 0; i < categoriesData.length; i++) {
+            if (categoriesData[i].equals(category))
+                return categoriesLocale[i];
+        }
+
+        return "";
+    }
+
+    private String getCity_locale(String city) {
+
+        for (int i = 0; i < citiesData.length; i++) {
+            if (citiesData[i].equals(city))
+                return citiesLocale[i];
+        }
+
+        return "";
+    }
+
+     /*  .setContentTitle(itemStateHint + getString(R.string.in) + getCategory_locale(itemNotification.getItemCity()))
+            .setContentText(getCategory_locale(itemNotification.getItemCategory()) + ": " + itemNotification.getItemTitle())*/
+
 
 }
 /*

@@ -6,98 +6,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView_item_data"
     android:layout_width="180dp"
-    android:layout_height="180dp"
+    android:layout_height="220dp"
     android:layout_marginStart="4dp"
     android:layout_marginTop="5dp"
     android:layout_marginEnd="4dp"
     android:layout_marginBottom="5dp"
+    android:padding="4dp"
     android:clickable="true"
     android:elevation="8dp"
-
+    android:focusable="true"
     card_view:cardBackgroundColor="@color/grey_300"
-    card_view:cardCornerRadius="20dp"
-    android:focusable="true">
+    card_view:cardCornerRadius="20dp">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal|start|center_vertical"
-        android:clickable="false"
-        android:focusable="false"
-        android:padding="8dp">
-
-        <ImageButton
-            android:id="@+id/img_btn_itemImage"
-            android:layout_width="180dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:background="@color/grey_300"
-            android:clickable="false"
-            android:focusable="false"
-            android:scaleType="fitCenter" />
-
-        <CheckBox
-            android:id="@+id/cb_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|top"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
-            android:button="@drawable/sl_favorite"
-            android:clickable="false"
-            android:focusable="false" />
-
-        <ProgressBar
-            android:id="@+id/progressBar1"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:clickable="false"
-            android:focusable="false"
-            android:visibility="invisible" />
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:clickable="false"
-            android:focusable="false"
-
-            app:boxBackgroundMode="none"
-            app:suffixText="@string/symbol_syrian_pound_2">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_item_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="8dp"
-                android:background="@null"
-                android:ellipsize="end"
-                android:enabled="false"
-                android:gravity="start"
-                android:maxLength="15"
-                android:maxLines="1"
-                android:textColor="@color/item_price"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
+        android:orientation="vertical"
+        >
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|top"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:clickable="false"
             android:focusable="false"
+            android:gravity="top"
             app:boxBackgroundMode="none">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -105,20 +40,92 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:padding="0dp"
                 android:ellipsize="end"
                 android:enabled="false"
-                android:maxLength="50"
+                android:gravity="top"
+                android:maxLength="40"
                 android:maxLines="1"
                 android:textColor="@color/item_title"
                 android:textDirection="locale"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="Car godfsafasfaod bad " />
+                tools:text="Carwrwerwerwer" />
 
         </com.google.android.material.textfield.TextInputLayout>
+        <ImageButton
+            android:id="@+id/img_btn_itemImage"
+            android:layout_width="220dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@color/grey_300"
+            android:clickable="false"
+            android:focusable="false"
+            tools:src="@drawable/flag_angola"
+            android:scaleType="fitCenter" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_price"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_gravity="bottom|start"
+                android:gravity="start"
+                android:layout_marginEnd="4dp"
+                android:clickable="false"
+                android:focusable="false"
+                app:boxBackgroundMode="none"
+
+                app:suffixText="@string/symbol_syrian_pound_2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_item_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:enabled="false"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    tools:text="100000"
+                    android:textColor="@color/item_price"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
 
-    </FrameLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                android:id="@+id/cb_favorite"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/sl_favorite"
+                android:button="@null"
+                android:clickable="false"
+                android:focusable="false" />
+
+        </LinearLayout>
+
+        <!--<ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:clickable="false"
+            android:focusable="false"
+            android:visibility="invisible" />-->
+
+    </LinearLayout>
+
+
+
 
 
 </androidx.cardview.widget.CardView>

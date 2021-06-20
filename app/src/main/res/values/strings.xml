@@ -102,7 +102,7 @@
 
 
     <!--hints-->
-    <string name="hint_user_name_contact_info">Display Name</string>
+    <string name="hint_user_name_contact_info">Display Name…</string>
     <string name="hint_user_email_contact_info">Your Email…</string>
     <string name="hint_phone_number_contact_info">A phone number to contact with you…</string>
     <string name="hint_search_item">Search…</string>
@@ -206,8 +206,8 @@
     <string name="title_position_current">Current Position</string>
     <string name="message_error_no_address">No Address Available.</string>
     <string name="message_info_loc_preserved">Your location preserved!</string>
-    <string name="item_notification_state_hint_ihave">Item for sale</string>
-    <string name="item_notification_state_hint_ineed">Item needed</string>
+    <string name="item_notification_state_hint_ihave">Item for sale in %1$s</string>
+    <string name="item_notification_state_hint_ineed">Item needed in %1$s</string>
 
     <string name="notification_state_header_ihave">Notifications about items for sale:</string>
     <string name="notification_state_header_ineed">Notifications about ordered items:</string>
@@ -358,11 +358,16 @@
     <string name="time_ago_just_now">just now</string>
     <string name="time_ago_miute">a minute ago</string>
     <string name="time_ago_hour">an hour ago</string>
-    <string name="time_ago_hours">%1$d\" hours ago\"</string>
-    <string name="time_ago_minutes">%1$d\" minutes ago\"</string>
+    <string name="time_ago_hours">%1$d hours ago</string>
+    <string name="time_ago_minutes">%1$d minutes ago</string>
     <string name="time_ago_yesterday">yesterday</string>
-    <string name="time_ago_days">%1$d\" days ago\"</string>
+    <string name="time_ago_days">%1$d days ago</string>
     <string name="label_item_img_modify">Click to update image</string>
+    <string name="message_info_not_forget_me">Your account info is preserved</string>
+    <string name="message_ifo_add_alert_added">Your custom alert has been created!</string>
+    <string name="hint_max_price">Max Price</string>
+    <string name="hint_min_price">Min Price</string>
+    <string name="hint_max_distance">Max Distance in km</string>
 
 
 </resources>

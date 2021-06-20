@@ -3,19 +3,12 @@
     android:layout_height="wrap_content"
     android:fillViewport="true">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/fl"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        tools:context="mohammedyouser.com.mustaemalaleppo.UI.Fragment_Ineed">
-
-        <LinearLayout
+    <LinearLayout
             android:id="@+id/ll_search_criteria"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
+            android:padding="16dp"
             android:layout_marginBottom="16dp"
             android:orientation="vertical">
 
@@ -38,7 +31,6 @@
                     android:id="@+id/rb_ihave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
                     android:checked="true"
                     android:text="@string/add_alert_state_ihave" />
 
@@ -51,6 +43,30 @@
                     android:text="@string/add_alert_state_ineed" />
             </RadioGroup>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:textStyle="bold"
+                    android:text="@string/add_alert_of" />
+
+                <Spinner
+                    android:id="@+id/spinner_categories2"
+                    style="@style/spinnerItemStyle"
+                    android:layout_width="160dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:background="@drawable/mybg"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:popupBackground="#ffffff" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -78,30 +94,7 @@
                     android:popupBackground="#ffffff" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="8dp"
-                    android:textStyle="bold"
-                    android:text="@string/add_alert_of" />
-
-                <Spinner
-                    android:id="@+id/spinner_categories2"
-                    style="@style/spinnerItemStyle"
-                    android:layout_width="160dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:background="@drawable/mybg"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:popupBackground="#ffffff" />
-            </LinearLayout>
 
 
             <TextView
@@ -132,10 +125,10 @@
 
                 <EditText
                     android:id="@+id/et_max_price"
-                    android:layout_width="80dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_input"
-                    android:hint="Max price"
+                    android:hint="@string/hint_max_price"
                     android:inputType="numberDecimal"
 
                     />
@@ -158,10 +151,10 @@
 
                 <EditText
                     android:id="@+id/et_min_price"
-                    android:layout_width="80dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_input"
-                    android:hint="Min price"
+                    android:hint="@string/hint_min_price"
                     android:inputType="numberDecimal"
 
                     />
@@ -187,13 +180,13 @@
 
                 <EditText
                     android:id="@+id/et_max_distance"
-                    android:layout_width="240dp"
+                    android:layout_width="300dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_marginTop="16dp"
                     android:background="@color/grey_500"
                     android:gravity="center_vertical|center_horizontal"
-                    android:hint="Max distance in km"
+                    android:hint="@string/hint_max_distance"
                     android:inputType="numberDecimal"
                     android:padding="8dp"
 
@@ -202,7 +195,6 @@
 
         </LinearLayout>
 
-    </FrameLayout>
 
 </androidx.core.widget.NestedScrollView>
 

@@ -269,10 +269,11 @@
             app:ccp_showPhoneCode="true"
             app:ccp_textGravity="CENTER"
             app:ccp_textSize="16sp"
+
+            android:layoutDirection="ltr"
             app:layout_constraintBottom_toBottomOf="@+id/til_et_phoneNumber"
             app:layout_constraintEnd_toStartOf="@id/til_et_phoneNumber"
             app:layout_constraintStart_toStartOf="@id/til_et_userName"
-
             app:layout_constraintTop_toTopOf="@id/til_et_phoneNumber" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -281,6 +282,7 @@
             android:layout_height="80dp"
 
             app:boxBackgroundMode="none"
+            android:layoutDirection="ltr"
 
             android:layout_marginEnd="32dp"
             android:gravity="bottom"

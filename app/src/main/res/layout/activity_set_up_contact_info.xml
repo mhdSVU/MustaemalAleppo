@@ -51,6 +51,7 @@
                         android:textSize="24sp"
                         android:textStyle="bold"
                         tools:text="+998359911"
+                        android:textDirection="locale"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
                         />
@@ -59,11 +60,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:gravity="bottom"
-                        android:hint="@string/hint_user_name_contact_info"
                         app:counterEnabled="true"
                         app:counterMaxLength="15"
                         app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
                         app:hintTextAppearance="@style/hintStyle"
+                        app:boxBackgroundMode="none"
 
                         >
 
@@ -77,6 +78,9 @@
                             android:maxLength="15"
                             android:maxLines="1"
                             android:padding="10dp"
+                            android:hint="@string/hint_user_name_contact_info"
+
+
 
 
                             />
@@ -87,7 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:gravity="bottom"
-                        android:hint="@string/hint_user_email_contact_info"
+                        app:boxBackgroundMode="none"
                         app:counterEnabled="true"
                         app:counterMaxLength="50"
                         app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
@@ -104,10 +108,8 @@
                             android:inputType="textEmailAddress"
                             android:maxLength="50"
                             android:maxLines="1"
-                            android:padding="10dp"
-
-
-                            />
+                            android:hint="@string/hint_user_email_contact_info"
+                            android:padding="10dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -172,7 +174,7 @@
 
                             android:layout_margin="8dp"
                             android:background="@drawable/background_button"
-                            android:drawableLeft="@drawable/ic_location"
+                            android:drawableStart="@drawable/ic_location"
                             android:elevation="8dp"
 
                             android:gravity="center_horizontal|center_vertical"
@@ -209,6 +211,7 @@
                             android:layout_weight="1.0"
                             android:text="@string/ignore"
                             android:theme="@style/ThemeOverlay.MyDarkButton"
+                            android:layout_marginEnd="8dp"
 
                             />
 
@@ -219,6 +222,7 @@
                             android:layout_height="50dp"
                             android:layout_weight="1.0"
                             android:text="@string/btn_save"
+                            android:layout_marginEnd="8dp"
                             android:theme="@style/ThemeOverlay.MyDarkButton" />
 
 

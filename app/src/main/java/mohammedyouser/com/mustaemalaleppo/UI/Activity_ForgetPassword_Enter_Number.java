@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,9 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.hbb20.CountryCodePicker;
 
 import mohammedyouser.com.mustaemalaleppo.Domain.Fragment_Dialog_VPN_Alert;
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USERS;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.adjustLanguage;
 
 public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity implements View.OnClickListener {
     private static final String STR_TAG_FRAGMENT_VERIFY_RESET = "fragment_phone_number_verify_tag";
@@ -30,7 +33,7 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
     private CountryCodePicker m_cpp;
 
     private DatabaseReference db_root_users;
-    private Uri uri_user_img = null;
+    private final Uri uri_user_img = null;
 
     private Fragment_Reset_Password_Verify_Phone_Number fragment_phone_number_verify;
     private Button m_btn_reset_start;
@@ -40,11 +43,12 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
         setContentView(R.layout.activity__forget__password__enter__number);
 
         m_et_phoneNumber = findViewById(R.id.et_phoneNumber);
-        m_btn_reset_start = (Button) findViewById(R.id.btn_reset_start);
-        m_cpp = (CountryCodePicker) findViewById(R.id.ccp);
+        m_btn_reset_start = findViewById(R.id.btn_reset_start);
+        m_cpp = findViewById(R.id.ccp);
 
         m_btn_reset_start.setOnClickListener(this);
         m_cpp.setOnClickListener(this);
@@ -132,7 +136,7 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
 
         if (TextUtils.isEmpty(getContentOfView(view))) {
             ((EditText) view).setError(getString(R.string.message_error_empty_field));
-            ((EditText) view).requestFocus();
+            view.requestFocus();
 
             validationState = false;
 
@@ -170,10 +174,8 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.btn_reset_start:
-                show_Phone_Number_Verify_Fragment_Dialog(createBundle_UserAccountInfo());
+        if (v.getId() == R.id.btn_reset_start) {
+            show_Phone_Number_Verify_Fragment_Dialog(createBundle_UserAccountInfo());
         }
 
 

@@ -70,11 +70,11 @@
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
         <activity
             android:name=".UI.Activity_Sign_In_Phone_Number"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:configChanges="screenSize|screenLayout|keyboardHidden"
             android:label=""
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".UI.SplashActivity"
+            android:name=".UI.Activity_Splash"
             android:label="@string/my_app_name"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar.NoStatusBar"

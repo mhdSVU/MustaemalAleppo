@@ -1,5 +1,7 @@
 package mohammedyouser.com.mustaemalaleppo.Data;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +27,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ALL_ITEMS;
@@ -43,6 +47,10 @@ import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstant
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USERS_FAVORITES;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USER_IMAGE;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.TAG;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.get_Categories_array_data;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.get_Categories_array_locale;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.get_Cities_array_data;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.get_Cities_array_locale;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.hideProgressBar;
 
 public class Activity_User_Favorites extends AppCompatActivity implements View.OnClickListener {
@@ -69,10 +77,17 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
     private TextView m_tv_label_favorites_ihave;
     private TextView m_tv_label_favorites_ineed;
 
+    private String[] categoriesData;
+    private String[] citiesData;
+    private String[] categoriesLocale;
+    private String[] citiesLocale;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()));
+
         setContentView(R.layout.activity__user__favorites);
 
         setUpToolBar();
@@ -81,11 +96,29 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
         setUpAuthentication();
 
         initialDatabaseRefs();
+        initialDataArrays();
 
-          fetchUserFavoriteItems(PATH_IHAVE);
+
+        fetchUserFavoriteItems(PATH_IHAVE);
         fetchUserFavoriteItems(PATH_INEED);
 
         updateUI_If_No_Content();
+    }
+    private void adjustLanguage(String lan) {
+        if (!lan.equals("null")) {
+
+/*
+            LocaleHelper.setLocale(this, lan);
+*/
+            Locale locale = new Locale(lan);
+            Locale.setDefault(locale);
+            Configuration config = getBaseContext().getResources().getConfiguration();
+            config.setLayoutDirection(locale);
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
+
     }
 
     private void setUpViews() {
@@ -125,6 +158,7 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
 
 
     }
+
 
     private void create_userID_favorites_list(String itemState) {
         Log.d(TAG, "create_userID_tokens_notifications_list: ");
@@ -358,7 +392,7 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
                                         favoriteTopicList.add(new NotificationTopic(topicCityCat_[3] + getString(R.string.in) + topicCityCat_[2], favoriteItemsList));
 
                                     }*/
-                                    favoriteTopicList.add(new FavoriteTopic(topicCityCat_[3] + getString(R.string.in) + topicCityCat_[2], favoriteItemsList));
+                                    favoriteTopicList.add(new FavoriteTopic(getCategory_locale(topicCityCat_[3] )+ getString(R.string.in) + getCity_locale(topicCityCat_[2]), favoriteItemsList));
 
                                     if (itemState.equals(PATH_INEED)) {
                                         Adapter_ExpandableRecycler__Favorites adapter_ineed = new Adapter_ExpandableRecycler__Favorites(itemState, favoriteItemsList, favoriteTopicList, Activity_User_Favorites.this, m_tv_label_favorites_ihave, m_tv_label_favorites_ineed, m_tv_no_content);
@@ -446,5 +480,30 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
 
     }
 
+    private String getCategory_locale(String category) {
+
+        for (int i = 0; i < categoriesData.length; i++) {
+            if(categoriesData[i].equals(category))
+                return categoriesLocale[i];
+        }
+
+        return "";
+    }
+    private String getCity_locale(String city) {
+
+        for (int i = 0; i < citiesData.length; i++) {
+            if(citiesData[i].equals(city))
+                return citiesLocale[i];
+        }
+
+        return "";
+    }
+
+    private void initialDataArrays() {
+        categoriesData = get_Categories_array_data(this);
+        citiesData = get_Cities_array_data(this);
+        categoriesLocale = get_Categories_array_locale(this);
+        citiesLocale = get_Cities_array_locale(this);
+    }
 
 }

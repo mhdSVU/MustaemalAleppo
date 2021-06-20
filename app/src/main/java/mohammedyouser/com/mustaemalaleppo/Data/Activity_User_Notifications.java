@@ -6,6 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,10 +26,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.*;
 
 public class Activity_User_Notifications extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,22 +57,27 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
     private Notification mNotification;
     private TextView m_tv_label_notifications_ihave;
     private TextView m_tv_label_notifications_ineed;
+    private String[] categoriesData;
+    private String[] citiesData;
+    private String[] categoriesLocale;
+    private String[] citiesLocale;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()));
+
         setContentView(R.layout.activity__user__notifications);
 
         setUpToolBar();
         setUpViews();
 
 
-
-
         setUpAuthentication();
 
         initialDatabaseRefs();
+        initialDataArrays();
 
         create_userID_notifications_list(PATH_INEED);
         create_userID_notifications_list(PATH_IHAVE);
@@ -80,7 +90,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
 
     private void setUpViews() {
         mProgress = findViewById(R.id.progressBar1);
-       // mProgress.setVisibility(View.VISIBLE);
+        // mProgress.setVisibility(View.VISIBLE);
 
 
         mProgress.setIndeterminate(true);
@@ -94,6 +104,23 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
         mRecyclerView_ineed.setLayoutManager(new LinearLayoutManager(this));
         m_tv_label_notifications_ihave = findViewById(R.id.tv_label_notifications_ihave);
         m_tv_label_notifications_ineed = findViewById(R.id.tv_label_notifications_ineed);
+    }
+
+    private void adjustLanguage(String lan) {
+        if (!lan.equals("null")) {
+
+/*
+            LocaleHelper.setLocale(this, lan);
+*/
+            Locale locale = new Locale(lan);
+            Locale.setDefault(locale);
+            Configuration config = getBaseContext().getResources().getConfiguration();
+            config.setLayoutDirection(locale);
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
+
     }
 
     @Override
@@ -117,6 +144,8 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
 
 
     }
+
+
 
     private void create_userID_notifications_list(String itemState) {
         Log.d(TAG, "create_userID_tokens_notifications_list: ");
@@ -347,11 +376,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
 
                                     String[] topicCityCat_ = topicKey.split(getString(R.string.underScore));
 
-                              /*      if (notificationList.size() != 0) {
-                                        notificationTopicList.add(new NotificationTopic(topicCityCat_[3] + getString(R.string.in) + topicCityCat_[2], notificationList));
-
-                                    }*/
-                                    notificationTopicList.add(new NotificationTopic(topicCityCat_[3] + getString(R.string.in) + topicCityCat_[2], notificationList));
+                                    notificationTopicList.add(new NotificationTopic(getCategory_locale(topicCityCat_[3] )+ getString(R.string.in) + getCity_locale(topicCityCat_[2]), notificationList));
 
                                     if (itemState.equals(PATH_INEED)) {
                                         Adapter_ExpandableRecycler__Notifications adapter_ineed = new Adapter_ExpandableRecycler__Notifications(itemState, notificationList, notificationTopicList, Activity_User_Notifications.this, m_tv_label_notifications_ihave, m_tv_label_notifications_ineed, m_tv_no_content);
@@ -437,6 +462,32 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
                 });
 
 
+    }
+
+    private String getCategory_locale(String category) {
+
+        for (int i = 0; i < categoriesData.length; i++) {
+            if(categoriesData[i].equals(category))
+                return categoriesLocale[i];
+        }
+
+        return "";
+    }
+    private String getCity_locale(String city) {
+
+        for (int i = 0; i < citiesData.length; i++) {
+            if(citiesData[i].equals(city))
+                return citiesLocale[i];
+        }
+
+        return "";
+    }
+
+    private void initialDataArrays() {
+        categoriesData = get_Categories_array_data(this);
+        citiesData = get_Cities_array_data(this);
+        categoriesLocale = get_Categories_array_locale(this);
+        citiesLocale = get_Cities_array_locale(this);
     }
 
 

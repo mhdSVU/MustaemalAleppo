@@ -3,6 +3,7 @@ package mohammedyouser.com.mustaemalaleppo.UI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,11 +16,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_USER_ID;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USERS;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_USER_PASSWORD;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.adjustLanguage;
 
 public class Activity_ForgetPassword_Reset_Password extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,12 +41,14 @@ public class Activity_ForgetPassword_Reset_Password extends AppCompatActivity im
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
+
         setContentView(R.layout.activity__reset__password);
 
-        m_et_password = (EditText) findViewById(R.id.et_password);
-        m_et_password_confirm = (EditText) findViewById(R.id.et_password_confirm);
-        m_btn_reset_confirm = (Button) findViewById(R.id.btn_reset_confirm);
-        m_btn_reset_cancel = (Button) findViewById(R.id.btn_reset_cancel);
+        m_et_password = findViewById(R.id.et_password);
+        m_et_password_confirm = findViewById(R.id.et_password_confirm);
+        m_btn_reset_confirm = findViewById(R.id.btn_reset_confirm);
+        m_btn_reset_cancel = findViewById(R.id.btn_reset_cancel);
 
         m_btn_reset_confirm.setOnClickListener(this);
         m_btn_reset_cancel.setOnClickListener(this);
@@ -72,13 +77,13 @@ public class Activity_ForgetPassword_Reset_Password extends AppCompatActivity im
         if (view.getId() == R.id.et_password) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
                 ((EditText) view).setError(getString(R.string.message_error_empty_field));
-                ((EditText) view).requestFocus();
+                view.requestFocus();
                 validationState = false;
             }
 
             if (!getContentOfView(view).equals(getContentOfView(m_et_password_confirm))) {
                 ((EditText) view).setError(getString(R.string.message_error_password_doesnt_match));
-                ((EditText) view).requestFocus();
+                view.requestFocus();
 
                 validationState = false;
             }
@@ -87,14 +92,14 @@ public class Activity_ForgetPassword_Reset_Password extends AppCompatActivity im
         if (view.getId() == R.id.et_password_confirm) {
             if (TextUtils.isEmpty(getContentOfView(view))) {
                 ((EditText) view).setError(getString(R.string.message_error_empty_field));
-                ((EditText) view).requestFocus();
+                view.requestFocus();
 
                 validationState = false;
 
             }
             if (!getContentOfView(view).equals(getContentOfView(m_et_password_confirm))) {
                 ((EditText) view).setError(getString(R.string.message_error_password_doesnt_match));
-                ((EditText) view).requestFocus();
+                view.requestFocus();
 
                 validationState = false;
 
@@ -104,7 +109,7 @@ public class Activity_ForgetPassword_Reset_Password extends AppCompatActivity im
 
         if (TextUtils.isEmpty(getContentOfView(view))) {
             ((EditText) view).setError(getString(R.string.message_error_empty_field));
-            ((EditText) view).requestFocus();
+            view.requestFocus();
 
             validationState = false;
 
@@ -121,7 +126,7 @@ public class Activity_ForgetPassword_Reset_Password extends AppCompatActivity im
 
     @Override
     public void onClick(View v) {
-        boolean inputValid=false;
+        boolean inputValid;
         switch (v.getId()) {
 
             case R.id.btn_reset_confirm: {

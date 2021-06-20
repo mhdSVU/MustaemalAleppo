@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
@@ -59,6 +60,7 @@ import java.util.List;
 import java.util.Locale;
 
 import mohammedyouser.com.mustaemalaleppo.Device.GpsUtils;
+import mohammedyouser.com.mustaemalaleppo.LocaleHelper;
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.SessionManager;
 
@@ -105,6 +107,8 @@ public class Activity_SetupContactInfo extends AppCompatActivity implements View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
+
         setContentView(R.layout.activity_set_up_contact_info);
         sessionManager = new SessionManager(this, "uriSession");
 
@@ -163,7 +167,7 @@ public class Activity_SetupContactInfo extends AppCompatActivity implements View
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState.containsKey("user_img_uri")) {
             uri_user_img = Uri.parse(savedInstanceState.getString(INTENT_KEY_USER_IMAGE_URI));
@@ -341,7 +345,7 @@ public class Activity_SetupContactInfo extends AppCompatActivity implements View
 
     private String setUserName_from_DB(final String userID) {
 
-        final String[] userName = {new String()};
+        final String[] userName = {""};
         db_root_users.addValueEventListener(new ValueEventListener() {
 
 
@@ -362,7 +366,7 @@ public class Activity_SetupContactInfo extends AppCompatActivity implements View
 
     private String setUserEmail_from_DB(final String userID) {
 
-        final String[] userEmail = {new String()};
+        final String[] userEmail = {""};
         db_root_users.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

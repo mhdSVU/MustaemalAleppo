@@ -62,6 +62,7 @@ public class ViewHolder_Item_Display_Edit extends RecyclerView.ViewHolder {
     public void setItemTitle(String title) {
         if(String.valueOf(title).equals("")){
             mTitle.setText(context.getString(R.string.no_title));
+
             return;
 
         }
