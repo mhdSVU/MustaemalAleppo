@@ -136,10 +136,7 @@ public class Activity_ForgetPassword_Reset_Password extends AppCompatActivity im
             }
 
             break;
-         /*   case R.id.ccp: {
-
-            }
-            break;*/
+  
             case R.id.btn_reset_cancel:
                 auth.signOut();
                 startSignInActivity();

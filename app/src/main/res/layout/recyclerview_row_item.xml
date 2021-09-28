@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView_item_data"
     android:layout_width="180dp"
-    android:layout_height="220dp"
+    android:layout_height="260dp"
     android:layout_marginStart="4dp"
     android:layout_marginTop="5dp"
     android:layout_marginEnd="4dp"
@@ -18,84 +18,43 @@
     card_view:cardBackgroundColor="@color/grey_300"
     card_view:cardCornerRadius="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        <androidx.constraintlayout.widget.ConstraintLayout
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:gravity="top"
-            app:boxBackgroundMode="none">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_item_title"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:padding="0dp"
-                android:ellipsize="end"
-                android:enabled="false"
-                android:gravity="top"
-                android:maxLength="40"
-                android:maxLines="1"
-                android:textColor="@color/item_title"
-                android:textDirection="locale"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                tools:text="Carwrwerwerwer" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-        <ImageButton
-            android:id="@+id/img_btn_itemImage"
-            android:layout_width="220dp"
-            android:layout_height="140dp"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:background="@color/grey_300"
-            android:clickable="false"
-            android:focusable="false"
-            tools:src="@drawable/flag_angola"
-            android:scaleType="fitCenter" />
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:orientation="horizontal">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_price"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_gravity="bottom|start"
-                android:gravity="start"
-                android:layout_marginEnd="4dp"
+                android:id="@+id/til_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cb_favorite"
+                android:layout_marginBottom="200dp"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:clickable="false"
                 android:focusable="false"
-                app:boxBackgroundMode="none"
-
-                app:suffixText="@string/symbol_syrian_pound_2">
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="0dp"
+                app:boxBackgroundMode="none">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_item_price"
+                    android:id="@+id/et_item_title"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="start"
+                    android:layout_height="wrap_content"
                     android:background="@null"
+                    android:padding="0dp"
                     android:ellipsize="end"
                     android:enabled="false"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:maxLength="15"
-                    android:maxLines="1"
-                    tools:text="100000"
-                    android:textColor="@color/item_price"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:gravity="top"
+                    android:maxLength="40"
+                    android:maxLines="2"
+                    android:textColor="@color/item_title"
+                    android:textDirection="locale"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="bdfbvbbcbcbcvb cbbcbcbcbcbcbcvbdbdbv" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -104,13 +63,71 @@
                 android:id="@+id/cb_favorite"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="14dp"
+                app:layout_constraintStart_toEndOf="@id/til_title"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/sl_favorite"
                 android:button="@null"
                 android:clickable="false"
                 android:focusable="false" />
+            <ImageButton
+                android:id="@+id/img_btn_itemImage"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="60dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:background="@color/grey_300"
+                android:clickable="false"
+                android:focusable="false"
+                tools:src="@drawable/flag_angola"
+                android:scaleType="fitCenter" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="215dp"
+                android:clickable="false"
+                android:focusable="false"
+                app:boxBackgroundMode="none"
 
-        </LinearLayout>
+                app:suffixText="@string/syrian_pound"
+                app:suffixTextAppearance="@style/textStyle_currency_small"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_item_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:enabled="false"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    tools:text="100000"
+                    android:textColor="@color/item_price"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <!--<ProgressBar
             android:id="@+id/progressBar1"
@@ -121,9 +138,6 @@
             android:clickable="false"
             android:focusable="false"
             android:visibility="invisible" />-->
-
-    </LinearLayout>
-
 
 
 

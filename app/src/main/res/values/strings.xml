@@ -40,7 +40,7 @@
     <string name="action_sort_by_date">sort by date</string>
 
     <!--titles-->
-    <string name="title_set_up_contact_info">Set Up Your \" Contact Information \"</string>
+    <string name="title_set_up_contact_info">My Profile"</string>
     <string name="title_tap_0">I NEED</string>
     <string name="title_tap_1">I HAVE</string>
     <string name="title_ineed">I need</string>
@@ -227,7 +227,7 @@
     <string name="message_error_sign_out">Unable to sign out.Please check network and/or VPN!</string>
     <string name="message_info_loc_updated">Location Updated!</string>
     <string name="symbol_syrian_pound">" S.P. %1$s"</string>
-    <string name="symbol_syrian_pound_2">" S.P. "</string>
+    <string name="syrian_pound">" S.P. "</string>
 
     <string name="add_alert_as_following">as the following:</string>
     <string name="label_verification_status">Verification Status:</string>
@@ -362,12 +362,14 @@
     <string name="time_ago_minutes">%1$d minutes ago</string>
     <string name="time_ago_yesterday">yesterday</string>
     <string name="time_ago_days">%1$d days ago</string>
-    <string name="label_item_img_modify">Click to update image</string>
+    <string name="label_item_img_modify">Change image</string>
     <string name="message_info_not_forget_me">Your account info is preserved</string>
     <string name="message_ifo_add_alert_added">Your custom alert has been created!</string>
     <string name="hint_max_price">Max Price</string>
     <string name="hint_min_price">Min Price</string>
     <string name="hint_max_distance">Max Distance in km</string>
+    <string name="title_user_favorites">My Favorites</string>
+    <string name="title_update">UPDATE</string>
 
 
 </resources>

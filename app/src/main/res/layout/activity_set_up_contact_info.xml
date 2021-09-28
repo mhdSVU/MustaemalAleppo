@@ -27,7 +27,7 @@
                 android:layout_marginBottom="10dp"
                 android:elevation="7dp"
                 android:visibility="visible"
-                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardBackgroundColor="#D8E6D8"
                 app:cardCornerRadius="20dp"
 
 
@@ -39,13 +39,13 @@
                     android:layout_marginTop="40dp"
                     android:orientation="vertical"
 
-                    android:padding="16dp">
+                    android:padding="8dp">
 
                     <TextView
                         android:id="@+id/tv_userPhoneNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
+                        android:textColor="@android:color/black"
                         android:layout_gravity="center_horizontal"
                         android:background="@color/transparent"
                         android:textSize="24sp"
@@ -53,7 +53,7 @@
                         tools:text="+998359911"
                         android:textDirection="locale"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="24dp"
                         />
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -79,11 +79,8 @@
                             android:maxLines="1"
                             android:padding="10dp"
                             android:hint="@string/hint_user_name_contact_info"
+                            android:textColor="@color/colorPrimary"/>
 
-
-
-
-                            />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,12 +91,12 @@
                         app:boxBackgroundMode="none"
                         app:counterEnabled="true"
                         app:counterMaxLength="50"
+                        app:hintTextAppearance="@style/hintStyle"
                         app:counterOverflowTextAppearance="@style/TextAppearance.Design.Counter.Overflow"
-                        app:hintTextAppearance="@style/hintStyle">
+                        >
 
 
                         <com.google.android.material.textfield.TextInputEditText
-
 
                             android:id="@+id/editText_email"
                             android:layout_width="match_parent"
@@ -109,6 +106,7 @@
                             android:maxLength="50"
                             android:maxLines="1"
                             android:hint="@string/hint_user_email_contact_info"
+                            android:textColor="@color/colorPrimary"
                             android:padding="10dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -121,7 +119,7 @@
                         android:layout_marginBottom="8dp"
                         android:padding="8dp"
                         android:text="@string/label_loc_default"
-                        android:textColor="@color/white"
+                        android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -166,29 +164,33 @@
 
 
                         </LinearLayout><!---->
+
                         <Button
                             android:id="@+id/btn_update_my_location"
-
-                            android:layout_width="100dp"
+                            android:layout_width="120dp"
                             android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="18dp"
 
-                            android:layout_margin="8dp"
-                            android:background="@drawable/background_button"
-                            android:drawableStart="@drawable/ic_location"
+                            android:background="@drawable/background_button_location"
+                            android:drawableLeft="@drawable/ic_baseline_edit_location_24_white"
                             android:elevation="8dp"
-
-                            android:gravity="center_horizontal|center_vertical"
                             android:insetLeft="0dp"
                             android:insetTop="0dp"
                             android:insetRight="0dp"
-
                             android:insetBottom="0dp"
                             android:padding="4dp"
-                            android:text="@string/btn_confirm_update_location"
-                            android:textColor="@color/colorPrimary"
 
+                            android:paddingStart="8dp"
+                            android:paddingEnd="14dp"
+                            android:text="@string/title_update"
+                            android:textAlignment="textEnd"
+                            android:textColor="@android:color/white"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:backgroundTint="@color/colorPrimary"
+
+                            />
                     </LinearLayout>
 
 
@@ -210,8 +212,8 @@
                             android:layout_height="50dp"
                             android:layout_weight="1.0"
                             android:text="@string/ignore"
-                            android:theme="@style/ThemeOverlay.MyDarkButton"
                             android:layout_marginEnd="8dp"
+                            app:backgroundTint="@color/colorPrimary"
 
                             />
 
@@ -223,7 +225,9 @@
                             android:layout_weight="1.0"
                             android:text="@string/btn_save"
                             android:layout_marginEnd="8dp"
-                            android:theme="@style/ThemeOverlay.MyDarkButton" />
+                            app:backgroundTint="@color/colorPrimary"
+
+                            />
 
 
                     </LinearLayout>

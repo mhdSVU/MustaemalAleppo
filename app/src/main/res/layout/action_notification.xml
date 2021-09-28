@@ -18,10 +18,11 @@
     <TextView
         android:id="@+id/tv_notifications_count"
         android:layout_width="32dp"
-        android:layout_height="18dp"
+        android:layout_height="20dp"
         android:layout_gravity="end|top"
         android:layout_marginStart="18dp"
         android:layout_marginTop="3dp"
+        android:maxWidth="32dp"
         tools:text="5+"
         android:visibility="invisible"
         android:paddingBottom="2dp"

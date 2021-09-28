@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -65,7 +64,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 import mohammedyouser.com.mustaemalaleppo.Data.ViewHolder_Item_Display_Edit;
@@ -148,14 +146,13 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()), this);
 
         setContentView(R.layout.activity_display_modify_remove_item);
 
         doMainInitializations();
 
     }
-
 
 
     private DatabaseReference reactToIntent(Bundle bundle) {
@@ -432,7 +429,8 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                     if (dataSnapshot.child(PATH_ITEM_IMAGE).getValue() != null) {
                         Uri uri_itemImg = Uri.parse((String) dataSnapshot.child(PATH_ITEM_IMAGE).getValue());
                         Glide.with(getBaseContext())
-                                .load(uri_itemImg).into(img_btn_itemImage);
+                                .load(uri_itemImg).override(img_btn_itemImage.getWidth())
+                                .into(img_btn_itemImage);
                     }
 
                 }
@@ -896,26 +894,96 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                     checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
             ) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION_ITEM_CLICK_IMG);
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION_ITEM_OPEN_IMG);
             } else {
                 upload_itemImg_and_data();
             }
+        } else {
+            upload_itemImg_and_data();
+
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_READ_PERMISSION_ITEM_MODIFY &&
+        switch (requestCode) {
+            case REQUEST_READ_PERMISSION_ITEM_MODIFY: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("perms", "perms granted");
+                    
+                    upload_itemImg_and_data();
+
+                } else {
+                    Log.d("perms", "perms denied");
+                    Toast.makeText(this, "Permissions Needed!", Toast.LENGTH_SHORT).show();
+
+
+                }
+            }
+            break;
+            case REQUEST_READ_PERMISSION_ITEM_OPEN_IMG: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("perms", "perms granted");
+
+                    openItemImage(item_DB_Ref);
+
+                } else {
+                    Log.d("perms", "perms denied");
+                                       Toast.makeText(this, "Permissions Needed!", Toast.LENGTH_SHORT).show();
+
+
+
+                }
+            }
+            break;
+            case REQUEST_READ_PERMISSION_ITEM_SHARE: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("perms", "perms granted");
+
+                    shareItemImage(get_Item_Description_for_Share(itemState));
+
+
+                } else {
+                    Log.d("perms", "perms denied");
+                                       Toast.makeText(this, "Permissions Needed!", Toast.LENGTH_SHORT).show();
+
+
+
+                }
+            }
+            break;
+            case REQUEST_LOCATION: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("perms", "perms granted");
+                    showItemOnMap();
+
+                } else {
+                    Log.d("perms", "perms denied");
+                                       Toast.makeText(this, "Permissions Needed!", Toast.LENGTH_SHORT).show();
+
+
+
+                }
+            }
+            break;
+        }
+   /*     if (requestCode == REQUEST_READ_PERMISSION_ITEM_MODIFY &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                 grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             Log.d("perms", "perms granted");
+
             upload_itemImg_and_data();
 
-        } else if (requestCode == REQUEST_READ_PERMISSION_ITEM_CLICK_IMG &&
+        } else if (requestCode == REQUEST_READ_PERMISSION_ITEM_OPEN_IMG &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                 grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             Log.d("perms", "perms granted");
+
             openItemImage(item_DB_Ref);
 
         } else if (requestCode == REQUEST_READ_PERMISSION_ITEM_SHARE &&
@@ -939,7 +1007,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
             Toast.makeText(this, "Location permission needed!", Toast.LENGTH_SHORT).show();
 
-        }
+        }*/
        /* else {
             Log.d("perms", "perms not granted");
 
@@ -1608,6 +1676,9 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                 openItemImage(item_DB_Ref);
 
             }
+        } else {
+            openItemImage(item_DB_Ref);
+
         }
     }
 
@@ -1623,6 +1694,9 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                 showItemOnMap();
 
             }
+        } else {
+            showItemOnMap();
+
         }
     }
 
@@ -1636,6 +1710,9 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
             } else {
                 shareItemImage(get_Item_Description_for_Share(itemState));
             }
+        } else {
+            shareItemImage(get_Item_Description_for_Share(itemState));
+
         }
     }
 
@@ -1904,7 +1981,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     public boolean is_IHAVE_State() {
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(INTENT_KEY__STATE)) {
-            return Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE),INTENT_VALUE__STATE_IHAVE);
+            return Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_IHAVE);
         }
 
         return true;

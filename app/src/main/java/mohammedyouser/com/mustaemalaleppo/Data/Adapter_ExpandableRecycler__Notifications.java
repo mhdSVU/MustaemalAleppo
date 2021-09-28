@@ -85,7 +85,7 @@ public class Adapter_ExpandableRecycler__Notifications extends
 
     @Override
     public ViewHolder_Child onCreateChildViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_child, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_child_notification, parent, false);
         return new ViewHolder_Child(view);
     }
 
@@ -137,7 +137,9 @@ public class Adapter_ExpandableRecycler__Notifications extends
     private void set_Notification_Image(ViewHolder_Child viewHolderChild, Notification notification) {
 
         if (notification.getmImgURL() != null) {
-            setImage_circle(mContext, Uri.parse(notification.getmImgURL()), 0.3f, viewHolderChild.m_imgView_userImage);
+           // setImage_circle(mContext, Uri.parse(notification.getmImgURL()), 0.3f, viewHolderChild.m_imgView_userImage);
+           setImage_circle(mContext, Uri.parse(notification.getmImgURL()), 0.3f, viewHolderChild.m_imgView_itemImage);
+            setImage_circle(mContext, Uri.parse(notification.getmImgURL()), 0.3f, viewHolderChild.m_imgView_userImage_2);
 
         }
     }

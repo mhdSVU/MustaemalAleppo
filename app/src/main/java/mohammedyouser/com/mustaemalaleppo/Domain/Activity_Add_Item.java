@@ -805,26 +805,26 @@ if (!enabled) {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult:entered " + uri_itemImg);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
 
+        //Crop Case
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            CropImage.ActivityResult result = CropImage.getActivityResult(intent);
             if (resultCode == RESULT_OK) {
                 uri_itemImg = result.getUri();
-                Log.d(TAG, "onActivityResult: uri is : " + uri_itemImg);
-                //   setItemImage(uri_itemImage);
                 setItemImage(this, uri_itemImg, 1, img_btn_itemImage);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            }
+            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
                 Log.d(TAG, "onActivityResult:Error  uri" + uri_itemImg);
 
                 error.printStackTrace();
             }
         }
-        if (resultCode == Activity.RESULT_OK) {
+       //GPS Case
             if (requestCode == GPS_REQUEST) {
+                if (resultCode == Activity.RESULT_OK) {
                 isGPS = true; // flag maintain before get location
             }
         }
@@ -951,6 +951,10 @@ if (!enabled) {
             } else {
                 upload_itemImg_and_data(state);
             }
+        }
+        else {
+            upload_itemImg_and_data(state);
+
         }
     }
 

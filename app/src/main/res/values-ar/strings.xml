@@ -42,7 +42,7 @@
     <string name="action_sort_by_title">ترتيب حسب الاسم</string>
     <string name="action_sort_by_date">ترتيب حسب التاريخ</string>
     <!--titles-->
-    <string name="title_set_up_contact_info">تعديل معلومات حسابك</string>
+    <string name="title_set_up_contact_info">حسابي</string>
     <string name="title_tap_0">مطلوب</string>
     <string name="title_tap_1">يوجد</string>
     <string name="title_ineed">مطلوب</string>
@@ -51,6 +51,7 @@
     <string name="title_fragment_VPN_alert">يلزم كاسر بروكسي </string>
     <string name="title_fragment_add_alert">يرجى إرسال أشعار كلما:</string>
     <string name="title_subscribe">إنشاء منبه مخصص</string>
+    <string name="title_update">تغيير</string>
 
 
     <string name="title_activity_my_items">عناصري المضافة</string>
@@ -163,6 +164,7 @@
     <string name = "add_alert_state_ineed"> شخص ما في حاجة إلى عنصر </string>
     <string name = "add_alert_state_ihave"> شخص ما لديه عنصر </string>
     <string name = "title_nav_my_notifications"> إشعاراتي </string>
+    <string name="title_user_favorites">المفضلة</string>
     <string name = "title_nav_my_subscriptions"> اشتراكاتي </string>
     <string name = "title_nav_add_alert"> إضافة تنبيه </string>
 
@@ -216,7 +218,7 @@
     <string name = "message_error_sign_out"> تعذر تسجيل الخروج. الرجاء التحقق من الشبكة و / أو كاسر البروكسي </string>
     <string name = "message_info_loc_updated"> تم تحديث الموقع! </string>
     <string name = "symbol_syrian_pound">"%1$s ل.س. "</string>
-    <string name = "symbol_syrian_pound_2">" ل.س. "</string>
+    <string name = "syrian_pound">" ل.س. "</string>
 
     <string name = "add_alert_as_following"> على النحو التالي: </string>
     <string name = "label_verification_status"> حالة التحقق: </string>
@@ -356,7 +358,7 @@
     <string name="time_ago_yesterday">أمس</string>
     <string name="time_ago_days"> منذ %1$d  يوم</string>
     <string name="new_line">\n</string>
-    <string name="label_item_img_modify">انقر لتبديل الصورة</string>
+    <string name="label_item_img_modify">تبديل الصورة</string>
     <string name="message_ifo_add_alert_added">تم إنشاء التنبيه المخصص</string>
     <string name="hint_max_price">الحد الأعلى للسعر</string>
     <string name="hint_min_price">الحد الأدنى للسعر</string>

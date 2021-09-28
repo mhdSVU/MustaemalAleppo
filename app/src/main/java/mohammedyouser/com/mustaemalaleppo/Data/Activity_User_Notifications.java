@@ -54,6 +54,8 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
     private String mNotificationDateTime;
     private String mNotificationUserName;
     private String mNotificationUserImage;
+    private String mNotificationUserImage_2;
+    private String mNotificationItemImage;
     private Notification mNotification;
     private TextView m_tv_label_notifications_ihave;
     private TextView m_tv_label_notifications_ineed;
@@ -144,7 +146,6 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
 
 
     }
-
 
 
     private void create_userID_notifications_list(String itemState) {
@@ -334,6 +335,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
                                                                         mNotificationDateTime = String.valueOf(snapshot_item.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue());
                                                                         mNotificationUserName = String.valueOf(snapshot_item.child(PATH_ITEM_USER_NAME).getValue());
                                                                         mNotificationUserImage = String.valueOf(snapshot_userItem.child(PATH_USER_IMAGE).getValue());
+                                                                        mNotificationItemImage = String.valueOf(snapshot_userItem.child(PATH_ITEM_IMAGE).getValue());
 
                                                                         Log.d(TAG, "onDataChange:1     mNotificationTitle,\n" +
                                                                                 "                                                topicKey,\n" +
@@ -359,7 +361,12 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
                                                                 topicKey,
                                                                 String.valueOf(snapshot_item.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue()),
                                                                 String.valueOf(snapshot_item.child(PATH_ITEM_USER_NAME).getValue()),
-                                                                String.valueOf(mNotificationUserImage));
+                                                                String.valueOf(mNotificationUserImage),
+                                                                String.valueOf(mNotificationUserImage_2),
+                                                                String.valueOf(mNotificationItemImage)
+
+
+                                                        );
 
                                                         notificationList.add(mNotification);
 
@@ -376,7 +383,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
 
                                     String[] topicCityCat_ = topicKey.split(getString(R.string.underScore));
 
-                                    notificationTopicList.add(new NotificationTopic(getCategory_locale(topicCityCat_[3] )+ getString(R.string.in) + getCity_locale(topicCityCat_[2]), notificationList));
+                                    notificationTopicList.add(new NotificationTopic(getCategory_locale(topicCityCat_[3]) + getString(R.string.in) + getCity_locale(topicCityCat_[2]), notificationList));
 
                                     if (itemState.equals(PATH_INEED)) {
                                         Adapter_ExpandableRecycler__Notifications adapter_ineed = new Adapter_ExpandableRecycler__Notifications(itemState, notificationList, notificationTopicList, Activity_User_Notifications.this, m_tv_label_notifications_ihave, m_tv_label_notifications_ineed, m_tv_no_content);
@@ -467,16 +474,17 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
     private String getCategory_locale(String category) {
 
         for (int i = 0; i < categoriesData.length; i++) {
-            if(categoriesData[i].equals(category))
+            if (categoriesData[i].equals(category))
                 return categoriesLocale[i];
         }
 
         return "";
     }
+
     private String getCity_locale(String city) {
 
         for (int i = 0; i < citiesData.length; i++) {
-            if(citiesData[i].equals(city))
+            if (citiesData[i].equals(city))
                 return citiesLocale[i];
         }
 
