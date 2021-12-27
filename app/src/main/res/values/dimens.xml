@@ -19,10 +19,11 @@
     <dimen name="height_searchCriteria">20dp</dimen>
     <dimen name="padding_bottom_nav_header_card">5dp</dimen>
     <dimen name="padding_top_nav_header_card">20dp</dimen>
-    <dimen name="margin_top_nav_header_card">31dp</dimen>
+    <dimen name="margin_top_nav_header_card">30dp</dimen>
     <dimen name="size_logo">24sp</dimen>
     <dimen name="size_logo_title">16sp</dimen>
 
+    git remote set-url origin "https://mhdSVU@github.com/mhdSVU/MustaemalAleppo.git"
 
 
 </resources>
