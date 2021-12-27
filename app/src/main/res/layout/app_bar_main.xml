@@ -45,7 +45,7 @@
                     android:fontFamily="@font/font__logo"
                     android:text="@string/my_app_name"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/size_logo_title"
 
                     android:textStyle="bold" />
             </LinearLayout>

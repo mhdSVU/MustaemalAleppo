@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -26,9 +27,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -126,6 +129,7 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
     private TextView m_tv_privacy;
 
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,12 +154,13 @@ public class Activity_Sign_Up_Phone_Number extends AppCompatActivity implements 
         m_tv_terms = findViewById(R.id.tv_terms);
         m_tv_and = findViewById(R.id.tv_and);
         m_tv_privacy = findViewById(R.id.tv_privacy);
-
-        terms = Html.fromHtml("<a href=\"https://drive.google.com/file/d/1xd4bnCruesMuj73Wfh91Tf06rEkLGb8B/view?usp=sharing\">"+getString(R.string.terms)+"</a>");
-        privacy = Html.fromHtml("<a href=\"https://drive.google.com/file/d/1qg7K8LFaEBYtKX6MFf-WKJbgEnsWRMDf/view?usp=sharing\">"+getString(R.string.privacy)+"</a>");
+        terms = Html.fromHtml("<font color=\"#4BAC6B\"><a href=\"https://drive.google.com/file/d/1xd4bnCruesMuj73Wfh91Tf06rEkLGb8B/view?usp=sharing\">"+getString(R.string.terms)+"</a></font>");
+        privacy = Html.fromHtml("<font color=\"#4BAC6B\"><a href=\"https://drive.google.com/file/d/1qg7K8LFaEBYtKX6MFf-WKJbgEnsWRMDf/view?usp=sharing\">"+getString(R.string.privacy)+"</a></font>");
 
         m_tv_terms.setText(terms);
         m_tv_privacy.setText(privacy);
+
+
 
         m_tv_terms.setMovementMethod(LinkMovementMethod.getInstance());
         m_tv_privacy.setMovementMethod(LinkMovementMethod.getInstance());

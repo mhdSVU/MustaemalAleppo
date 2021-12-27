@@ -16,7 +16,7 @@
         android:id="@+id/toolBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/green1"
+        android:background="@color/colorPrimaryDark"
         android:gravity="start"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintBottom_toTopOf="@id/ns_scroll"

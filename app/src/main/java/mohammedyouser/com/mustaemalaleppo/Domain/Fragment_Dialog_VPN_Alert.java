@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.BUNDLE_KEY_DOWNLOAD_VPN;
@@ -32,7 +34,7 @@ public class Fragment_Dialog_VPN_Alert extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getActivity())
+        return new MaterialAlertDialogBuilder(getActivity(), R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(getString(R.string.title_fragment_VPN_alert))
                 .setMessage(getString(R.string.message_info_fragment_VPN_alert))
@@ -41,7 +43,8 @@ public class Fragment_Dialog_VPN_Alert extends DialogFragment {
                     result.putBoolean(BUNDLE_KEY_DOWNLOAD_VPN, true);
                     // The child fragment needs to still set the result on its parent fragment manager
                     getParentFragmentManager().setFragmentResult(REQUEST_KEY_DOWNLOAD_VPN, result);
-                    downloadVPN();})
+                    downloadVPN();
+                })
                 .setNegativeButton(getString(R.string.Download_VPN_NO), (dialog, which) -> {
                     Bundle result = new Bundle();
                     result.putBoolean(BUNDLE_KEY_DOWNLOAD_VPN, false);
@@ -54,7 +57,7 @@ public class Fragment_Dialog_VPN_Alert extends DialogFragment {
     }
 
     private void downloadVPN() {
-        Intent downloadVPNIntent =new Intent();
+        Intent downloadVPNIntent = new Intent();
         downloadVPNIntent.setAction(Intent.ACTION_VIEW);
         downloadVPNIntent.setData(Uri.parse(getActivity().getString(R.string.default_val_vpn_android_link)));
         getActivity().startActivity(downloadVPNIntent);

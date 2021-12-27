@@ -54,7 +54,6 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
     private String mNotificationDateTime;
     private String mNotificationUserName;
     private String mNotificationUserImage;
-    private String mNotificationUserImage_2;
     private String mNotificationItemImage;
     private Notification mNotification;
     private TextView m_tv_label_notifications_ihave;
@@ -157,6 +156,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
                     public void onDataChange(@NonNull DataSnapshot snapshot_userID_tokens) {
                         for (DataSnapshot snapshot_userID_token : snapshot_userID_tokens.getChildren()) {
 
+                           if(snapshot_userID_token.getKey().equals("bgfdbgdfgbfd")) {}
                             db_root_tokens_notifications.child(snapshot_userID_token.getKey()).child(itemState)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -181,6 +181,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
                                                                                 // db_root_userIDs_notifications.child(userID).child(itemState).child(snapshot_notification_topic.getKey())
                                                                                 .child(snapshot_notificationID.getKey()).runTransaction(new Transaction.Handler() {
                                                                             @NonNull
+
                                                                             @Override
                                                                             public Transaction.Result doTransaction(@NonNull MutableData currentData) {
                                                                                 if (currentData.getValue() == null) {
@@ -335,7 +336,25 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
                                                                         mNotificationDateTime = String.valueOf(snapshot_item.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue());
                                                                         mNotificationUserName = String.valueOf(snapshot_item.child(PATH_ITEM_USER_NAME).getValue());
                                                                         mNotificationUserImage = String.valueOf(snapshot_userItem.child(PATH_USER_IMAGE).getValue());
-                                                                        mNotificationItemImage = String.valueOf(snapshot_userItem.child(PATH_ITEM_IMAGE).getValue());
+                                                                        mNotificationItemImage = String.valueOf(snapshot_item.child(PATH_ITEM_IMAGE).getValue());
+
+                                                                        mNotification = new Notification(itemState, topicCityCat_[3],
+                                                                                topicCityCat_[2],
+                                                                                notificationKey,
+                                                                                notificationValue,
+                                                                                String.valueOf(snapshot_item.child(PATH_ITEM_TITLE).getValue()),
+                                                                                topicKey,
+                                                                                String.valueOf(snapshot_item.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue()),
+                                                                                String.valueOf(snapshot_item.child(PATH_ITEM_USER_NAME).getValue()),
+                                                                                String.valueOf(mNotificationItemImage),
+                                                                                String.valueOf(mNotificationUserImage)
+
+
+
+                                                                        );
+
+                                                                        notificationList.add(mNotification);
+
 
                                                                         Log.d(TAG, "onDataChange:1     mNotificationTitle,\n" +
                                                                                 "                                                topicKey,\n" +
@@ -353,22 +372,7 @@ public class Activity_User_Notifications extends AppCompatActivity implements Vi
 
                                                                     }
                                                                 });
-                                                        mNotification = new Notification(itemState, topicCityCat_[3],
-                                                                topicCityCat_[2],
-                                                                notificationKey,
-                                                                notificationValue,
-                                                                String.valueOf(snapshot_item.child(PATH_ITEM_TITLE).getValue()),
-                                                                topicKey,
-                                                                String.valueOf(snapshot_item.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue()),
-                                                                String.valueOf(snapshot_item.child(PATH_ITEM_USER_NAME).getValue()),
-                                                                String.valueOf(mNotificationUserImage),
-                                                                String.valueOf(mNotificationUserImage_2),
-                                                                String.valueOf(mNotificationItemImage)
 
-
-                                                        );
-
-                                                        notificationList.add(mNotification);
 
 
                                                     }

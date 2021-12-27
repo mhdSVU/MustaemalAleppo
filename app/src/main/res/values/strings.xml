@@ -324,12 +324,12 @@
     <string name="title_nav_rate_app">Rate App</string>
     <string name="title_nav_contact_us">Contact Us</string>
     <string name="message_error_rate_app">Sorry! Rating app is unavailable right now!</string>
-    <string name="developer_name">" Eng.Mohammed Youser Sawwas"</string>
+    <string name="developer_name">" Eng.Mohammed Youser Jamal Sawwas"</string>
     <string name="tv_all_rights">All Rights Reserved for:</string>
     <string name="app_version">Version 1.1 Beta</string>
-    <string name="developer_info" translatable="false">Software Engineer - Android Developer\n mohammedyousersawwas@gmail.com\n(+963) 998359911</string>
-    <string name="add_alert_in">In City:</string>
-    <string name="add_alert_of">Of Category:</string>
+    <string name="developer_info" translatable="false">Software Engineer - Mobile Apps Developer</string>
+    <string name="add_alert_in_city">In City:</string>
+    <string name="add_alert_of_category">Of Category:</string>
     <string name="add_alert_less_than">Equal or less than:</string>
     <string name="add_alert_with_price">With Price:</string>
     <string name="add_alert_not_less_than">Equal or more than:</string>
@@ -342,7 +342,7 @@
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
     <string name="title_network_con_not_found">No Network Connection Found!</string>
-    <string name="title_email_to_item_user">From Ineed Ihave App: As to the item %s\n</string>
+    <string name="title_email_to_item_user">From Ineed Ihave App: As to the item \n</string>
     <string name="title_nav_language_en" translatable="false">Use English</string>
     <string name="title_nav_language_ar" translatable="false">استخدم العربية</string>
     <string name="and">and</string>
@@ -370,6 +370,8 @@
     <string name="hint_max_distance">Max Distance in km</string>
     <string name="title_user_favorites">My Favorites</string>
     <string name="title_update">UPDATE</string>
+    <string name="splash_thanks_1">This is a present for:</string>
+    <string name="splash_thanks_2">My Father: Prof.Jamal Sawwas</string>
 
 
 </resources>

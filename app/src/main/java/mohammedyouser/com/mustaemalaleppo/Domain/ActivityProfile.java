@@ -68,7 +68,7 @@ import mohammedyouser.com.mustaemalaleppo.UI.SessionManager;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.*;
 
 
-public class Activity_SetupContactInfo extends AppCompatActivity implements View.OnClickListener {
+public class ActivityProfile extends AppCompatActivity implements View.OnClickListener {
 
     private EditText mNameField;
     private EditText mEmailField;
@@ -109,7 +109,7 @@ public class Activity_SetupContactInfo extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
 
-        setContentView(R.layout.activity_set_up_contact_info);
+        setContentView(R.layout.activity_profile);
         sessionManager = new SessionManager(this, "uriSession");
 
 
@@ -468,7 +468,7 @@ public class Activity_SetupContactInfo extends AppCompatActivity implements View
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 super.onLocationResult(locationResult);
-                LocationServices.getFusedLocationProviderClient(Activity_SetupContactInfo.this).removeLocationUpdates(this);
+                LocationServices.getFusedLocationProviderClient(ActivityProfile.this).removeLocationUpdates(this);
                 if (locationResult == null || locationResult.getLocations().size() == 0) {
                     return;
                 }
@@ -477,12 +477,12 @@ public class Activity_SetupContactInfo extends AppCompatActivity implements View
                     LatLng sydney = new LatLng(-34, 151);
                     if (location != null) {
 
-                        Activity_SetupContactInfo.GeoCoderHandler m_geocoderHandler = new Activity_SetupContactInfo.GeoCoderHandler();
+                        ActivityProfile.GeoCoderHandler m_geocoderHandler = new ActivityProfile.GeoCoderHandler();
                         getAddressFromLocation_GeoCoderProcessor(locationResult.getLocations().get(latestLocationIndex), getBaseContext(), m_geocoderHandler);
                         store_UserLocation_To_DB(new LatLng(locationResult.getLocations().get(latestLocationIndex).getLatitude(),
 
                                 locationResult.getLocations().get(latestLocationIndex).getLongitude()), userID);
-                        Toast.makeText(Activity_SetupContactInfo.this, "Location Updated!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityProfile.this, "Location Updated!", Toast.LENGTH_SHORT).show();
 
 
                     }
@@ -644,7 +644,7 @@ if (!enabled) {
                 } else {
                     Log.d("perms", "perms not granted");
 
-                    Toast.makeText(Activity_SetupContactInfo.this, getString(R.string.message_info_permission_declined), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityProfile.this, getString(R.string.message_info_permission_declined), Toast.LENGTH_SHORT).show();
 
                 }
                 break;
@@ -657,7 +657,7 @@ if (!enabled) {
                 } else {
                     Log.d("perms_location", "perms not granted");
 
-                    Toast.makeText(Activity_SetupContactInfo.this, getString(R.string.message_info_permission_declined), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityProfile.this, getString(R.string.message_info_permission_declined), Toast.LENGTH_SHORT).show();
 
 
                 }

@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -35,7 +37,7 @@ public class Fragment_Dialog_Forget_Me extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getActivity())
+        return new MaterialAlertDialogBuilder(getActivity(), R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(getString(R.string.title_fragment_forget_me))
                 .setMessage(getString(R.string.message_info_fragment_forget_me))

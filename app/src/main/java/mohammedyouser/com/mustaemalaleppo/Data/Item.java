@@ -48,7 +48,9 @@ public class Item {
 
     }
 
-    public Item(String itemTitle, String itemPrice, String itemCategory, String itemCountry, String itemCity, String itemDateandTime, String itemImage, String itemDetails, String userImage, String userName, int price_evaluations_high, int price_evaluations_appropriate, int price_evaluations_low, String userID) {
+    public Item(String itemTitle, String itemPrice, String itemCategory, String itemCountry, String itemCity, String itemDateandTime, String itemImage, String itemDetails,
+                String userImage, String userName, int price_evaluations_high,
+                int price_evaluations_appropriate, int price_evaluations_low, String userID) {
         this.itemTitle = itemTitle;
         this.itemPrice = itemPrice;
         this.itemCategory = itemCategory;

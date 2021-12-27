@@ -1,11 +1,5 @@
 package mohammedyouser.com.mustaemalaleppo.UI;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -16,6 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.hbb20.CountryCodePicker;
@@ -33,6 +34,8 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
     private CountryCodePicker m_cpp;
 
     private DatabaseReference db_root_users;
+    private FirebaseAuth auth;
+
     private final Uri uri_user_img = null;
 
     private Fragment_Reset_Password_Verify_Phone_Number fragment_phone_number_verify;
@@ -43,7 +46,7 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()),this);
+        adjustLanguage(LocaleHelper.getLocale(this, Resources.getSystem().getConfiguration().locale.getLanguage()), this);
         setContentView(R.layout.activity__forget__password__enter__number);
 
         m_et_phoneNumber = findViewById(R.id.et_phoneNumber);
@@ -71,8 +74,9 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
 
         Fragment_Dialog_VPN_Alert fragmentDialogVPNAlert = new Fragment_Dialog_VPN_Alert();
         fragmentDialogVPNAlert.show(getFragmentManager(), "VPN_Alert_Fragment");*/
-        showDialogFragment(new Fragment_Dialog_VPN_Alert(),"frg_vpn");
+        showDialogFragment(new Fragment_Dialog_VPN_Alert(), "frg_vpn");
     }
+
     public void showDialogFragment(DialogFragment newFragment, String tag) {
         // DialogFragment.show() will take care of adding the fragment
         // in a transaction. We also want to remove any currently showing
@@ -110,6 +114,8 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
         db_root = FirebaseDatabase.getInstance().getReference();
         db_root_users = db_root.child(PATH_USERS);
         db_root_users.keepSynced(true);
+        auth = FirebaseAuth.getInstance();
+
     }
 
 
@@ -128,6 +134,7 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
 
     private boolean validateInput_UserAccountInfo() {
 
+
         return checkError(m_et_phoneNumber);
     }
 
@@ -141,6 +148,13 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
             validationState = false;
 
         }
+      /*  if (auth.hasUserWithPhoneNumber(getFinalPhoneNumber())) {
+            ((EditText) view).setError(getString(R.string.message_error_no_user_exists));
+            view.requestFocus();
+
+            validationState = false;
+
+        }*/
 
         return validationState;
     }
@@ -185,7 +199,6 @@ public class Activity_ForgetPassword_Enter_Number extends AppCompatActivity impl
     private void startSignInActivity() {
         startActivity(new Intent(this, Activity_Sign_In_Phone_Number.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
-
 
 
 }

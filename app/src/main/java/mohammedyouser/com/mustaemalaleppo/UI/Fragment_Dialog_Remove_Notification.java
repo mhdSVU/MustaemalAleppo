@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -91,7 +92,7 @@ public class Fragment_Dialog_Remove_Notification extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
 
-        return new AlertDialog.Builder(getContext())
+        return new MaterialAlertDialogBuilder(getActivity(), R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
                 .setTitle(getResources().getString(R.string.title_fragment_delete_notification))
                 .setMessage(R.string.messag_info_fragment_notification_delete)
                 .setPositiveButton(R.string.btn_delete, (dialog, id) ->

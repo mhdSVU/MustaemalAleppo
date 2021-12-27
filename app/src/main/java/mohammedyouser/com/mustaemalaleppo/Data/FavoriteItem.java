@@ -15,10 +15,11 @@ public class FavoriteItem implements Parcelable {
     private String mTopic = "";
     private String mDateTime = "";
     private String mUserName;
-    private String mImgURL = "";
+    private String mImgURL_item = "";
+    private String mImgURL_user = "";
 
-
-    public FavoriteItem(String mState, String mCategory, String mCity, String ID, String mValue, String mTitle, String mTopic, String mDateTime, String mUserName, String mImgURL) {
+    public FavoriteItem(String mState, String mCategory, String mCity, String ID, String mValue, String mTitle, String mTopic,
+                        String mDateTime, String mUserName, String mImgURL_item, String mImgURL_user) {
         this.mState = mState;
         this.mCategory = mCategory;
         this.mCity = mCity;
@@ -27,10 +28,10 @@ public class FavoriteItem implements Parcelable {
         this.mTitle = mTitle;
         this.mTopic = mTopic;
         this.mDateTime = mDateTime;
-        this.mImgURL = mImgURL;
         this.mUserName = mUserName;
+        this.mImgURL_item = mImgURL_item;
+        this.mImgURL_user = mImgURL_user;
     }
-
 
     public void setmValue(String mValue) {
         this.mValue = mValue;
@@ -75,15 +76,6 @@ public class FavoriteItem implements Parcelable {
 
     public static Creator<FavoriteItem> getCREATOR() {
         return CREATOR;
-    }
-
-
-    public String getmImgURL() {
-        return mImgURL;
-    }
-
-    public void setmImgURL(String mImgURL) {
-        this.mImgURL = mImgURL;
     }
 
 
@@ -151,5 +143,23 @@ public class FavoriteItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(mTitle);
+    }
+
+
+    public String getmImgURL_item() {
+        return mImgURL_item;
+    }
+
+    public String getmImgURL_user() {
+        return mImgURL_user;
+    }
+
+
+    public void setmImgURL_item(String mImgURL_item) {
+        this.mImgURL_item = mImgURL_item;
+    }
+
+    public void setmImgURL_user(String mImgURL_user) {
+        this.mImgURL_user = mImgURL_user;
     }
 }

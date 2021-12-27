@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import mohammedyouser.com.mustaemalaleppo.R;
 
 /**
@@ -15,7 +17,7 @@ import mohammedyouser.com.mustaemalaleppo.R;
 public class Fragment_Dialog_RemoveItem_Alert extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getActivity())
+        return new MaterialAlertDialogBuilder(getActivity(), R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(getString(R.string.title_fragment_confirm_delete))
                 .setMessage(getString(R.string.message_alert_delete_item))

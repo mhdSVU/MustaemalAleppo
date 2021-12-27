@@ -42,6 +42,13 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:visibility="invisible"
+                android:drawablePadding="12dp"
+                android:padding="12dp"
+                android:background="@android:color/darker_gray"
+                app:drawableStartCompat="@drawable/ic_nav_my_favorites"
+                app:drawableTint="@color/colorPrimary"
+
+
                 app:layout_constraintBottom_toTopOf="@id/recycler_Expand_ihave"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +69,13 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:visibility="invisible"
+
+                android:drawablePadding="12dp"
+                android:padding="12dp"
+                android:background="@android:color/darker_gray"
+                app:drawableStartCompat="@drawable/ic_nav_my_favorites"
+                app:drawableTint="@color/colorPrimary"
+
                 app:layout_constraintBottom_toTopOf="@id/recycler_Expand_ineed"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

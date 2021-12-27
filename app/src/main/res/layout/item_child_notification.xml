@@ -13,16 +13,10 @@
         android:id="@+id/ll_listChild"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#E0E0E0"
-        android:divider="#FFFFFF"
-        android:dividerHeight="2px"
-        android:orientation="horizontal"
-        android:showDividers="middle">
+        android:orientation="horizontal">
 
         <FrameLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/fl_notification_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -30,19 +24,21 @@
 
             <ImageView
                 android:id="@+id/img_notification_item"
+                android:layout_margin="8dp"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/ic_account_circle_white_24dp"
-                app:tint="@color/colorPrimary" />
+                />
 
             <ImageView
                 android:id="@+id/img_notification_user"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_account_circle_white_24dp"
                 android:layout_gravity="end|bottom"
                 android:layout_marginStart="64dp"
-                android:background="@drawable/notification_count"
+                android:background="@drawable/notification_image_user"
                 />
         </FrameLayout>
 

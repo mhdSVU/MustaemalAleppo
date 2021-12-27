@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
 
-   <!-- <style name="AppTheme" parent="Theme.AppCompat.Light">-->
+    <!-- <style name="AppTheme" parent="Theme.AppCompat.Light">-->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
 
         <!-- Customize your theme here. -->
@@ -13,19 +13,28 @@
         <item name="android:textColorPrimary">@android:color/black</item>
         <item name="android:queryHint">@android:color/black</item>
         <item name="actionMenuTextColor">@android:color/black</item>
-
+        <item name="fontWeight">400</item>
 
 
     </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:actionMenuTextColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="fontWeight">400</item>
+
+
+
     </style>
 
     <style name="AppTheme.NoActionBar.NoStatusBar" parent="AppTheme.NoActionBar">
         <item name="android:windowFullscreen">true</item>
+        <item name="fontWeight">400</item>
+
     </style>
 
     <!-- Dark Buttons -->
@@ -43,6 +52,7 @@
         <item name="android:soundEffectsEnabled">true</item>
         <item name="android:animateOnClick">true</item>
     </style>
+
     <style name="ThemeOverlay.MySearchView" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textColor">@android:color/black</item>
         <item name="android:foreground">@android:color/black</item>
@@ -69,26 +79,26 @@
     <style name="MyActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@android:color/white</item>
     </style>
+
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="titleTextStyle">@style/MyActionBarTitle</item>
     </style>
 
 
-    <style name="MyActionBar.MenuTextStyle"
-        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <style name="MyActionBar.MenuTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">25sp</item>
     </style>
 
-    <style name="textStyle_currency"
-        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <style name="textStyle_currency" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@android:color/white</item>
 
 
-    </style>    <style name="textStyle_currency_small"
-        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+    </style>
+
+    <style name="textStyle_currency_small" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@android:color/white</item>
@@ -100,23 +110,48 @@
     <style name="hintStyle" parent="TextAppearance.Design.Hint">
 
 
+        <item name="android:textSize">@dimen/size_hint_m</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_marginBottom">@dimen/margin_bottom_hint</item>
 
-    <item name="android:textSize" >@dimen/size_hint_m</item>
-    <item name="android:textColor" >@android:color/black</item>
-    <item name="android:layout_marginBottom">@dimen/margin_bottom_hint</item>
-
-</style>
+    </style>
 
     <style name="ShapeAppearanceOverlay.MyApp.Button.Circle" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
-<!--
-    style="@style/Widget.MaterialComponents.Button.Icon"
--->
+    <!--
+        style="@style/Widget.MaterialComponents.Button.Icon"
+    -->
     <dimen name="size_hint_m">16sp</dimen>
 
     <style name="Error" parent="TextAppearance.AppCompat">
         <item name="android:paddingEnd">16dp</item>
     </style>
+
+    <!-- Alert Dialog -->
+    <style name="MyThemeOverlay.MaterialComponents.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+
+
+    <style name="PositiveButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="backgroundTint">@color/colorPrimaryDark</item>
+        <item name="android:layout_marginTop">16dp</item>
+
+    </style>
+
+    <style name="NegativeButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="backgroundTint">#DAE3D7</item>
+        <item name="android:layout_marginTop">16dp</item>
+
+    </style>
+
+    <style name="BoldFontStyle">
+        <item name="fontFamily">@font/font__logo</item>
+    </style>
+
 </resources>

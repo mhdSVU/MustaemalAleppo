@@ -6,7 +6,7 @@
   { "name": "Real-Estates", "code": "RE" },
   { "name": "Cars", "code": "CR" },
     { "name": "Mobile-Phones", "code": "MB" },
-    { "name": "Services-Jobs", "code": "MB" },
+    { "name": "Services-Jobs", "code": "JS" },
     { "name": "Clothes", "code": "CL" },
   { "name": "Books", "code": "BK" },
   { "name": "Foods", "code": "FD" },

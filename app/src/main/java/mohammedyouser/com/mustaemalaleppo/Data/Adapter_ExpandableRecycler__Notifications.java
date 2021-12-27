@@ -4,20 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
@@ -33,7 +29,6 @@ import mohammedyouser.com.mustaemalaleppo.Domain.TimeAgo;
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.Fragment_Dialog_Remove_Notification;
 
-import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.BUNDLE_KEY_REMOVE_ALERT;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.BUNDLE_KEY_REMOVE_NOTIFICATION;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_ITEM_ID;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_NOTIFICATION_ID;
@@ -42,12 +37,11 @@ import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstant
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY__STATE;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_VALUE_SOURCE_NOTIFICATION;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_IHAVE;
-import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.REQUEST_KEY_REMOVE_ALERT;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.REQUEST_KEY_REMOVE_NOTIFICATION;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.TAG;
 
 public class Adapter_ExpandableRecycler__Notifications extends
-        ExpandableRecyclerViewAdapter<ViewHolder_Parent, ViewHolder_Child> {
+        ExpandableRecyclerViewAdapter<ViewHolder_Parent, ViewHolder_Child_Notification> {
     private Context mContext;
     private String mItemState;
     private Notification notification;
@@ -74,7 +68,7 @@ public class Adapter_ExpandableRecycler__Notifications extends
 
     @Override
     public ViewHolder_Parent onCreateGroupViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_parent, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_parent_notifications, parent, false);
         return new ViewHolder_Parent(view);
     }
 
@@ -84,13 +78,13 @@ public class Adapter_ExpandableRecycler__Notifications extends
     }
 
     @Override
-    public ViewHolder_Child onCreateChildViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder_Child_Notification onCreateChildViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_child_notification, parent, false);
-        return new ViewHolder_Child(view);
+        return new ViewHolder_Child_Notification(view);
     }
 
     @Override
-    public void onBindChildViewHolder(ViewHolder_Child viewHolderChild, int flatPosition, ExpandableGroup group, int childIndex) {
+    public void onBindChildViewHolder(ViewHolder_Child_Notification viewHolderChild, int flatPosition, ExpandableGroup group, int childIndex) {
 
         final Notification notification = ((NotificationTopic) group).getItems().get(childIndex);
         viewHolderChild.onBind(notification.getmTitle());
@@ -108,7 +102,7 @@ public class Adapter_ExpandableRecycler__Notifications extends
 
     }
 
-    private void set_Notification_BackgroundColor(ViewHolder_Child viewHolderChild, Notification notification) {
+    private void set_Notification_BackgroundColor(ViewHolder_Child_Notification viewHolderChild, Notification notification) {
         if (notification.getmValue() != null) {
             if (notification.getmValue().equals("false")) {
                 viewHolderChild.ll_listChild.setBackgroundColor(mContext.getColor(R.color.grey_300));
@@ -119,7 +113,7 @@ public class Adapter_ExpandableRecycler__Notifications extends
 
     }
 
-    private void set_Notification_Title(ViewHolder_Child viewHolderChild, Notification notification) {
+    private void set_Notification_Title(ViewHolder_Child_Notification viewHolderChild, Notification notification) {
         String notification_title = mContext.getString(
                 R.string.title_notification_place_holders,
                 notification.getmUserName(),
@@ -134,17 +128,18 @@ public class Adapter_ExpandableRecycler__Notifications extends
         }
     }
 
-    private void set_Notification_Image(ViewHolder_Child viewHolderChild, Notification notification) {
+    private void set_Notification_Image(ViewHolder_Child_Notification viewHolderChild, Notification notification) {
 
-        if (notification.getmImgURL() != null) {
+        if (notification.getmImgURL_item() != null) {
            // setImage_circle(mContext, Uri.parse(notification.getmImgURL()), 0.3f, viewHolderChild.m_imgView_userImage);
-           setImage_circle(mContext, Uri.parse(notification.getmImgURL()), 0.3f, viewHolderChild.m_imgView_itemImage);
-            setImage_circle(mContext, Uri.parse(notification.getmImgURL()), 0.3f, viewHolderChild.m_imgView_userImage_2);
+           setImage_circle(mContext, Uri.parse(notification.getmImgURL_item()), 0.3f, viewHolderChild.m_imgView_itemImage);}
+        if (notification.getmImgURL_user() != null) {
+            setImage_circle(mContext, Uri.parse(notification.getmImgURL_user()), 0.3f, viewHolderChild.m_imgView_userImage);
 
         }
     }
 
-    private void set_Notification_TimeAgo(ViewHolder_Child viewHolderChild, Notification notification) {
+    private void set_Notification_TimeAgo(ViewHolder_Child_Notification viewHolderChild, Notification notification) {
 
         if (notification.getmDateTime() != null) {
             if (!notification.getmDateTime().equals("null")) {

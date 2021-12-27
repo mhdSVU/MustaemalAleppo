@@ -84,7 +84,7 @@
     <string name="message_error_phone_number">رقم الجوال غير صالح</string>
     <string name="message_info_item_remove">تم حذف العنصر بنجاح</string>
     <string name="message_error_invalid_code">الكود غير صحيح</string>
-    <string name="message_error_quota_exceeded"> لقد تجاوزت الحد الأعلى المسموح به للمحاولات, بإمكانك المحاولة لاحقا </string>
+    <string name="message_error_quota_exceeded"> أكثرت المحاولات, حاول لاحقا </string>
     <string name="message_error_invalid_number">رقم الجوال غير صالح</string>
     <string name="message_info_item_saved_already">تم حفظ هذا العنصر مسبقا</string>
     <string name="message_info_modified_ok">تم تعديل العنصر بنجاح</string>
@@ -323,8 +323,8 @@
     <string name = "developer_name"> "المهندس محمد يسر سواس" </string>
     <string name = "tv_all_rights"> جميع الحقوق محفوظة لـ: </string>
     <string name = "app_version"> الإصدار 1.1 تجريبي </string>
-    <string name = "add_alert_in"> في المدينة: </string>
-    <string name = "add_alert_of"> من الفئة: </string>
+    <string name = "add_alert_in_city"> في المدينة: </string>
+    <string name = "add_alert_of_category"> من الفئة: </string>
     <string name = "add_alert_less_than"> يساوي أو أقل من: </string>
     <string name = "add_alert_with_price"> بالسعر: </string>
     <string name = "add_alert_not_less_than"> يساوي أو أكثر من: </string>
@@ -363,6 +363,8 @@
     <string name="hint_max_price">الحد الأعلى للسعر</string>
     <string name="hint_min_price">الحد الأدنى للسعر</string>
     <string name="hint_max_distance">المسافة القصوى لبعد العنصر عني بالكيلومتر</string>
+    <string name="splash_thanks_1">الإهداء إلى والدي العزيز:</string>
+    <string name="splash_thanks_2">البروفيسور: الدكتور جمال سواس</string>
 
 
 

@@ -148,7 +148,7 @@ public class Fragment_Reset_Password_Verify_Phone_Number extends DialogFragment 
         setRetainInstance(true);
 
 
-        return inflater.inflate(R.layout.fragment_verify_phone_number_sign_up, container, false);
+        return inflater.inflate(R.layout.fragment_verify_phone_number_reset_password, container, false);
     }
 
     @Override

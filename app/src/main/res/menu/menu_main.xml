@@ -8,7 +8,6 @@
         android:orderInCategory="100"
         android:title="@string/action_sort_by_title"
         app:showAsAction="never"
-        android:actionLayout="@layout/spinner_dropdown_item"
         />
     <item
         android:id="@+id/action_sort_by_price"

@@ -15,12 +15,13 @@ public class Notification implements Parcelable {
     private String mTopic = "";
     private String mDateTime = "";
     private String mUserName;
-    private String mImgURL = "";
     private String mImgURL_item = "";
     private String mImgURL_user = "";
 
 
-    public Notification(String mState, String mCategory, String mCity, String ID, String mValue, String mTitle, String mTopic, String mDateTime,String mUserName,String mImgURL,String mImgURL_item,String mImgURL_user) {
+    public Notification(String mState, String mCategory, String mCity, String ID,
+                        String mValue, String mTitle, String mTopic, String mDateTime,
+                        String mUserName,String mImgURL_item,String mImgURL_user) {
         this.mState = mState;
         this.mCategory = mCategory;
         this.mCity = mCity;
@@ -29,7 +30,6 @@ public class Notification implements Parcelable {
         this.mTitle = mTitle;
         this.mTopic = mTopic;
         this.mDateTime = mDateTime;
-        this.mImgURL = mImgURL;
         this.mImgURL_item = mImgURL_item;
         this.mImgURL_user = mImgURL_user;
         this.mUserName = mUserName;
@@ -80,16 +80,6 @@ public class Notification implements Parcelable {
     public static Creator<Notification> getCREATOR() {
         return CREATOR;
     }
-
-
-    public String getmImgURL() {
-        return mImgURL;
-    }
-
-    public void setmImgURL(String mImgURL) {
-        this.mImgURL = mImgURL;
-    }
-
 
     public void setTopic(String mTopic) {
         this.mTopic = mTopic;
@@ -159,10 +149,6 @@ public class Notification implements Parcelable {
 
     public String getmImgURL_item() {
         return mImgURL_item;
-    }
-
-    public void setmImgURL_item(String mImgURL_item) {
-        this.mImgURL_item = mImgURL_item;
     }
 
     public String getmImgURL_user() {

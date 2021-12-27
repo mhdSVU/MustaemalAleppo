@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -72,7 +73,7 @@ public class Fragment_Dialog_Remove_Alert extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
 
-        return new AlertDialog.Builder(getContext())
+        return new MaterialAlertDialogBuilder(getActivity(), R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
                 .setTitle(getResources().getString(R.string.title_unsubscribe))
                 .setMessage(R.string.title_fragment_remove_alert)
                 .setPositiveButton(R.string.remove_alert, (dialog, id) ->

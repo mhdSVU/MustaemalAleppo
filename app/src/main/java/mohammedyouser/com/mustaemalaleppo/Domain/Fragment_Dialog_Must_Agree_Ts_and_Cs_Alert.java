@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import mohammedyouser.com.mustaemalaleppo.R;
 
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.BUNDLE_KEY_DOWNLOAD_VPN;
@@ -31,7 +33,7 @@ public class Fragment_Dialog_Must_Agree_Ts_and_Cs_Alert extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getActivity())
+        return new MaterialAlertDialogBuilder(getActivity(), R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(getString(R.string.title_fragment_Agree_Ts_and_Cs_alert))
                 .setMessage(getString(R.string.message_info_fragment_agree_ts_and_cs_alert))

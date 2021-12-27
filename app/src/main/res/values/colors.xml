@@ -13,7 +13,7 @@
     <color name="green1" >#11DA1A</color>
     <color name="green_light" >#CCF4CE</color>
     <color name="grey_100">@android:color/darker_gray</color>
-    <color name="grey_300">#e0e0e0</color>
+    <color name="grey_300">@color/white</color>
     <color name="grey_500">#b4b3b3</color>
     <color name="authui_colorPrimaryDark">#FF4081</color>
     <color name="authui_colorAccent">#FF4081</color>
@@ -23,7 +23,7 @@
     <color name="card_display_color">#13bdd7</color>
     <color name="card_add_color">#e9edeb</color>
     <color name="key_color">#ffffff</color>
-    <color name="white">#f9f6f6</color>
+    <color name="white">#F4FDEE</color>
     <color name="add_background_color">#f2f2ed</color>
     <color name="add_key_color">#212322</color>//TODO
     <color name="item_title">#FFa011</color>

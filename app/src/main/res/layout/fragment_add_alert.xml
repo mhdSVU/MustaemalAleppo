@@ -12,15 +12,18 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
         android:orientation="vertical"
+        android:paddingBottom="8dp"
         android:padding="16dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:padding="8dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
-            android:background="@color/transparent"
-            android:textColor="@android:color/black"
+            android:background="#6AC16F"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/white"
             android:text="@string/title_subscribe"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -29,9 +32,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="8dp"
-            android:background="@color/transparent"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@android:color/black"
             android:text="@string/title_fragment_add_alert"
+
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="@string/title_fragment_add_alert" />
@@ -58,62 +61,80 @@
                 android:text="@string/add_alert_state_ineed" />
         </RadioGroup>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal">
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:layout_width="wrap_content"
+       android:layout_height="88dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                android:textSize="16sp"
-                android:text="@string/add_alert_of"
-                android:textStyle="bold" />
+           <TextView
+               android:id="@+id/tv_category"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:layout_marginEnd="8dp"
+               android:textSize="16sp"
+               android:text="@string/add_alert_of_category"
+               android:textStyle="bold"
+               android:textColor="@color/colorPrimaryDark"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+               />
 
-            <Spinner
-                android:id="@+id/spinner_categories2"
-                style="@style/spinnerItemStyle"
-                android:layout_width="160dp"
-                android:layout_height="32dp"
-                android:layout_marginBottom="4dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:background="@drawable/mybg"
-                android:gravity="center_vertical|center_horizontal"
-                android:popupBackground="#ffffff" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_marginEnd="8dp"
-                android:text="@string/add_alert_in"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/spinner_cities2"
-                style="@style/spinnerItemStyle"
-                android:layout_width="160dp"
-                android:layout_height="32dp"
-                android:layout_marginBottom="8dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginStart="40dp"
-                android:background="@drawable/mybg"
-                android:gravity="center_vertical|center_horizontal"
-                android:popupBackground="#ffffff" />
-        </LinearLayout>
+       <Spinner
+           android:id="@+id/spinner_categories2"
+           style="@style/spinnerItemStyle"
+           android:layout_width="160dp"
+           android:layout_height="32dp"
+           android:layout_gravity="center_horizontal|center_vertical"
+           android:gravity="center_vertical|center_horizontal"
+           android:popupBackground="#ffffff"
+           app:layout_constraintBottom_toBottomOf="@+id/tv_category"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toEndOf="@id/tv_category"
 
 
+           app:layout_constraintTop_toTopOf="parent" />
+
+
+       <TextView
+           android:id="@+id/tv_city"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="start"
+           android:text="@string/add_alert_in_city"
+           android:textColor="@color/colorPrimaryDark"
+           android:textSize="16sp"
+           android:textStyle="bold"
+           app:layout_constraintEnd_toStartOf="@id/spinner_cities2"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintTop_toBottomOf="@id/tv_category" />
+
+       <Spinner
+           android:id="@+id/spinner_cities2"
+           style="@style/spinnerItemStyle"
+           android:layout_width="160dp"
+           android:layout_height="32dp"
+           android:gravity="center_vertical|center_horizontal"
+           android:popupBackground="#ffffff"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+
+           app:layout_constraintStart_toStartOf="@id/spinner_categories2"
+           app:layout_constraintTop_toBottomOf="@id/spinner_categories2" />
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_baseline_monetization_on_24"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,7 +148,7 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-
+    </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -155,7 +176,7 @@
 
                 <EditText
                     android:id="@+id/et_max_price"
-                    android:layout_width="120dp"
+                    android:layout_width="134dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
                     android:background="@drawable/background_tv_light"
@@ -185,7 +206,7 @@
 
                 <EditText
                     android:id="@+id/et_min_price"
-                    android:layout_width="120dp"
+                    android:layout_width="134dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_tv_light"
                     android:hint="@string/hint_min_price"
@@ -198,14 +219,7 @@
             </LinearLayout>
 
         </LinearLayout>
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="12dp"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/ic_baseline_monetization_on_24"
-                />
+
         </LinearLayout>
 
         <LinearLayout
@@ -217,21 +231,31 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
 
             android:orientation="vertical">
 
-            <TextView
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/add_alert_not_more_far"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_location_on_24_green"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/add_alert_not_more_far"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/et_max_distance"
@@ -246,20 +270,15 @@
                 android:padding="8dp"
 
                 />
+
         </LinearLayout>
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="12dp"
-            android:src="@drawable/ic_baseline_location_on_24_green"
-            />
+
     </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal">
 
@@ -270,7 +289,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="18dp"
 
-                android:background="@drawable/background_button_location"
                 android:drawableLeft="@drawable/ic_add_alert_24_white"
                 android:elevation="8dp"
                 android:insetLeft="0dp"
@@ -287,6 +305,8 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:backgroundTint="@color/colorPrimaryDark"
+                android:background="@drawable/background_button_location"
+
 
                 app:layout_constraintBottom_toBottomOf="@+id/et_item_details"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -300,7 +320,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="18dp"
 
-                android:background="@drawable/background_button_location"
                 android:drawableLeft="@drawable/ic_cancel_24_white"
                 android:elevation="8dp"
                 android:insetLeft="0dp"
@@ -317,6 +336,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:backgroundTint="@color/colorPrimaryDark"
+                android:background="@drawable/background_button_location"
 
                 app:layout_constraintBottom_toBottomOf="@+id/et_item_details"
                 app:layout_constraintEnd_toEndOf="parent"

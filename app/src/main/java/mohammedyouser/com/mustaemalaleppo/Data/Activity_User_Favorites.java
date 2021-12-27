@@ -37,6 +37,7 @@ import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstant
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_INEED;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEMS;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_DATE_AND_TIME_REVERSE;
+import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_IMAGE;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_TITLE;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_USER_ID;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_ITEM_USER_NAME;
@@ -73,6 +74,7 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
     private String mFavoriteDateTime;
     private String mFavoriteUserName;
     private String mFavoriteUserImage;
+    private String mFavoriteItemImage;
     private FavoriteItem mFavorite;
     private TextView m_tv_label_favorites_ihave;
     private TextView m_tv_label_favorites_ineed;
@@ -346,6 +348,20 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
                                                                         mFavoriteDateTime = String.valueOf(snapshot_item.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue());
                                                                         mFavoriteUserName = String.valueOf(snapshot_item.child(PATH_ITEM_USER_NAME).getValue());
                                                                         mFavoriteUserImage = String.valueOf(snapshot_userItem.child(PATH_USER_IMAGE).getValue());
+                                                                        mFavoriteItemImage = String.valueOf(snapshot_item.child(PATH_ITEM_IMAGE).getValue());
+
+                                                                        mFavorite = new FavoriteItem(itemState, topicCityCat_[3],
+                                                                                topicCityCat_[2],
+                                                                                favoriteKey,
+                                                                                favoriteValue,
+                                                                                mFavoriteTitle,
+                                                                                topicKey,
+                                                                                mFavoriteDateTime,
+                                                                                mFavoriteUserName,
+                                                                                mFavoriteItemImage,
+                                                                                mFavoriteUserImage);
+
+                                                                        favoriteItemsList.add(mFavorite);
 
                                                                         Log.d(TAG, "onDataChange:1     mNotificationTitle,\n" +
                                                                                 "                                                topicKey,\n" +
@@ -355,7 +371,6 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
                                                                                 mFavoriteDateTime + " " +
                                                                                 mFavoriteUserName + " " +
                                                                                 mFavoriteUserImage);
-
                                                                     }
 
                                                                     @Override
@@ -363,17 +378,7 @@ public class Activity_User_Favorites extends AppCompatActivity implements View.O
 
                                                                     }
                                                                 });
-                                                        mFavorite = new FavoriteItem(itemState, topicCityCat_[3],
-                                                                topicCityCat_[2],
-                                                                favoriteKey,
-                                                                favoriteValue,
-                                                                String.valueOf(snapshot_item.child(PATH_ITEM_TITLE).getValue()),
-                                                                topicKey,
-                                                                String.valueOf(snapshot_item.child(PATH_ITEM_DATE_AND_TIME_REVERSE).getValue()),
-                                                                String.valueOf(snapshot_item.child(PATH_ITEM_USER_NAME).getValue()),
-                                                                String.valueOf(mFavoriteUserImage));
 
-                                                        favoriteItemsList.add(mFavorite);
 
 
                                                     }

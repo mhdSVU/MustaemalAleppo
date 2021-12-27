@@ -79,7 +79,7 @@
                             android:maxLines="1"
                             android:padding="10dp"
                             android:hint="@string/hint_user_name_contact_info"
-                            android:textColor="@color/colorPrimary"/>
+                            android:textColor="@color/colorPrimaryDark"/>
 
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -106,7 +106,7 @@
                             android:maxLength="50"
                             android:maxLines="1"
                             android:hint="@string/hint_user_email_contact_info"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorPrimaryDark"
                             android:padding="10dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -154,7 +154,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="16sp"
-                                android:textColor="@color/colorPrimary" />
+                                android:textColor="@color/colorPrimaryDark" />
 
                             <ProgressBar
                                 android:id="@+id/pb_location"
@@ -188,7 +188,7 @@
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
                             android:textStyle="bold"
-                            app:backgroundTint="@color/colorPrimary"
+                            app:backgroundTint="@color/colorPrimaryDark"
 
                             />
                     </LinearLayout>
@@ -213,7 +213,7 @@
                             android:layout_weight="1.0"
                             android:text="@string/ignore"
                             android:layout_marginEnd="8dp"
-                            app:backgroundTint="@color/colorPrimary"
+                            app:backgroundTint="@color/colorPrimaryDark"
 
                             />
 
@@ -225,7 +225,7 @@
                             android:layout_weight="1.0"
                             android:text="@string/btn_save"
                             android:layout_marginEnd="8dp"
-                            app:backgroundTint="@color/colorPrimary"
+                            app:backgroundTint="@color/colorPrimaryDark"
 
                             />
 
@@ -253,7 +253,7 @@
                     android:background="@drawable/background_user_image"
 
                     app:srcCompat="@mipmap/ic_account_circle_black_24dp"
-                    app:tint="@color/colorPrimary" />
+                    app:tint="@color/colorPrimaryDark" />
 
                 <ImageView
                     android:id="@+id/img_btn_user_image_add"
@@ -288,7 +288,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_marginBottom="0dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:title="@string/title_set_up_contact_info" />
 </FrameLayout>

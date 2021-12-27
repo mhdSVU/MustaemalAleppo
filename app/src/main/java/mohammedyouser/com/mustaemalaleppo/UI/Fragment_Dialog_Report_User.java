@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -77,7 +78,7 @@ public class Fragment_Dialog_Report_User extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         dialogView = setUpDialogViews();
 
-        return new AlertDialog.Builder(getActivity())
+        return new MaterialAlertDialogBuilder(getActivity(), R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(getString(R.string.title_report_user))
                 .setMessage(getString(R.string.tv_report_label))

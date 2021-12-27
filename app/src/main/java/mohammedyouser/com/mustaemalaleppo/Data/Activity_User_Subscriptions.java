@@ -126,6 +126,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
                                 String[] topicCityCat_ = topicTitle.split(getString(R.string.underScore));
 
                                 topicList.add(new Topic(getCategory_locale(topicCityCat_[3]) + getString(R.string.in) + getCity_locale(topicCityCat_[2]), topicCategory_key));
+
                                 Log.d(TAG, "onDataChange: " + topicCategory_key);
 
                             }
@@ -326,6 +327,7 @@ public class Activity_User_Subscriptions extends AppCompatActivity implements Vi
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         toolbar.setTitle(getString(R.string.title_user_subscriptions));
     }
 

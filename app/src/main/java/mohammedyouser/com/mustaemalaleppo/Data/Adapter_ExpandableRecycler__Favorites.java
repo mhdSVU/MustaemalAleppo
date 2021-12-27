@@ -10,11 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.collection.ArrayMap;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -25,14 +23,12 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import mohammedyouser.com.mustaemalaleppo.Domain.Activity_Display_Modify_Remove_Item;
 import mohammedyouser.com.mustaemalaleppo.Domain.TimeAgo;
 import mohammedyouser.com.mustaemalaleppo.R;
 import mohammedyouser.com.mustaemalaleppo.UI.Fragment_Dialog_Remove_Favorite;
 
-import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.BUNDLE_KEY_REMOVE_ALERT;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.BUNDLE_KEY_REMOVE_FAVORITE;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_ITEM_ID;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY_NOTIFICATION_ID;
@@ -41,12 +37,11 @@ import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstant
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_KEY__STATE;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.INTENT_VALUE_SOURCE_NOTIFICATION;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.PATH_IHAVE;
-import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.REQUEST_KEY_REMOVE_ALERT;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.REQUEST_KEY_REMOVE_FAVORITE;
 import static mohammedyouser.com.mustaemalaleppo.UI.CommonUtility.CommonConstants.TAG;
 
 public class Adapter_ExpandableRecycler__Favorites extends
-        ExpandableRecyclerViewAdapter<ViewHolder_Parent, ViewHolder_Child> {
+        ExpandableRecyclerViewAdapter<ViewHolder_Parent, ViewHolder_Child_Favorite> {
     private Context mContext;
     private String mItemState;
     private String notification_timeAgo = "";
@@ -73,7 +68,7 @@ public class Adapter_ExpandableRecycler__Favorites extends
 
     @Override
     public ViewHolder_Parent onCreateGroupViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_parent, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_parent_favorites, parent, false);
         return new ViewHolder_Parent(view);
     }
 
@@ -83,13 +78,13 @@ public class Adapter_ExpandableRecycler__Favorites extends
     }
 
     @Override
-    public ViewHolder_Child onCreateChildViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_child, parent, false);
-        return new ViewHolder_Child(view);
+    public ViewHolder_Child_Favorite onCreateChildViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_child_favorite, parent, false);
+        return new ViewHolder_Child_Favorite(view);
     }
 
     @Override
-    public void onBindChildViewHolder(ViewHolder_Child viewHolderChild, int flatPosition, ExpandableGroup group, int childIndex) {
+    public void onBindChildViewHolder(ViewHolder_Child_Favorite viewHolderChild, int flatPosition, ExpandableGroup group, int childIndex) {
 
         final FavoriteItem favoriteItem = ((FavoriteTopic) group).getItems().get(childIndex);
         viewHolderChild.onBind(favoriteItem.getmTitle());
@@ -113,7 +108,7 @@ public class Adapter_ExpandableRecycler__Favorites extends
 
     }
 
-    private void set_FavoriteItem_BackgroundColor(ViewHolder_Child viewHolderChild, FavoriteItem favoriteItem) {
+    private void set_FavoriteItem_BackgroundColor(ViewHolder_Child_Favorite viewHolderChild, FavoriteItem favoriteItem) {
         if (favoriteItem.getmValue() != null) {
             if (favoriteItem.getmValue().equals("false")) {
                 viewHolderChild.ll_listChild.setBackgroundColor(mContext.getColor(R.color.grey_300));
@@ -124,7 +119,7 @@ public class Adapter_ExpandableRecycler__Favorites extends
 
     }
 
-    private void set_FavoriteItem_Title(ViewHolder_Child viewHolderChild, FavoriteItem favoriteItem) {
+    private void set_FavoriteItem_Title(ViewHolder_Child_Favorite viewHolderChild, FavoriteItem favoriteItem) {
         String favoriteItem_title = mContext.getString(
                 R.string.title_notification_place_holders,
                 favoriteItem.getmUserName(),
@@ -139,15 +134,19 @@ public class Adapter_ExpandableRecycler__Favorites extends
         }
     }
 
-    private void set_FavoriteItem_Image(ViewHolder_Child viewHolderChild, FavoriteItem favoriteItem) {
 
-        if (favoriteItem.getmImgURL() != null) {
-            setImage_circle(mContext, Uri.parse(favoriteItem.getmImgURL()), 0.3f, viewHolderChild.m_imgView_userImage);
+
+    private void set_FavoriteItem_Image(ViewHolder_Child_Favorite viewHolderChild, FavoriteItem favoriteItem) {
+
+        if (favoriteItem.getmImgURL_item() != null) {
+            // setImage_circle(mContext, Uri.parse(notification.getmImgURL()), 0.3f, viewHolderChild.m_imgView_userImage);
+            setImage_circle(mContext, Uri.parse(favoriteItem.getmImgURL_item()), 0.3f, viewHolderChild.m_imgView_itemImage);}
+        if (favoriteItem.getmImgURL_user() != null) {
+            setImage_circle(mContext, Uri.parse(favoriteItem.getmImgURL_user()), 0.3f, viewHolderChild.m_imgView_userImage);
 
         }
     }
-
-    private void set_FavoriteItem_TimeAgo(ViewHolder_Child viewHolderChild, FavoriteItem favoriteItem) {
+    private void set_FavoriteItem_TimeAgo(ViewHolder_Child_Favorite viewHolderChild, FavoriteItem favoriteItem) {
 
         if (favoriteItem.getmDateTime() != null) {
             if (!favoriteItem.getmDateTime().equals("null")) {

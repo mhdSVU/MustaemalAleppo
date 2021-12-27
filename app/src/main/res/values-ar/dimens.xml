@@ -1,0 +1,27 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">10dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="size_label_form">15sp</dimen>
+    <dimen name="size_hint">15sp</dimen>
+    <dimen name="margin_bottom_hint">5dp</dimen>
+
+
+    <dimen name="icon_top_margin">24dp</dimen>
+    <dimen name="icon_bottom_margin">24dp</dimen>
+    <dimen name="title_bottom_margin">16dp</dimen>
+    <dimen name="field_width_standard">160dp</dimen>
+    <dimen name="width_searchView">300dp</dimen>
+    <dimen name="height_searchView">30dp</dimen>
+    <dimen name="height_searchCriteria">20dp</dimen>
+    <dimen name="padding_bottom_nav_header_card">5dp</dimen>
+    <dimen name="padding_top_nav_header_card">20dp</dimen>
+    <dimen name="margin_top_nav_header_card">30dp</dimen>
+    <dimen name="size_logo">36sp</dimen>
+    <dimen name="size_logo_title">21sp</dimen>
+
+
+</resources>

@@ -215,6 +215,11 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                     bundle.getString(INTENT_KEY_ITEM_ID),
                     bundle.getString(INTENT_KEY__PATH_STATE));
             populateWithSelectedItem(db_Ref_SelectedItem);
+            Log.d(TAG, "reactToIntent: "+db_Ref_SelectedItem);
+
+
+
+
         }
 
         return db_Ref_SelectedItem;
@@ -354,10 +359,8 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
 
     private void populateWithSelectedItem(DatabaseReference selectedItem_db_ref) {
 
-        findViewById(R.id.fl_main_subscription).setVisibility(View.GONE);
-        findViewById(R.id.tv_no_content).setVisibility(View.GONE);
-
         setUpViews();
+
         str_uri_itemImg = get_ItemImage_finalFilePath();
 
         if (selectedItem_db_ref != null) {
@@ -367,6 +370,7 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     viewHolder.setItemTitle((String) dataSnapshot.child(PATH_ITEM_TITLE).getValue());
+                    Log.d(TAG, "onDataChange: ffff"+(String) dataSnapshot.child(PATH_ITEM_TITLE).getValue());
                     viewHolder.setItemPrice((String) dataSnapshot.child(PATH_ITEM_PRICE).getValue());
                     viewHolder.setItemCity((String) dataSnapshot.child(PATH_ITEM_CITY).getValue());
                     viewHolder.setItemCategory((String) dataSnapshot.child(PATH_ITEM_CATEGORY).getValue());
@@ -580,6 +584,9 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     }
 
     private void setUpViews() {
+        findViewById(R.id.fl_main_subscription).setVisibility(View.GONE);
+        findViewById(R.id.tv_no_content).setVisibility(View.GONE);
+
         View mRootView = findViewById(R.id.rootView);
         viewHolder = new ViewHolder_Item_Display_Edit(mRootView, this);
 
@@ -706,7 +713,8 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
                 db_ref_final = db_ref_items.child(PATH_INEED).child(item_city).child(item_category);
 
 
-            } else if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_IHAVE)) {
+            }
+            else if (Objects.equals(getIntent().getExtras().getString(INTENT_KEY__STATE), INTENT_VALUE__STATE_IHAVE)) {
 
 
                 db_ref_final = db_ref_items.child(PATH_IHAVE).child(item_city).child(item_category);
@@ -1083,34 +1091,36 @@ Activity_Display_Modify_Remove_Item extends AppCompatActivity implements
     }
 
     public void modifyItem_in_all_DB_Refs(Uri uri_itemImg_download) {
-        //Removing Item from "ALL Cities and ALL Categories"
+        //Modifying Item in "ALL Cities and ALL Categories"
         modifyItem_in_single_DB_Ref(getDB_Ref_AlItems().child(item_ID), uri_itemImg_download);
 
-        //Removing Item from "selected Category and selected City"
-        modifyItem_in_single_DB_Ref(getDB_Ref_selected_Cit_Cat().child(item_ID), uri_itemImg_download);
 
-        //Removing Item from "ALL Cities and selected Category"
+        //Modifying Item in "ALL Cities and selected Category"
         modifyItem_in_single_DB_Ref(getDB_Ref_AllCities().child(item_ID), uri_itemImg_download);
 
-        //Removing Item from "ALL Categories and selected City"
+        //Modifying Item in "ALL Categories and selected City"
         modifyItem_in_single_DB_Ref(getDB_Ref_AllCategories().child(item_ID), uri_itemImg_download);
+
+
+        //Modifying Item in "selected Category and selected City"
+        modifyItem_in_single_DB_Ref(getDB_Ref_selected_Cit_Cat().child(item_ID), uri_itemImg_download);
 
 
         //
         // For current user's Items
         //
 
-        //Removing Item from "ALL Cities and ALL Categories belong to current user"
+        //Modifying Item in "ALL Cities and ALL Categories belong to current user"
         modifyItem_in_single_DB_Ref(getDB_Ref_CurrentUser_AllItems().child(item_ID), uri_itemImg_download);
 
-        //Removing Item from "selected Category and selected City belong to current user"
+        //Modifying Item in "selected Category and selected City belong to current user"
         modifyItem_in_single_DB_Ref(getDB_Ref_CurrentUser_selected_Cit_Cat().child(item_ID), uri_itemImg_download);
 
-        //Removing Item from "ALL Cities and selected Category belong to current user"
+        //Modifying Item in "ALL Cities and selected Category belong to current user"
         modifyItem_in_single_DB_Ref(getDB_Ref_CurrentUser_AllCities().child(item_ID), uri_itemImg_download);
 
 
-        //Removing Item from "ALL Categories and selected City belong to current user"
+        //Modifying Item in "ALL Categories and selected City belong to current user"
         modifyItem_in_single_DB_Ref(getDB_Ref_CurrentUser_AllCategories().child(item_ID), uri_itemImg_download);
         //  hideProgressDialog();
 
